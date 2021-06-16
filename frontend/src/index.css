@@ -22,7 +22,7 @@ h2 {
 /* TICKET ENTRY SCREEN (saved AS PRODUCT SCREEN)*/
 /* tagCounter font*/
  .bigNumber {
-   font-size:20rem ;
+   font-size:15rem ;
    font-weight:700;
    padding-right:5rem;
    padding-left:5rem;
@@ -37,6 +37,11 @@ h2 {
  .appFont {
   font-weight: 300;
   font-size:1.03rem;
+}
+
+.slightlyBiggerAppFont {
+  font-weight: 300;
+  font-size:1.2rem;
 }
 
 .headerFont {

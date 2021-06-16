@@ -19,6 +19,7 @@ const PrintingScreen = ({history,match}) => {
    const [qty ,setQty] = useState('')
    const [rating ,setRating] = useState(0)
    const [comment ,setComment] = useState('')
+   const [buttonVis ,setButtonVis] = useState(true)
 
   const dispatch = useDispatch()
   
@@ -42,6 +43,7 @@ const PrintingScreen = ({history,match}) => {
 
 const updateAndPrintHandler = () => {
   dispatch(register(zoneArea,zoneCounter))
+  
   window.print()
 }
   
@@ -91,7 +93,7 @@ const previousPageHandler = () => {
   else if(userInfo && userInfo.truckCategory === "FLAT BED APMT" && product  && product.tagCounterC < 78 ){zoneArea = 'C'}
   else if(userInfo && userInfo.truckCategory === "FLAT BED APMT" && product  && product.tagCounterC === 78 && product.tagCounterD < 30 ){zoneArea = 'D'}
   else if(userInfo && userInfo.truckCategory === "FLAT BED APMT" && product  && product.tagCounterD === 30 && product.tagCounterE < 71 ){zoneArea = 'E' }
-  else{ zoneArea ='N/A'}
+  else{ zoneArea ='-'}
 
   if(userInfo && userInfo.truckCategory === "EXPORT" && product  && product.tagCounterF < 52 ){  zoneCounter = product.tagCounterF}
   else if(userInfo && userInfo.truckCategory === 'EXPORT' && product && product.tagCounterF === 52 && product.tagCounterG < 50 ){ zoneCounter =product.tagCounterG}
@@ -145,7 +147,7 @@ const previousPageHandler = () => {
               <ListGroup variant='flush'>
               <ListGroup.Item>
               <Row>
-                   <Col className="appFont">TAG NUMBER</Col>
+                   <Col className="slightlyBiggerAppFont">ZONE</Col>
                    
                  </Row>
                </ListGroup.Item>
@@ -153,16 +155,16 @@ const previousPageHandler = () => {
                <ListGroup.Item>
                 <center>
                 <p className="bigNumber" >
-                 {zoneCounter + 1}
+                 {zoneArea}
                  </p>
                  </center>
                </ListGroup.Item>
 
                <ListGroup.Item>
                  <Row>
-                   <Col className="appFont"> ZONE</Col>
+                   <Col className="slightlyBiggerAppFont"> TAG NUMBER</Col>
                    <Col>
-                    <strong className="appFont"> <h1>{zoneArea} </h1></strong>
+                    <strong className="slightlyBiggerAppFont"> <h1>{zoneCounter + 1} </h1></strong>
                    </Col>
                  </Row>
                </ListGroup.Item>
@@ -188,7 +190,7 @@ const previousPageHandler = () => {
                  <Row className="appFont">
                    <Col>BOOKING NUMBER:</Col>
                    <Col>
-                   <h1>{userInfo?userInfo.bookingNumber:'N/A'}</h1>
+                   <h2>{userInfo?userInfo.bookingNumber:'N/A'}</h2>
                    </Col>
                  </Row>
                </ListGroup.Item>
@@ -199,7 +201,7 @@ const previousPageHandler = () => {
                  <Row className="appFont">
                    <Col>TRUCK NUMBER:</Col>
                    <Col>
-                   <h1>{userInfo?userInfo.truckNumber:'N/A'}</h1>
+                   <h2>{userInfo?userInfo.truckNumber:'N/A'}</h2>
                    </Col>
                  </Row>
                </ListGroup.Item>
@@ -208,7 +210,7 @@ const previousPageHandler = () => {
                  <Row className="appFont">
                    <Col>CONTAINER NUMBER:</Col>
                    <Col>
-                   <h1>{userInfo?userInfo.containerNumber:'N/A'} </h1>
+                   <h2>{userInfo?userInfo.containerNumber:'N/A'} </h2>
                    </Col>
                  </Row>
                </ListGroup.Item>
@@ -262,21 +264,21 @@ const previousPageHandler = () => {
            </Row>
 
           </Row>
-              <center>
+             { buttonVis && <center>
           <Button onClick={updateAndPrintHandler} className='btn-block printFont printButton' type='button' >
                  <i className='fas fa-print'></i> Print
                  </Button>
-                 </center>
+                 </center> }
 
                  
 
-                 <center>
+               { buttonVis &&   <center>
                  <Link to={`/`}>
           <Button  className='btn-block printFont printButton' type='button' >
                  <i className='fas fa-print'></i> home screen
                  </Button>
                  </Link>
-                 </center>
+                 </center> }
           </>
         )}
 
