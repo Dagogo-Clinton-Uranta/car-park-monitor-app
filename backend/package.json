@@ -1,0 +1,40 @@
+{
+  "name": "bridgeway-marketplace",
+  "version": "1.0.0",
+  "description": "This is a marketplace for customers and clients",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server",
+    "server": "nodemon server",
+    "client": "npm start --prefix frontend",
+    "dev": "concurrently \"npm run server\" \"npm run client\" ",
+    "data:import": "node seeder",
+    "data:destroy": "node seeder -d"
+  },
+  "keywords": [
+    "Ecommerce",
+    "Tech"
+  ],
+  "author": "Dagogo Clinton Uranta",
+  "license": "MIT",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "colors": "^1.4.0",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "express-async-handler": "^1.1.4",
+    "googleapis": "^71.0.0",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.11.18",
+    "morgan": "^1.10.0",
+    "multer": "^1.4.2",
+    "nodemailer": "^6.5.0",
+    "xoauth2": "^1.2.0"
+  },
+  "devDependencies": {
+    "concurrently": "^5.3.0",
+    "nodemon": "^2.0.7"
+  }
+}

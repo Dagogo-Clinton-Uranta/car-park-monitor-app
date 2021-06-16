@@ -1,0 +1,6 @@
+This favicon was generated using the following font:
+
+- Font Title: Eczar
+- Font Author: Copyright (c) 2014, Vaibhav Singh (design) and Rosetta Type Foundry s.r.o. (post-production).
+- Font Source: http://fonts.gstatic.com/s/eczar/v9/BXRlvF3Pi-DLmw0iBu9y8Hf0.ttf
+- Font License: SIL Open Font License, 1.1 (http://scripts.sil.org/OFL)
