@@ -49,6 +49,12 @@ h2 {
   font-size:4rem;
 }
 
+.slightlyLesserAppFont {
+  font-weight: 300;
+  font-size:2rem;
+}
+
+
 .headerFont {
   font-weight: 600;
   font-size:1.6rem;

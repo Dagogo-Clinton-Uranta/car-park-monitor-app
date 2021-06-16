@@ -116,7 +116,7 @@ const previousPageHandler = () => {
           <>
           <Meta title={"FLACS PARKING SYSTEM"}/>
           <Row className= "ticketBorder" >
-          <Row><p className='apapa'>CAR PARK</p></Row> 
+          <Row><p className='apapa'>LILYPOND PARK</p></Row> 
           <Row><p className='driversEntryPermit'>DRIVERS ENTRY PERMIT</p></Row> 
           <Row >
             <Col>
@@ -147,7 +147,7 @@ const previousPageHandler = () => {
               <ListGroup variant='flush'>
               <ListGroup.Item>
               <Row>
-                   <Col className="slightlyBiggerAppFont">ZONE</Col>
+                   <Col className="slightlyLesserAppFont"> PARK ZONE</Col>
                    
                  </Row>
                </ListGroup.Item>
@@ -162,7 +162,7 @@ const previousPageHandler = () => {
 
                <ListGroup.Item>
                  <Row>
-                   <Col className="tagFont"> TAG NUMBER</Col>
+                   <Col className="slightlyBiggerAppFont">No</Col>
                    <Col>
                     <strong className="slightlyBiggerAppFont"> {zoneCounter + 1} </strong>
                    </Col>
