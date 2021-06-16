@@ -162,9 +162,9 @@ const previousPageHandler = () => {
 
                <ListGroup.Item>
                  <Row>
-                   <Col className="slightlyBiggerAppFont"> TAG NUMBER</Col>
+                   <Col className="tagFont"> TAG NUMBER</Col>
                    <Col>
-                    <strong className="slightlyBiggerAppFont"> <h1>{zoneCounter + 1} </h1></strong>
+                    <strong className="slightlyBiggerAppFont"> {zoneCounter + 1} </strong>
                    </Col>
                  </Row>
                </ListGroup.Item>
