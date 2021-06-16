@@ -52,7 +52,7 @@ const previousPageHandler = () => {
   window.history.back()
 }
 
- const trailerType = ["EXPORT","FLATBED APMT","FLATBED ENL"]
+
 
   console.log(productDetails)
  
@@ -116,27 +116,29 @@ const previousPageHandler = () => {
           <>
           <Meta title={"FLACS PARKING SYSTEM"}/>
           <Row className= "ticketBorder" >
-          <Row><p className='apapa'>LILYPOND PARK</p></Row> 
-          <Row><p className='driversEntryPermit'>DRIVERS ENTRY PERMIT</p></Row> 
-          <Row >
             <Col>
+          <Row><p className='apapa'>LILYPOND PARK</p></Row> 
+          
+          <Row className ="ticketIntro">
+          <p className='driversEntryPermit'>DRIVERS ENTRY PERMIT</p>
+            </Row>
+
+            <Row className="ticketIntro">
+
+            <Col>
+            <Row>
            <Image className="truckImage" src={truckImage} alt={"truck image"} fluid>
            </Image>
-           </Col>
-           
-           <Col className='truckCategory'>
-           <strong>TRUCK CATEGORY </strong><h1>{userInfo?userInfo.truckCategory:'N/A'} </h1>
-           </Col>
+           </Row>
+            </Col> 
+            
+            <Col>
+            <p className="centreAttempt">TRUCK CATEGORY:</p><p className="centreAttempt slightlyLesserAppFont">{userInfo?userInfo.truckCategory:'N/A'}</p> 
+            </Col> 
             </Row>
-          <br/>
-          <p></p>
+            </Col>
           
-          {/* <center>
-          <Row>
-             <Row><Col> </Col> </Row>
-          <Row><Col> </Col> </Row>
-          </Row>
-           </center> */}
+          
          
             
            <Row>
@@ -216,9 +218,9 @@ const previousPageHandler = () => {
                </ListGroup.Item>
 
 
-               <ListGroup.Item className='borderless centerAttempt'>
+               <ListGroup.Item className='borderless centerAttempt entryHeader'>
                  <Row className="headerFont ">
-                   <Col >ENTRY</Col> 
+                   <Col >ENTRY DETAILS</Col> 
                    
                  </Row>
                </ListGroup.Item>
@@ -261,6 +263,15 @@ const previousPageHandler = () => {
               </ListGroup>
              </Card>
             </Col>
+           
+           <Col className="displayNone">
+            <Row>
+           <Image className="truckImage" src={truckImage} alt={"truck image"} fluid>
+           </Image>
+           </Row>
+           
+           
+           </Col>
            </Row>
 
           </Row>
@@ -275,7 +286,7 @@ const previousPageHandler = () => {
                { buttonVis &&   <center>
                  <Link to={`/`}>
           <Button  className='btn-block printFont printButton' type='button' >
-                 <i className='fas fa-print'></i> home screen
+                 <i className='fas fa-home'></i> home screen
                  </Button>
                  </Link>
                  </center> }

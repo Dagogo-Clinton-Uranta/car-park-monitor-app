@@ -56,7 +56,7 @@ h2 {
 
 
 .headerFont {
-  font-weight: 600;
+  font-weight: 900;
   font-size:1.6rem;
 }
 
@@ -70,19 +70,27 @@ h2 {
   .ticketBorder {
     border: solid 1px black;
     padding: 3rem;
+    max-width: 100%;
   }
 
      .apapa{
        font-size:4rem;
        font-weight: 700;
-       margin-left:23rem;
-       margin-right:6rem;
+       margin:0 auto;
+       
      }
 
      .driversEntryPermit {
       font-size:1rem;
       font-weight: 700;
+      margin:0 auto;
      }
+
+    .ticketIntro {
+      border-bottom:1px solid black;
+      margin-bottom:3rem;
+    }
+
 
   .printButton {
     max-width: 30%;
@@ -94,9 +102,8 @@ h2 {
  }
 
  .truckImage {
-   margin-left:10rem;
-   margin-right:2rem;
-   width:20rem;
+   margin:0 auto;
+   width:15rem;
    height:10rem;
    padding:1rem;
  }
@@ -113,6 +120,15 @@ h2 {
  .centerAttempt {
    margin: 0 auto;
  }
+
+  .entryHeader {
+    margin-top: 2rem;
+  }
+
+  .displayNone {
+    opacity:0%;
+  }
+
 /*carousel*/
 
 .carousel-item-next,
