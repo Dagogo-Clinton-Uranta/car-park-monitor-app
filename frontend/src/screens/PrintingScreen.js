@@ -117,7 +117,7 @@ const previousPageHandler = () => {
           <Meta title={"FLACS PARKING SYSTEM"}/>
           <Row className= "ticketBorder" >
             <Col>
-          <Row><p className='apapa'>LILYPOND PARK</p></Row> 
+          <Row><p className='apapa'>LILYPOND</p></Row> 
           
           <Row className ="ticketIntro">
           <p className='driversEntryPermit'>DRIVERS ENTRY PERMIT</p>
@@ -166,7 +166,7 @@ const previousPageHandler = () => {
                  <Row>
                    <Col className="slightlyBiggerAppFont">No</Col>
                    <Col>
-                    <strong className="slightlyBiggerAppFont"> {zoneCounter + 1} </strong>
+                    <strong className="mildlyBiggerAppFont"> {zoneCounter + 1} </strong>
                    </Col>
                  </Row>
                </ListGroup.Item>
@@ -276,7 +276,7 @@ const previousPageHandler = () => {
 
           </Row>
              { buttonVis && <center>
-          <Button onClick={updateAndPrintHandler} className='btn-block printFont printButton' type='button' >
+          <Button onClick={updateAndPrintHandler} className='btn-block printFont printButtonTop' type='button' >
                  <i className='fas fa-print'></i> Print
                  </Button>
                  </center> }
