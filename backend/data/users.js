@@ -24,7 +24,7 @@ const users = [
     bookingNumber:'2000',
     truckNumber:'KS 569 APC',
     containerNumber:'FHC5948',
-    truckCategory:'FLAT BED ENL'
+    truckCategory:'FLAT BED ENL/EKO'
     /*isMerchant:false,
     userMessage:'hi',
     adminMessage:'hi',

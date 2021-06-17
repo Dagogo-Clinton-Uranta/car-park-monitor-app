@@ -88,8 +88,8 @@ const previousPageHandler = () => {
   else if(userInfo && userInfo.truckCategory === 'EXPORT' && product && product.tagCounterF === 52 && product.tagCounterG < 50 ){zoneArea = 'G'}
   else if(userInfo && userInfo.truckCategory === 'EXPORT' && product && product.tagCounterG === 50 && product.tagCounterH < 51 ){zoneArea = 'H'}
   else if(userInfo && userInfo.truckCategory === 'EXPORT' && product && product.tagCounterH === 51 && product.tagCounterR < 95 ){zoneArea = 'R'}
-  else if(userInfo && userInfo.truckCategory === "FLAT BED ENL" && product  && product.tagCounterA < 37 ){zoneArea = 'A'}
-  else if(userInfo && userInfo.truckCategory === "FLAT BED ENL" && product  && product.tagCounterA === 37 && product.tagCounterB < 46 ){zoneArea = 'B'}
+  else if(userInfo && userInfo.truckCategory === "FLAT BED ENL/EKO" && product  && product.tagCounterA < 37 ){zoneArea = 'A'}
+  else if(userInfo && userInfo.truckCategory === "FLAT BED ENL/EKO" && product  && product.tagCounterA === 37 && product.tagCounterB < 46 ){zoneArea = 'B'}
   else if(userInfo && userInfo.truckCategory === "FLAT BED APMT" && product  && product.tagCounterC < 78 ){zoneArea = 'C'}
   else if(userInfo && userInfo.truckCategory === "FLAT BED APMT" && product  && product.tagCounterC === 78 && product.tagCounterD < 30 ){zoneArea = 'D'}
   else if(userInfo && userInfo.truckCategory === "FLAT BED APMT" && product  && product.tagCounterD === 30 && product.tagCounterE < 71 ){zoneArea = 'E' }
@@ -99,8 +99,8 @@ const previousPageHandler = () => {
   else if(userInfo && userInfo.truckCategory === 'EXPORT' && product && product.tagCounterF === 52 && product.tagCounterG < 50 ){ zoneCounter =product.tagCounterG}
   else if(userInfo && userInfo.truckCategory === 'EXPORT' && product && product.tagCounterG === 50 && product.tagCounterH < 51 ){ zoneCounter =product.tagCounterH}
   else if(userInfo && userInfo.truckCategory === 'EXPORT' && product && product.tagCounterH === 51 && product.tagCounterR < 95 ){ zoneCounter =product.tagCounterR}
-  else if(userInfo && userInfo.truckCategory === "FLAT BED ENL" && product  && product.tagCounterA < 37 ){ zoneCounter =product.tagCounterA}
-  else if(userInfo && userInfo.truckCategory === "FLAT BED ENL" && product  && product.tagCounterA === 37 && product.tagCounterB < 46 ){ zoneCounter =product.tagCounterB}
+  else if(userInfo && userInfo.truckCategory === "FLAT BED ENL/EKO" && product  && product.tagCounterA < 37 ){ zoneCounter =product.tagCounterA}
+  else if(userInfo && userInfo.truckCategory === "FLAT BED ENL/EKO" && product  && product.tagCounterA === 37 && product.tagCounterB < 46 ){ zoneCounter =product.tagCounterB}
   else if(userInfo && userInfo.truckCategory === "FLAT BED APMT" && product  && product.tagCounterC < 78 ){ zoneCounter =product.tagCounterC}
   else if(userInfo && userInfo.truckCategory === "FLAT BED APMT" && product  && product.tagCounterC === 78 && product.tagCounterD < 30 ){ zoneCounter =product.tagCounterD}
   else if(userInfo && userInfo.truckCategory === "FLAT BED APMT" && product  && product.tagCounterD === 30 && product.tagCounterE < 71 ){ zoneCounter =product.tagCounterE}
