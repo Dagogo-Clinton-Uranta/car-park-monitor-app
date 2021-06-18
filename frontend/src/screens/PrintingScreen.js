@@ -192,7 +192,7 @@ const previousPageHandler = () => {
                  <Row className="appFont">
                    <Col>BOOKING NUMBER:</Col>
                    <Col>
-                   <h2>{userInfo?userInfo.bookingNumber:'N/A'}</h2>
+                   <h2 className="appFont">{userInfo?userInfo.bookingNumber:'N/A'}</h2>
                    </Col>
                  </Row>
                </ListGroup.Item>
@@ -203,7 +203,7 @@ const previousPageHandler = () => {
                  <Row className="appFont">
                    <Col>TRUCK NUMBER:</Col>
                    <Col>
-                   <h2>{userInfo?userInfo.truckNumber:'N/A'}</h2>
+                   <h2 className="appFont">{userInfo?userInfo.truckNumber:'N/A'}</h2>
                    </Col>
                  </Row>
                </ListGroup.Item>
@@ -212,7 +212,7 @@ const previousPageHandler = () => {
                  <Row className="appFont">
                    <Col>CONTAINER NUMBER:</Col>
                    <Col>
-                   <h2>{userInfo?userInfo.containerNumber:'N/A'} </h2>
+                   <h2 className="appFont">{userInfo?userInfo.containerNumber:'N/A'} </h2>
                    </Col>
                  </Row>
                </ListGroup.Item>
@@ -230,7 +230,7 @@ const previousPageHandler = () => {
                  <Row className="appFont">
                    <Col> TIME:</Col>
                    <Col>
-                    <strong>{showTime()}</strong>
+                    <strong className="appFont">{showTime()}</strong>
                    </Col>
                  </Row>
                </ListGroup.Item>
@@ -240,7 +240,7 @@ const previousPageHandler = () => {
                    <Col> DATE:</Col>
                    <Col>
                     {/*<strong>{product.countInStock > 4 ?'In Stock':product.countInStock <= 3 ?'Few Left !!':product.countInStock === 0 ? 'Out of Stock':'Currently being restocked' //this currenty being restocked is not the right thing, you just put it there as filler, till the need comes to fix it }</strong>*/}
-                     <strong>{date.toLocaleDateString()}</strong>
+                     <strong className="appFont">{date.toLocaleDateString()}</strong>
                    </Col>
                  </Row>
                </ListGroup.Item>
