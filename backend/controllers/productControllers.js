@@ -45,7 +45,7 @@ products = await Product.find({...keyword}).limit(pageSize).skip(pageSize *(page
 const getProductById = asyncHandler(async (req,res)=>{
   res.header("Access-Control-Allow-Origin","*")
   /*const objectId = new mongoose.Types.ObjectId(req.params.id)*/
-  const product = await Product.findOne({})
+  const product = await Product.find({})
   if(product){res.json(product)}
    else{ res.status(404) /*with the custom error handler, if you dont put a res.status, it'll be 500 by default, and you don't have to res.json anymore, it'll just be handled, if yo throw a new error ? please study error handlers */
    throw new Error('Tagcounters not found')}

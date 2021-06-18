@@ -254,7 +254,17 @@ const registerUser = asyncHandler(async (req, res) => {
   /* res.send({email,  this res,send was just done for example btw
      password}) */ //res.send accepts an object i think and not just variables, take note...hese are part of the things that you have to research on yor own
 
-    zoneArea='A'?await Product.findOneAndUpdate({tagCounterA:zoneCounter}, {tagCounterA:zoneCounter + 1}, { useFindAndModify: false }):(
+    /*let tagCounters = await Product.find({})
+  console.log(tagCounters)
+
+   let position = tagCounters.map((e)=>{return e.area}).indexOf(zoneArea)
+
+   tagCounters[position][2] = zoneCounter 
+
+   await Product.deleteMany()
+  await Product.insertMany(tagCounters)*/
+
+  await Product.findOneAndUpdate({tagCounter:zoneArea}, {number:zoneCounter + 1}, { useFindAndModify: false })/*:(
   zoneArea='B'?await Product.findOneAndUpdate({tagCounterB:zoneCounter}, {tagCounterB:zoneCounter + 1}, { useFindAndModify: false }):(
   zoneArea='C'?await Product.findOneAndUpdate({tagCounterC:zoneCounter}, {tagCounterC:zoneCounter + 1}, { useFindAndModify: false }):(
   zoneArea='D'?await Product.findOneAndUpdate({tagCounterD:zoneCounter}, {tagCounterD:zoneCounter + 1}, { useFindAndModify: false }):(
@@ -264,7 +274,7 @@ const registerUser = asyncHandler(async (req, res) => {
   zoneArea='H'?await Product.findOneAndUpdate({tagCounterH:zoneCounter}, {tagCounterH:zoneCounter + 1}, { useFindAndModify: false }):(
   zoneArea='R'?await Product.findOneAndUpdate({tagCounterR:zoneCounter}, {tagCounterR:zoneCounter + 1}, { useFindAndModify: false }):(
   console.log('There is no zoneArea coming from the front end')
-                                                                                                            )))))))))
+                                                                                                            )))))))))*/
 })
 //@desc  GET user profile
 //@route GET /api/users/profile

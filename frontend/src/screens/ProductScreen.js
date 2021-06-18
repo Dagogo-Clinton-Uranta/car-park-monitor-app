@@ -30,6 +30,7 @@ const ProductScreen = ({history,match}) => {
     console.log(userInfo)
   
   const [email, setEmail] = useState('')
+  const [truckNumber,setTruckNumber] = useState('N/A')
   let zoneCounter
   let zoneArea
   /*const [zoneCounter,setZoneCounter] =useState('N/A')*/
@@ -38,7 +39,7 @@ const ProductScreen = ({history,match}) => {
   const [tagCounterC ,setTagCounterC] = useState(product.tagCounterC && product.tagCounterC)
   const [tagCounterD ,setTagCounterD] = useState(product.tagCounterD && product.tagCounterD)
   const [tagCounterE ,setTagCounterE] = useState(product.tagCounterE && product.tagCounterE)
-  const [tagCounterF ,setTagCounterF] = useState(product.tagCounterF && product.tagCounterF)
+  const5 [tagCounterF ,setTagCounterF] = useState(product.tagCounterF && product.tagCounterF)
   const [tagCounterG ,setTagCounterG] = useState(product.tagCounterG && product.tagCounterG)
   const [tagCounterH ,setTagCounterH] = useState(product.tagCounterH && product.tagCounterH)
   const [tagCounterR ,setTagCounterR] = useState(product.tagCounterR && product.tagCounterR)*/
@@ -48,6 +49,9 @@ const ProductScreen = ({history,match}) => {
  useEffect(()=>{
   dispatch(listProductDetails())
     
+  if(userInfo){
+    setTruckNumber(userInfo.truckNumber)
+  }
   /*if(successProductReview){
     alert("Thank you for your review!")
     setRating(0)
@@ -56,7 +60,7 @@ const ProductScreen = ({history,match}) => {
   }*/
 
    
- },[dispatch/*,match,successProductReview*/])
+ },[dispatch,userInfo])
 
  
  const submitHandler = (e) => {
@@ -85,7 +89,7 @@ const previousPageHandler = () => {
 
  
 
-  console.log(productDetails)
+ 
  
   let date = new Date()
 
@@ -113,26 +117,26 @@ const previousPageHandler = () => {
      return currentTime
   }
   
-   if(userInfo && userInfo.truckCategory === "EXPORT" && product  && product.tagCounterF < 52 ){ zoneArea = 'F'}
-  else if(userInfo && userInfo.truckCategory === 'EXPORT' && product && product.tagCounterF === 52 && product.tagCounterG < 50 ){zoneArea = 'G'}
-  else if(userInfo && userInfo.truckCategory === 'EXPORT' && product && product.tagCounterG === 50 && product.tagCounterH < 51 ){zoneArea = 'H'}
-  else if(userInfo && userInfo.truckCategory === 'EXPORT' && product && product.tagCounterH === 51 && product.tagCounterR < 95 ){zoneArea = 'R'}
-  else if(userInfo && userInfo.truckCategory === "FLAT BED ENL/EKO" && product  && product.tagCounterA < 37 ){zoneArea = 'A'}
-  else if(userInfo && userInfo.truckCategory === "FLAT BED ENL/EKO" && product  && product.tagCounterA === 37 && product.tagCounterB < 46 ){zoneArea = 'B'}
-  else if(userInfo && userInfo.truckCategory === "FLAT BED APMT" && product  && product.tagCounterC < 78 ){zoneArea = 'C'}
-  else if(userInfo && userInfo.truckCategory === "FLAT BED APMT" && product  && product.tagCounterC === 78 && product.tagCounterD < 30 ){zoneArea = 'D'}
-  else if(userInfo && userInfo.truckCategory === "FLAT BED APMT" && product  && product.tagCounterD === 30 && product.tagCounterE < 71 ){zoneArea = 'E' }
-  else{ zoneArea ='N/A'}
+  if(userInfo && userInfo.truckCategory === "EXPORT" && product  && product[5].number < 52 ){ zoneArea = 'F'}
+  else if(userInfo && userInfo.truckCategory === 'EXPORT' && product && product[5].number === 52 && product[6].number < 50 ){zoneArea = 'G'}
+  else if(userInfo && userInfo.truckCategory === 'EXPORT' && product && product[6].number === 50 && product[7].number < 51 ){zoneArea = 'H'}
+  else if(userInfo && userInfo.truckCategory === 'EXPORT' && product && product[7].number === 51 && product[8].number < 95 ){zoneArea = 'R'}
+  else if(userInfo && userInfo.truckCategory === "FLAT BED ENL/EKO" && product  && product[0].number < 37 ){zoneArea = 'A'}
+  else if(userInfo && userInfo.truckCategory === "FLAT BED ENL/EKO" && product  && product[0].number === 37 && product[1].number < 46 ){zoneArea = 'B'}
+  else if(userInfo && userInfo.truckCategory === "FLAT BED APMT" && product  && product[2].number < 78 ){zoneArea = 'C'}
+  else if(userInfo && userInfo.truckCategory === "FLAT BED APMT" && product  && product[2].number === 78 && product[3].number < 30 ){zoneArea = 'D'}
+  else if(userInfo && userInfo.truckCategory === "FLAT BED APMT" && product  && product[3].number === 30 && product[4].number < 71 ){zoneArea = 'E' }
+  else{ zoneArea ='--'}
 
-  if(userInfo && userInfo.truckCategory === "EXPORT" && product  && product.tagCounterF < 52 ){  zoneCounter = product.tagCounterF}
-  else if(userInfo && userInfo.truckCategory === 'EXPORT' && product && product.tagCounterF === 52 && product.tagCounterG < 50 ){ zoneCounter =product.tagCounterG}
-  else if(userInfo && userInfo.truckCategory === 'EXPORT' && product && product.tagCounterG === 50 && product.tagCounterH < 51 ){ zoneCounter =product.tagCounterH}
-  else if(userInfo && userInfo.truckCategory === 'EXPORT' && product && product.tagCounterH === 51 && product.tagCounterR < 95 ){ zoneCounter =product.tagCounterR}
-  else if(userInfo && userInfo.truckCategory === "FLAT BED ENL/EKO" && product  && product.tagCounterA < 37 ){ zoneCounter =product.tagCounterA}
-  else if(userInfo && userInfo.truckCategory === "FLAT BED ENL/EKO" && product  && product.tagCounterA === 37 && product.tagCounterB < 46 ){ zoneCounter =product.tagCounterB}
-  else if(userInfo && userInfo.truckCategory === "FLAT BED APMT" && product  && product.tagCounterC < 78 ){ zoneCounter =product.tagCounterC}
-  else if(userInfo && userInfo.truckCategory === "FLAT BED APMT" && product  && product.tagCounterC === 78 && product.tagCounterD < 30 ){ zoneCounter =product.tagCounterD}
-  else if(userInfo && userInfo.truckCategory === "FLAT BED APMT" && product  && product.tagCounterD === 30 && product.tagCounterE < 71 ){ zoneCounter =product.tagCounterE}
+  if(userInfo && userInfo.truckCategory === "EXPORT" && product  && product[5].number < 52 ){  zoneCounter = product[5].number}
+  else if(userInfo && userInfo.truckCategory === 'EXPORT' && product && product[5].number === 52 && product[6].number < 50 ){ zoneCounter =product[6].number}
+  else if(userInfo && userInfo.truckCategory === 'EXPORT' && product && product[6].number === 50 && product[7].number < 51 ){ zoneCounter =product[7].number}
+  else if(userInfo && userInfo.truckCategory === 'EXPORT' && product && product[7].number === 51 && product[8].number < 95 ){ zoneCounter =product[8].number}
+  else if(userInfo && userInfo.truckCategory === "FLAT BED ENL/EKO" && product  && product[0].number < 37 ){ zoneCounter =product[0].number}
+  else if(userInfo && userInfo.truckCategory === "FLAT BED ENL/EKO" && product  && product[0].number === 37 && product[1].number < 46 ){ zoneCounter =product[1].number}
+  else if(userInfo && userInfo.truckCategory === "FLAT BED APMT" && product  && product[2].number < 78 ){ zoneCounter =product[2].number}
+  else if(userInfo && userInfo.truckCategory === "FLAT BED APMT" && product  && product[2].number === 78 && product[3].number < 30 ){ zoneCounter =product[3].number}
+  else if(userInfo && userInfo.truckCategory === "FLAT BED APMT" && product  && product[3].number === 30 && product[4].number < 71 ){ zoneCounter =product[4].number}
   else{zoneCounter = 0 }
 
 /*const submitHandler =(e) =>{
@@ -203,7 +207,7 @@ const previousPageHandler = () => {
                  <Row className="appFont">
                    <Col>BOOKING NUMBER:</Col>
                    <Col>
-                   <Form.Control as='input' className='inputBorder' value={email} onChange={(e) =>{setEmail(e.target.value)}} />
+                   <Form.Control as='input' className='inputBorder' value={email} onChange={(e) =>{setEmail(e.target.value) }}   />
                    </Col>
                    <Col>
                    <Button type='submit' variant='primary' onClick={(e) =>{dispatch(login(email))}}>Process</Button>
@@ -218,7 +222,7 @@ const previousPageHandler = () => {
                  <Row className="appFont">
                    <Col>TRUCK NUMBER:</Col>
                    <Col>
-                   {userInfo?userInfo.truckNumber:'N/A'}
+                   {truckNumber}{/*userInfo?userInfo.truckNumber:'N/A'*/}
                    </Col>
                  </Row>
                </ListGroup.Item>

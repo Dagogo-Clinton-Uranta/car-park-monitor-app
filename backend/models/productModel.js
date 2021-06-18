@@ -10,15 +10,15 @@ const Schema = mongoose.Schema
 }, {timestamps:true})*/
 
 const productSchema =  mongoose.Schema({
-  tagCounterA: {type:Number ,required:true} ,
-  tagCounterB: {type:Number ,required:true} ,
-  tagCounterC: {type:Number ,required:true} ,
-    tagCounterD: {type:Number ,required:true} ,
-    tagCounterE: {type:Number ,required:true} ,
-    tagCounterF: {type:Number ,required:true} ,
-    tagCounterG: {type:Number ,required:true} , //will it be count in stock per vendor, i think it will be, it makes sense, so that you can go pick another vendor when your stock is over.
-    tagCounterH: {type:Number ,required:true} ,
-    tagCounterR: {type:Number ,required:true} 
+  tagCounter: {type:String ,required:true},
+  number: {type:Number ,required:true} 
+  /*tagCounterC: [{type:String ,required:true}] ,
+    tagCounterD: [{type:String ,required:true}] ,
+    tagCounterE: [{type:String ,required:true}],
+    tagCounterF: [{type:String ,required:true}] ,
+    tagCounterG: [{type:String ,required:true}] , 
+    tagCounterH: [{type:String ,required:true}] ,
+    tagCounterR: [{type:String ,required:true}] */
         
 
 },{timestamps:false /*you want a createdAt? you add timestamps:true*/})
