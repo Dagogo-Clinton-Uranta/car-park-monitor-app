@@ -48,7 +48,7 @@ const authUser = asyncHandler(async (req, res) => {
 
     })
   } else {
-    res.status(401) //this means unauthorized
+    res.status(404) //this means not found
     throw new Error('booking number not recognized')
   }
 
@@ -249,7 +249,7 @@ const verifyUser = asyncHandler(async (req, res) => {
 //@access Public
 const registerUser = asyncHandler(async (req, res) => {
   res.header("Access-Control-Allow-Origin","*")
-  const { zoneArea,zoneCounter } = req.body
+  const { zoneArea,zoneCounter,change } = req.body
   //req.body will give us the object thats sent in the body of our front end/POSTMAN JSON, take note
   /* res.send({email,  this res,send was just done for example btw
      password}) */ //res.send accepts an object i think and not just variables, take note...hese are part of the things that you have to research on yor own
@@ -264,7 +264,7 @@ const registerUser = asyncHandler(async (req, res) => {
    await Product.deleteMany()
   await Product.insertMany(tagCounters)*/
 
-  await Product.findOneAndUpdate({tagCounter:zoneArea}, {number:zoneCounter + 1}, { useFindAndModify: false })/*:(
+  await Product.findOneAndUpdate({tagCounter:zoneArea}, {number:zoneCounter + change}, { useFindAndModify: false })/*:(
   zoneArea='B'?await Product.findOneAndUpdate({tagCounterB:zoneCounter}, {tagCounterB:zoneCounter + 1}, { useFindAndModify: false }):(
   zoneArea='C'?await Product.findOneAndUpdate({tagCounterC:zoneCounter}, {tagCounterC:zoneCounter + 1}, { useFindAndModify: false }):(
   zoneArea='D'?await Product.findOneAndUpdate({tagCounterD:zoneCounter}, {tagCounterD:zoneCounter + 1}, { useFindAndModify: false }):(

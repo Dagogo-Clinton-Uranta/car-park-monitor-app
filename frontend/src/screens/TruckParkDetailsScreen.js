@@ -1,3 +1,5 @@
+
+
 import React ,{useState, useEffect} from 'react'
 import {Link} from 'react-router-dom'
 import {Row, Col, Image, ListGroup, Card, Button,Form} from 'react-bootstrap'
@@ -5,81 +7,62 @@ import Rating from '../components/Rating'
 import Message from '../components/Message'
 import Loader from '../components/Loader'
 import Meta from '../components/Meta'
-import {login} from '../actions/userActions.js'
+import invalidTicket from '../components/invalid.jpeg'
+import banStamp from '../components/donotuse1.jpeg'
+import barcode from '../components/barcode.jpeg'
 import {useDispatch, useSelector} from 'react-redux'
+import {login} from '../actions/userActions.js'
 import {listProductDetails,createProductReview} from '../actions/productActions.js'
+import {getOrderDetails} from '../actions/orderActions.js'
 import {PRODUCT_CREATE_REVIEW_RESET} from '../constants/productConstants.js'
+import {register} from '../actions/userActions.js'
+import {createOrder} from '../actions/orderActions.js'
 
-
-const ProductScreen = ({history,match}) => {
+const TruckParkDetailsScreen = ({history,match}) => {
       /*cuz we need a single product from the array of products,and we gotta do it PER PAGE, we use.find method
       TO FILTER IT OUT FROM THE ARRAY*/
-   
+   const [qty ,setQty] = useState('')
+   const [rating ,setRating] = useState(0)
+   const [comment ,setComment] = useState('')
+   const [buttonVis ,setButtonVis] = useState(true)
 
   const dispatch = useDispatch()
   
-  const productDetails = useSelector(state => state.productDetails)
-  const {product,loading, error} = productDetails
+  /*const productDetails = useSelector(state => state.productDetails)
+  const {product,loading, error} = productDetails*/
 
-  const productCreateReview = useSelector(state => state.productCreateReview)
-  const {success:successProductReview, error:errorProductReview} = productCreateReview
+  /*const productCreateReview = useSelector(state => state.productCreateReview)
+  const {success:successProductReview, error:errorProductReview} = productCreateReview*/
   
 
-  const userLogin = useSelector(state => state.userLogin)
-  const {userInfo} = userLogin
-    
-  
-  const [email, setEmail] = useState({bookingNo:''})
-  const [bookingNo,setBookingNo] = useState('')
-/*const [truckNumber,setTruckNumber] = useState('')*/
-  let zoneCounter
-  let zoneArea
-  
-  console.log(email.bookingNo)
-  
+ /* const userLogin = useSelector(state => state.userLogin)
+  const {userInfo} = userLogin*/
+
+  const orderDetails = useSelector((state) => state.orderDetails )
+  const {order,loading,error} = orderDetails
   
  useEffect(()=>{
-  dispatch(listProductDetails())
-    setBookingNo(email.bookingNo)
-
-  setEmail({...email,
-  truckNumber:userInfo?userInfo.truckNumber:'N/A',
-  containerNumber:userInfo?userInfo.containerNumber:'N/A',
-  entryTime:userInfo?showTime():'N/A',
-  entryDate:userInfo?date.toLocaleDateString():'N/A',
-  truckCategory:userInfo?userInfo.truckCategory:'N/A',
-})
-
-   
-  /*if(successProductReview){
-    alert("Thank you for your review!")
-    setRating(0)
-    setComment('')
-    dispatch({type:PRODUCT_CREATE_REVIEW_RESET})
-  }*/
-
-   
- },[dispatch,userInfo])
-
- 
- const fetchDetailsHandler = (e) => {
   
-  /*dispatch(login(bookingNo))*/
-   dispatch(login(email.bookingNo))
-
-}
-
+  dispatch(getOrderDetails(match.params.id))
+   
+ },[dispatch,match])
 
 
 
-/*const addToCartHandler = () => {
-  if(!userInfo){
-    window.alert('Please sign in to purchase')
-  }
-  else if(userInfo && (userInfo.isAdmin||userInfo.isMerchant)){
-    window.alert('Only customers may make purchases, please register as a customer')
-  }
-    else{history.push(`/cart/${match.params.id}?qty=${qty}`)} //there was a blank set of curly braces here, you just put quantity in 
+/*const updateAndPrintHandler = () => {
+  dispatch(register(zoneArea,zoneCounter))
+  dispatch(createOrder({
+    bookingNumber:userInfo.bookingNumber,
+    truckCategory:userInfo.truckCategory,
+    containerNumber:userInfo.containerNumber,
+    truckNumber:userInfo.truckNumber,
+    entryTime:`${showTime()}`,
+    entryDate:`${date.toLocaleDateString()}`,
+    parkZone:zoneArea,
+    tagNumber:`${zoneCounter}`
+    
+  }))
+  window.print()
 }*/
   
 const previousPageHandler = () => {
@@ -87,13 +70,13 @@ const previousPageHandler = () => {
   window.history.back()
 }
 
- 
+
 
  
  
-  let date = new Date()
+  /*let date = new Date()*/
 
-  function showTime(){
+  /*function showTime(){
     let time = new Date()
     let hour = time.getHours();
     let min = time.getMinutes();
@@ -115,8 +98,10 @@ const previousPageHandler = () => {
 
      let currentTime = hour +":" + min + " " + am_pm
      return currentTime
-  }
+  }*/
   
+  /*let zoneArea
+  let zoneCounter  
   if(userInfo && userInfo.truckCategory === "EXPORT" && product  && product[5].number < 52 ){ zoneArea = 'F'}
   else if(userInfo && userInfo.truckCategory === 'EXPORT' && product && product[5].number === 52 && product[6].number < 50 ){zoneArea = 'G'}
   else if(userInfo && userInfo.truckCategory === 'EXPORT' && product && product[6].number === 50 && product[7].number < 51 ){zoneArea = 'H'}
@@ -137,38 +122,52 @@ const previousPageHandler = () => {
   else if(userInfo && userInfo.truckCategory === "FLAT BED APMT" && product  && product[2].number < 78 ){ zoneCounter =product[2].number}
   else if(userInfo && userInfo.truckCategory === "FLAT BED APMT" && product  && product[2].number === 78 && product[3].number < 30 ){ zoneCounter =product[3].number}
   else if(userInfo && userInfo.truckCategory === "FLAT BED APMT" && product  && product[3].number === 30 && product[4].number < 71 ){ zoneCounter =product[4].number}
-  else{zoneCounter = 0 }
+  else{zoneCounter = 0 }*/
 
-/*const submitHandler =(e) =>{
-  e.preventDefault() //since submit handler is being called inside a form
-  dispatch(createProductReview(match.params.id,{
-    rating,
-    comment //both rating and comment are coming from local/comment state
-  }))
-}*/
 
-  
+
 
       return(
         <>
-        <center><p className='apapa'>LILYPOND</p></center>
-        <hr/>
-        <center><p className='greenBackground'><h2> ENTRANCE TICKET GENERATOR</h2></p></center>
-        <hr/>
-        <center><p className='warningInstruction'><h6>PLEASE NOTE:</h6> Do not use this page at the exit facility, it is used for ENTRANCE only. Select 'exit' from the menu if you wish to process trucks leaving the park.</p></center>
-        <hr/>
-        {/*loading ? <Loader/>:error ?<Message variant='danger'>{error}</Message>:*/(
+       
+        {loading ? <Loader/>:error ?<Message variant='danger'>{error}</Message>:(
           <>
-          <Meta title={"FLACS PARKING SYSTEM"}/>
-          <Row >
-           <Col md={5}>
-            
+          <Meta title={`TICKET DETAILS FOR BOOKING N0:${order.bookingNumber}`}/>
+          <Row className= "ticketBorder" >
+            <Col>
+          <Row><p className='apapa'>LILYPOND</p></Row> 
+          
+          <Row className ="ticketIntro">
+          <p className='driversEntryPermit'>NOT FOR USE AS A TICKET</p>
+            </Row>
+
+            <Row className="ticketIntro">
+
+            <Col>
             <Row>
+           <Image className="truckImage" src={banStamp} alt={"truck image"} fluid>
+           </Image>
+           </Row>
+            </Col> 
+            
+            <Col>
+            <p className="centreAttempt">TRUCK CATEGORY:</p><p className="centreAttempt slightlyLesserAppFont">{order.truckCategory}</p> 
+            </Col> 
+            </Row>
+            </Col>
+          
+          
+         
+            
+           <Row>
+           <Col md={6}>
+             
+            <Row className= "numberBorder">
               <Card>
               <ListGroup variant='flush'>
               <ListGroup.Item>
               <Row>
-                   <Col className="appFont">TAG NUMBER</Col>
+                   <Col className="slightlyLesserAppFont"> PARK ZONE</Col>
                    
                  </Row>
                </ListGroup.Item>
@@ -176,16 +175,16 @@ const previousPageHandler = () => {
                <ListGroup.Item>
                 <center>
                 <p className="bigNumber" >
-                 {zoneCounter + 1}
+                 {order.parkZone}
                  </p>
                  </center>
                </ListGroup.Item>
 
                <ListGroup.Item>
                  <Row>
-                   <Col className="appFont">PARK ZONE:</Col>
+                   <Col className="slightlyBiggerAppFont">No</Col>
                    <Col>
-                    <strong className="appFont"> {zoneArea}</strong>
+                    <strong className="mildlyBiggerAppFont"> {order.tagNumber} </strong>
                    </Col>
                  </Row>
                </ListGroup.Item>
@@ -206,132 +205,109 @@ const previousPageHandler = () => {
            
             <Col md={6}>
              <Card>
-              <ListGroup variant='flush'>
-              <ListGroup.Item>
-              {/*<Form onSubmit={submitHandler}>*/}
+              <ListGroup variant='flush'  className='borderless'>
+              <ListGroup.Item className='borderless'>
                  <Row className="appFont">
                    <Col>BOOKING NUMBER:</Col>
                    <Col>
-                   <Form.Control as='input' className='inputBorder' value={email.bookingNo} onChange={(e) =>{setEmail({bookingNo:e.target.value, truckNumber:'',containerNumber:'',entryTime:'',entryDate:'',truckCategory:''})}}   />
-                   </Col>
-                   <Col>
-                   <Button type='submit' variant='primary' onClick={fetchDetailsHandler}>Process</Button>
+                   <h2 className="appFont">{order.bookingNumber}</h2>
                    </Col>
                  </Row>
-                 {/*</Form>*/}
                </ListGroup.Item>
               
               
               
-              <ListGroup.Item>
+              <ListGroup.Item className='borderless'>
                  <Row className="appFont">
                    <Col>TRUCK NUMBER:</Col>
                    <Col>
-                   {email.truckNumber}{/*userInfo?userInfo.truckNumber:'N/A'*/}
+                   <h2 className="appFont">{order.truckNumber}</h2>
                    </Col>
                  </Row>
                </ListGroup.Item>
               
-               <ListGroup.Item>
+               <ListGroup.Item className='borderless'>
                  <Row className="appFont">
                    <Col>CONTAINER NUMBER:</Col>
                    <Col>
-                   {email.containerNumber}
+                   <h2 className="appFont">{order.containerNumber} </h2>
                    </Col>
                  </Row>
                </ListGroup.Item>
 
-               <ListGroup.Item>
+
+               <ListGroup.Item className='borderless centerAttempt entryHeader'>
+                 <Row className="headerFont ">
+                   <Col >ENTRY DETAILS</Col> 
+                   
+                 </Row>
+               </ListGroup.Item>
+
+
+               <ListGroup.Item className='borderless'>
                  <Row className="appFont">
-                   <Col>ENTRY TIME:</Col>
+                   <Col> TIME:</Col>
                    <Col>
-                    <strong>{userInfo?email.entryTime:''}</strong>
+                    <strong className="appFont">{order.entryTime}</strong>
                    </Col>
                  </Row>
                </ListGroup.Item>
 
-               <ListGroup.Item>
+               <ListGroup.Item className='borderless'>
                  <Row className="appFont">
-                   <Col>ENTRY DATE:</Col>
+                   <Col> DATE:</Col>
                    <Col>
                     {/*<strong>{product.countInStock > 4 ?'In Stock':product.countInStock <= 3 ?'Few Left !!':product.countInStock === 0 ? 'Out of Stock':'Currently being restocked' //this currenty being restocked is not the right thing, you just put it there as filler, till the need comes to fix it }</strong>*/}
-                     <strong>{userInfo?email.entryDate:''}</strong>
+                     <strong className="appFont">{order.entryDate}</strong>
                    </Col>
                  </Row>
                </ListGroup.Item>
              {/*product.countInStock > 0 &&*/ (
-               <ListGroup.Item>
+               <ListGroup.Item className='borderless centerAttempt'>
                   <Row className="appFont">
-                    <Col>TRUCK CATEGORY:</Col>
-                    <Col>
-                    {email.truckCategory}
-                    </Col>
+                    
+                    
+                    <Image className="truckImage" src={barcode} alt={"barcode"} fluid>
+           </Image>
+                    
                   </Row>
                 </ListGroup.Item>
              )}
 
                <ListGroup.Item>
-               <Link to={`/print/${bookingNo}`}>
-                 <Button  className='btn-block printFont' type='button' >
-                 <i className='fas fa-print'></i> Generate Ticket
-                 </Button>
-                 </Link>
-
+                 
                </ListGroup.Item>
 
               </ListGroup>
              </Card>
             </Col>
-
+           
+           <Col >
+            <Row>
+           <Image className="truckImage" src={banStamp} alt={"do not use stamp"} fluid>
+           </Image>
+           </Row>
+           
+           
+           </Col>
+           </Row>
 
           </Row>
-          
-          {/*<Row>
-            <Col md={6}>
-              <h2>Reviews</h2>
-              {product.reviews.length === 0 && <Message>No Reviews </Message>}
-              <ListGroup variant="flush">
-               {product.reviews.map(review =>( 
-                 <ListGroup.Item key={review._id}>
-                  <strong>{review.name}</strong>
-                   <Rating value={review.rating} />
-                   <p>{review.createdAt.substring(0,10)}</p>
-                   <p>{review.comment}</p>
-                 </ListGroup.Item>
-               ) )}
-               <ListGroup.Item>
-                <h2>Write a Customer Review</h2>
-                {errorProductReview && <Message variant='danger'>{errorProductReview} </Message>}
+             { buttonVis && <center>
+          <Button onClick={previousPageHandler} className='btn-block printFont printButtonTop' type='button' >
+                 <i className='fas fa-arrow-left'></i> Go Back
+                 </Button>
+                 </center> }
 
-                {userInfo && (!userInfo.isAdmin || !userInfo.isMerchant)?(<Form onSubmit={submitHandler}>
-                <Form.Group controlId='rating'>
-                <Form.Label>Rating</Form.Label>
-                 <Form.Control as='select' value={rating} onChange={(e)=>setRating(e.target.value)}>
+                 
 
-                  <option value=''>Select...</option>
-                   <option value='1'>1-Poor</option>
-                   <option value='2'>2-Fair</option>
-                   <option value='3'>3-Good</option>
-                   <option value='4'>4-Very Good</option>
-                   <option value='5'>5-Excellent</option>
-
-                 </Form.Control>
-               </Form.Group>
-
-               <Form.Group controlId='comment'>
-                 <Form.Label>Comment</Form.Label>
-                 <Form.Control as='textarea' row='3' value={comment} onChange={(e)=>setComment(e.target.value)}>
-                 </Form.Control>
-               </Form.Group>
-
-              <Button type='submit' variant='primary'> Submit </Button>
-
-                </Form>):
-                  <Message> Please<Link to='/login'>sign in</Link> to write a review {' '} </Message>}
-               </ListGroup.Item>
-              </ListGroup>
-            </Col>
-                </Row> */}
+               {/* buttonVis &&   <center>
+                 <Link to={`/`}>
+          <Button  className='btn-block printFont printButton' type='button' >
+                 <i className='fas fa-home'></i> home screen
+                 </Button>
+                 </Link>
+               </center> */}
           </>
         )}
 
@@ -340,4 +316,4 @@ const previousPageHandler = () => {
 
 }
 
-export default ProductScreen
+export default TruckParkDetailsScreen

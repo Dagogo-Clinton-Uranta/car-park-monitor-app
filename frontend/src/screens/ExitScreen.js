@@ -11,7 +11,7 @@ import {listProductDetails,createProductReview} from '../actions/productActions.
 import {PRODUCT_CREATE_REVIEW_RESET} from '../constants/productConstants.js'
 
 
-const ProductScreen = ({history,match}) => {
+const ExitScreen = ({history,match}) => {
       /*cuz we need a single product from the array of products,and we gotta do it PER PAGE, we use.find method
       TO FILTER IT OUT FROM THE ARRAY*/
    
@@ -126,7 +126,7 @@ const previousPageHandler = () => {
   else if(userInfo && userInfo.truckCategory === "FLAT BED APMT" && product  && product[2].number < 78 ){zoneArea = 'C'}
   else if(userInfo && userInfo.truckCategory === "FLAT BED APMT" && product  && product[2].number === 78 && product[3].number < 30 ){zoneArea = 'D'}
   else if(userInfo && userInfo.truckCategory === "FLAT BED APMT" && product  && product[3].number === 30 && product[4].number < 71 ){zoneArea = 'E' }
-  else{ zoneArea ='--'}
+  else{ zoneArea ='-'}
 
   if(userInfo && userInfo.truckCategory === "EXPORT" && product  && product[5].number < 52 ){  zoneCounter = product[5].number}
   else if(userInfo && userInfo.truckCategory === 'EXPORT' && product && product[5].number === 52 && product[6].number < 50 ){ zoneCounter =product[6].number}
@@ -153,9 +153,9 @@ const previousPageHandler = () => {
         <>
         <center><p className='apapa'>LILYPOND</p></center>
         <hr/>
-        <center><p className='greenBackground'><h2> ENTRANCE TICKET GENERATOR</h2></p></center>
+        <center><p className='greenBackground'><h2> EXIT SLIP GENERATOR</h2></p></center>
         <hr/>
-        <center><p className='warningInstruction'><h6>PLEASE NOTE:</h6> Do not use this page at the exit facility, it is used for ENTRANCE only. Select 'exit' from the menu if you wish to process trucks leaving the park.</p></center>
+        <center><p className='warningInstruction'><h6>PLEASE NOTE:</h6> Do not use this page at the entrance facility, it is used for EXIT only. Select 'entrance' from the menu if you wish to process trucks entering the park.</p></center>
         <hr/>
         {/*loading ? <Loader/>:error ?<Message variant='danger'>{error}</Message>:*/(
           <>
@@ -168,7 +168,7 @@ const previousPageHandler = () => {
               <ListGroup variant='flush'>
               <ListGroup.Item>
               <Row>
-                   <Col className="appFont">TAG NUMBER</Col>
+                   <Col className="appFont">LEAVING FROM ZONE:</Col>
                    
                  </Row>
                </ListGroup.Item>
@@ -176,19 +176,20 @@ const previousPageHandler = () => {
                <ListGroup.Item>
                 <center>
                 <p className="bigNumber" >
-                 {zoneCounter + 1}
+                {zoneArea}
+                 
                  </p>
                  </center>
                </ListGroup.Item>
 
-               <ListGroup.Item>
+               {/*<ListGroup.Item>
                  <Row>
                    <Col className="appFont">PARK ZONE:</Col>
                    <Col>
                     <strong className="appFont"> {zoneArea}</strong>
                    </Col>
                  </Row>
-               </ListGroup.Item>
+               </ListGroup.Item>*/}
 
                </ListGroup >
                 
@@ -243,7 +244,7 @@ const previousPageHandler = () => {
 
                <ListGroup.Item>
                  <Row className="appFont">
-                   <Col>ENTRY TIME:</Col>
+                   <Col>EXIT TIME:</Col>
                    <Col>
                     <strong>{userInfo?email.entryTime:''}</strong>
                    </Col>
@@ -252,7 +253,7 @@ const previousPageHandler = () => {
 
                <ListGroup.Item>
                  <Row className="appFont">
-                   <Col>ENTRY DATE:</Col>
+                   <Col>EXIT DATE:</Col>
                    <Col>
                     {/*<strong>{product.countInStock > 4 ?'In Stock':product.countInStock <= 3 ?'Few Left !!':product.countInStock === 0 ? 'Out of Stock':'Currently being restocked' //this currenty being restocked is not the right thing, you just put it there as filler, till the need comes to fix it }</strong>*/}
                      <strong>{userInfo?email.entryDate:''}</strong>
@@ -271,9 +272,9 @@ const previousPageHandler = () => {
              )}
 
                <ListGroup.Item>
-               <Link to={`/print/${bookingNo}`}>
+               <Link to={`/exit/${bookingNo}`}>
                  <Button  className='btn-block printFont' type='button' >
-                 <i className='fas fa-print'></i> Generate Ticket
+                 <i className='fas fa-print'></i> Generate PERMIT
                  </Button>
                  </Link>
 
@@ -340,4 +341,4 @@ const previousPageHandler = () => {
 
 }
 
-export default ProductScreen
+export default ExitScreen

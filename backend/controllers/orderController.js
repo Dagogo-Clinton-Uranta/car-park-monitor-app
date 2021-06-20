@@ -12,22 +12,12 @@ import mongoose from 'mongoose'
 
 const addOrderItems = asyncHandler(async (req,res)=>{
   res.header("Access-Control-Allow-Origin","*")
-  const {orderItems,shippingAddress,paymentMethod, itemsPrice, taxPrice, deliveryCost, totalPrice} = req.body
+  const {bookingNumber,truckCategory,truckNumber, containerNumber,entryTime, entryDate, parkZone, tagNumber} = req.body
 
- if(orderItems && orderItems.length === 0 ){
-   res.status(400)
-   throw new Error('No order items')
-    return
- } else {
+  
    const order = new Order({
-     orderItems,
-     user:req.user._id, //this will give us the currently logged in user
-     shippingAddress,
-     /*paymentMethod,*/
-     itemsPrice,
-     /*taxPrice,*/
-     deliveryCost,
-     totalPrice
+     
+    bookingNumber,truckCategory,truckNumber, containerNumber,entryTime, entryDate, parkZone, tagNumber
    })
 
    
@@ -35,8 +25,8 @@ const addOrderItems = asyncHandler(async (req,res)=>{
     
    console.log(createdOrder)
      
-    res.status(201).json(createdOrder)
- }
+    /*res.status(201).json(createdOrder)*/
+ 
 })
 
 
@@ -48,7 +38,7 @@ const getOrderById = asyncHandler(async (req,res)=>{
   res.header("Access-Control-Allow-Origin","*")
    console.log(req.params.id)
   const objectId = new mongoose.Types.ObjectId(req.params.id)
-  const order = await Order.findById(objectId).populate('user', 'name email') /*name and email in the same quotation */
+  const order = await Order.findById(objectId)/*name and email in the same quotation */
   if(order){
     console.log(order)
     res.json(order)
@@ -127,12 +117,12 @@ const getOrders = asyncHandler(async (req,res)=>{
 
   let orders
 
-   const vendorName = req.query.vendorName
+   /*const vendorName = req.query.vendorName
    vendorName !==''?(
-   orders = await Order.find({'orderItems.vendor':vendorName}).populate('user','id name')):
-   (
-     orders = await Order.find({}).populate('user','id name')
-   )
+   orders = await Order.find({'orderItems.vendor':vendorName}).populate('user','id name')):*/
+   
+     orders = await Order.find({})
+   
   res.json(orders)
 })
 

@@ -6,6 +6,7 @@ import dotenv from 'dotenv'
  
 import colors from 'colors'
 
+import orders from './data/orders.js'
 
 import users from './data/users.js'
 //const users =require('./data/users.js')
@@ -35,7 +36,7 @@ connectDB()
 const importData = async()=> {
 
   try{
-      /*await Order.deleteMany()*/
+      await Order.deleteMany()
       await Product.deleteMany()
       await User.deleteMany()
 
@@ -46,7 +47,8 @@ const importData = async()=> {
        return {...product, user:adminUser}
     })*/
        await Product.insertMany(products)
-
+       await Order.insertMany(orders)
+       
        console.log('Data Imported'.green.inverse)
        process.exit() /*what is this process.exit?*/
   }

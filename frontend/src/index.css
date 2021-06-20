@@ -22,7 +22,12 @@ h2 {
 
 /* TICKET ENTRY SCREEN (saved AS PRODUCT SCREEN)*/
 /* tagCounter font*/
- .bigNumber {
+ .warningInstruction {
+   max-width:50%;
+ }
+
+
+.bigNumber {
    font-size:15rem ;
    font-weight:700;
    padding-right:5rem;

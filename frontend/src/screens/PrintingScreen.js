@@ -5,13 +5,17 @@ import Rating from '../components/Rating'
 import Message from '../components/Message'
 import Loader from '../components/Loader'
 import Meta from '../components/Meta'
-import truckImage from '../components/truck.jpeg'
+import invalidTicket from '../components/invalid.jpeg'
+import exportImage from '../components/EXPORT.jpeg'
+import flatbedENLImage from '../components/flatbedENL.png'
+import flatbedAPMTImage from '../components/flatbedAPMT.jpeg'
 import barcode from '../components/barcode.jpeg'
 import {useDispatch, useSelector} from 'react-redux'
 import {login} from '../actions/userActions.js'
 import {listProductDetails,createProductReview} from '../actions/productActions.js'
 import {PRODUCT_CREATE_REVIEW_RESET} from '../constants/productConstants.js'
 import {register} from '../actions/userActions.js'
+import {createOrder} from '../actions/orderActions.js'
 
 const PrintingScreen = ({history,match}) => {
       /*cuz we need a single product from the array of products,and we gotta do it PER PAGE, we use.find method
@@ -40,10 +44,21 @@ const PrintingScreen = ({history,match}) => {
    
  },[dispatch,match])
 
+ console.log(`${showTime()}`)
 
 const updateAndPrintHandler = () => {
-  dispatch(register(zoneArea,zoneCounter))
-  
+  dispatch(register(zoneArea,zoneCounter,change))
+  dispatch(createOrder({
+    bookingNumber:userInfo.bookingNumber,
+    truckCategory:userInfo.truckCategory,
+    containerNumber:userInfo.containerNumber,
+    truckNumber:userInfo.truckNumber,
+    entryTime:`${showTime()}`,
+    entryDate:`${date.toLocaleDateString()}`,
+    parkZone:zoneArea,
+    tagNumber:`${zoneCounter}`
+    
+  }))
   window.print()
 }
   
@@ -54,7 +69,7 @@ const previousPageHandler = () => {
 
 
 
-  console.log(product)
+  console.log(userInfo)
  
   let date = new Date()
 
@@ -82,6 +97,7 @@ const previousPageHandler = () => {
      return currentTime
   }
   
+  const change = 1
   let zoneArea
   let zoneCounter  
   if(userInfo && userInfo.truckCategory === "EXPORT" && product  && product[5].number < 52 ){ zoneArea = 'F'}
@@ -127,7 +143,7 @@ const previousPageHandler = () => {
 
             <Col>
             <Row>
-           <Image className="truckImage" src={truckImage} alt={"truck image"} fluid>
+           <Image className="truckImage" src={userInfo && userInfo.truckCategory === "FLAT BED APMT"?flatbedAPMTImage:(userInfo && userInfo.truckCategory === "FLAT BED ENL/EKO"?flatbedENLImage:(userInfo && userInfo.truckCategory === "EXPORT"?exportImage:(invalidTicket)))} alt={"truck image"} fluid>
            </Image>
            </Row>
             </Col> 
@@ -266,7 +282,7 @@ const previousPageHandler = () => {
            
            <Col className="displayNone">
             <Row>
-           <Image className="truckImage" src={truckImage} alt={"truck image"} fluid>
+           <Image className="truckImage" src={invalidTicket} alt={"truck image"} fluid>
            </Image>
            </Row>
            

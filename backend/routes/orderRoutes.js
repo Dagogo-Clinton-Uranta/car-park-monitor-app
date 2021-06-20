@@ -16,7 +16,7 @@ const router = express.Router()
 //@GET api/products/
 //@Public access
 //@this is good commenting syntax,leting others know the routes
-router.route('/').post(protect,addOrderItems).get(protect,/*admin,*/getOrders).put(protect,updatePromisedQty)
+router.route('/').post(addOrderItems).get(/*protect,admin,*/getOrders).put(protect,updatePromisedQty)
 router.route('/myorders').get(protect,getMyOrders)
 //in the get route, protect is the middleware, thats how you implement middleware in this syntax, so smooth,no app.use)
 router.route('/:id/pay').put(protect,updateOrderToPaid)

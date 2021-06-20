@@ -121,20 +121,20 @@ userInfo.newMessages = users.some((user)=>{user.userMessageNotification % 2===0}
    )}
 
 
-   {userInfo && userInfo.isAdmin && (
+   { (
   
-  <NavDropdown title ={'Admin Functions'} id='username'>
+  <NavDropdown title ={'SELECTION MENU'} id='username'>
 
-{/*1*/}     <LinkContainer to='/admin/userlist'>
-            <NavDropdown.Item >Users </NavDropdown.Item>
+{/*1*/}     <LinkContainer to='/'>
+            <NavDropdown.Item >Entrance </NavDropdown.Item>
           </LinkContainer>
 
-{/*2*/}      <LinkContainer to='/admin/productlist'>
-            <NavDropdown.Item >Products</NavDropdown.Item> 
+{/*2*/}      <LinkContainer to='/exit'>
+            <NavDropdown.Item >Exit</NavDropdown.Item> 
            </LinkContainer>
 
-{/*3*/}      <LinkContainer to='/admin/orderlist'>
-            <NavDropdown.Item >Orders</NavDropdown.Item>
+{/*3*/}      <LinkContainer to='/parklogs'>
+            <NavDropdown.Item >Park History</NavDropdown.Item>
            </LinkContainer>
 
      </NavDropdown>

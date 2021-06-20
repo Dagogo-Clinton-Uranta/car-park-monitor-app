@@ -7,7 +7,9 @@ import Footer from './components/Footer.js'
 import HomeScreen from './screens/HomeScreen.js'
 import ProductScreen from './screens/ProductScreen.js'
 import PrintingScreen from './screens/PrintingScreen.js'
-
+import TruckParkDetailsScreen from './screens/TruckParkDetailsScreen.js'
+import ExitScreen from './screens/ExitScreen.js'
+import ExitPrintScreen from './screens/ExitPrintScreen.js'
 import CartScreen from './screens/CartScreen.js'
 import LoginScreen from './screens/LoginScreen.js'
 import RegisterScreen from './screens/RegisterScreen.js'
@@ -44,6 +46,10 @@ const App = () => {
        
         < Route path='/'exact component={ProductScreen}/> 
         < Route path='/print/:id' component={PrintingScreen}/> 
+        < Route path='/parklogs' exact component={OrderListScreen}/>
+        < Route path='/parklog/:id' component={TruckParkDetailsScreen}/>
+        < Route path='/exit'exact component={ExitScreen}/> 
+        < Route path='/exit/:id' component={ExitPrintScreen}/> 
         {/*< Route path='/cart/:id?' component={CartScreen}/>
         < Route path='/admin/userlist' component={UserListScreen}/>
         < Route path='/admin/user/:id/communications' component={AdminComScreen}/>
@@ -51,7 +57,7 @@ const App = () => {
         < Route path='/admin/productlist'  exact component={ProductListScreen}/>
         < Route path='/admin/productlist/:pageNumber'  exact component={ProductListScreen}/>
         < Route path='/admin/product/:id/edit' component={ProductEditScreen}/>
-        < Route path='/admin/orderlist' component={OrderListScreen}/>
+       
         < Route path='/search/:keyword' component={HomeScreen} exact/>
         < Route path='/page/:pageNumber'exact component={HomeScreen}/>
         < Route path='/search/:keyword/page/:pageNumber'  exact component={HomeScreen}/>

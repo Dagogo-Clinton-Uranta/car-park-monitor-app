@@ -14,6 +14,9 @@ import {USER_LOGIN_REQUEST,
         USER_REGISTER_REQUEST,
         USER_REGISTER_SUCCESS,
         USER_REGISTER_FAILURE,
+        USER_UNREGISTER_REQUEST,
+        USER_UNREGISTER_SUCCESS,
+        USER_UNREGISTER_FAILURE,
         USER_DETAILS_REQUEST,
         USER_DETAILS_SUCCESS,
         USER_DETAILS_FAILURE,
@@ -98,6 +101,20 @@ export const  userRegisterReducer = (state={},action) => {
     case USER_REGISTER_SUCCESS: return{ loading:false, userInfo:action.payload}
 
     case USER_REGISTER_FAILURE: return{ loading:false, error:action.payload}
+
+
+    default: return state
+
+  }
+}
+
+export const  userUnRegisterReducer = (state={},action) => {
+  switch(action.type){
+    case USER_UNREGISTER_REQUEST : return {loading:true}
+
+    case USER_UNREGISTER_SUCCESS: return{ loading:false, userInfo:action.payload}
+
+    case USER_UNREGISTER_FAILURE: return{ loading:false, error:action.payload}
 
 
     default: return state

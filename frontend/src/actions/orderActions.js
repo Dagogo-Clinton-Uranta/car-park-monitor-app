@@ -180,7 +180,7 @@ export const listMyOrders  = () => async (dispatch,getState)=> {
 }
 
 
-export const listOrders  = (vendorName=''/*try a reg ex of all allowable characters, not just an empty object */) => async (dispatch,getState)=> {
+export const listOrders  = () => async (dispatch,getState)=> {
 //form of async (dispatch) above
   try {
     dispatch({type: ORDER_LIST_REQUEST})
@@ -193,7 +193,7 @@ export const listOrders  = (vendorName=''/*try a reg ex of all allowable charact
         Authorization:`Bearer ${userInfo.token}`
       }
     }
-    const {data} = await axios.get(`/api/orders?vendorName=${vendorName}`,config)
+    const {data} = await axios.get(`/api/orders?vendorName=${''}`,config)
     //i'm gonna take a stab here and say that the third argument for axios is for setting header property
 
     dispatch({

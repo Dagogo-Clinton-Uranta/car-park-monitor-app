@@ -16,6 +16,9 @@
          USER_REGISTER_REQUEST,
          USER_REGISTER_SUCCESS,
          USER_REGISTER_FAILURE,
+         USER_UNREGISTER_REQUEST,
+         USER_UNREGISTER_SUCCESS,
+         USER_UNREGISTER_FAILURE,
          USER_DETAILS_REQUEST,
          USER_DETAILS_SUCCESS,
          USER_DETAILS_FAILURE,
@@ -151,7 +154,7 @@ export const logout = () => (dispatch) => {
 }
  
 
-export const register = (zoneArea,zoneCounter) => async(dispatch)=> {
+export const register = (zoneArea,zoneCounter,change) => async(dispatch)=> {
    //redux thunk was used just now in the form of async (dispatch) above
   try {
     dispatch({type: USER_REGISTER_REQUEST})
@@ -162,7 +165,7 @@ export const register = (zoneArea,zoneCounter) => async(dispatch)=> {
         'Content-Type':'application/json'
       }
     }
-    const {data} = await axios.post('/api/users',{zoneArea,zoneCounter},config)
+    const {data} = await axios.post('/api/users',{zoneArea,zoneCounter,change},config)
     //i'm gonna take a stab here and say that the third argument for axios is for setting header property
 
     dispatch({
@@ -183,6 +186,41 @@ export const register = (zoneArea,zoneCounter) => async(dispatch)=> {
                 error.response.data.message:error.message })
    }
 }
+
+
+export const unregister = (zoneArea,zoneCounter) => async(dispatch)=> {
+  //redux thunk was used just now in the form of async (dispatch) above
+ try {
+   dispatch({type: USER_UNREGISTER_REQUEST})
+
+   //we do config cus we wanna send the headers a content type of application/json
+   const config = {
+     headers:{
+       'Content-Type':'application/json'
+     }
+   }
+   const {data} = await axios.post('/api/users',{zoneArea,zoneCounter},config)
+   //i'm gonna take a stab here and say that the third argument for axios is for setting header property
+
+   dispatch({
+             type: USER_UNREGISTER_SUCCESS,
+             payload:data})
+
+//cuz we also want to log the user in upon registration we dispatch user-login-success as well
+   dispatch({
+             type: USER_LOGIN_SUCCESS,
+             payload:data})
+
+   localStorage.setItem('userInfo',JSON.stringify(data))
+
+ }
+  catch(error){
+    dispatch({type:USER_UNREGISTER_FAILURE,
+              payload: error.response && error.response.data.message?
+               error.response.data.message:error.message })
+  }
+}
+
 
 export const getUserDetails = (id) => async (dispatch,getState) => {
    
