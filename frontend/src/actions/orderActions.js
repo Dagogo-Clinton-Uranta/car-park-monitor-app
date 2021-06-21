@@ -58,15 +58,15 @@ export const getOrderDetails  = (id) => async (dispatch,getState)=> {
   try {
     dispatch({type: ORDER_DETAILS_REQUEST})
 
-     const {userLogin:{userInfo}} = getState()
+     /*const {userLogin:{userInfo}} = getState()*/
     //we do config cus we wanna send the headers a content type of application/json
-    const config = {
+    /*const config = {
       headers:{
         //'Content-Type':'application/json' |you dont really need content type in GET requests for some reason
         Authorization:`Bearer ${userInfo.token}`
       }
-    }
-    const {data} = await axios.get(`/api/orders/${id}`,config)
+    }*/
+    const {data} = await axios.get(`/api/orders/${id}`/*,config*/)
     //i'm gonna take a stab here and say that the third argument for axios is for setting header property
 
     dispatch({
