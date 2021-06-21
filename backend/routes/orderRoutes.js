@@ -21,7 +21,7 @@ router.route('/myorders').get(/*protect,*/getMyOrders)
 //in the get route, protect is the middleware, thats how you implement middleware in this syntax, so smooth,no app.use)
 router.route('/:id/pay').put(protect,updateOrderToPaid)
 router.route('/:id/deliver').put(protect,admin, updateOrderToDelivered)
-router.route('/:id').get(protect,getOrderById)  //make sure this id route is the very last you do, cuz if you place anything below it, it will take whats after the slash as an id(chapter 10.1) ? research this
+router.route('/:id').get(/*protect,*/getOrderById)  //make sure this id route is the very last you do, cuz if you place anything below it, it will take whats after the slash as an id(chapter 10.1) ? research this
 //exports.router = router;
 export default router
 
