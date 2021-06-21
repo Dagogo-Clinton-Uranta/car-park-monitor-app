@@ -187,13 +187,13 @@ export const listOrders  = () => async (dispatch,getState)=> {
 
      const {userLogin:{userInfo}} = getState()
     //we do config cus we wanna send he headers a content type of application/json
-    const config = {
+    /*const config = {
       headers:{
 
         Authorization:`Bearer ${userInfo.token}`
       }
-    }
-    const {data} = await axios.get(`/api/orders?vendorName=${''}`,config)
+    }*/
+    const {data} = await axios.get(`/api/orders?vendorName=${''}`/*,config*/)
     //i'm gonna take a stab here and say that the third argument for axios is for setting header property
 
     dispatch({
