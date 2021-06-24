@@ -2,6 +2,9 @@ import {USER_LOGIN_REQUEST,
         USER_LOGIN_SUCCESS,
         USER_LOGIN_FAILURE,
         USER_LOGOUT,
+        RELEASE_DRIVER_REQUEST,
+        RELEASE_DRIVER_SUCCESS,
+        RELEASE_DRIVER_FAILURE,  
         USER_SEND_REQUEST,
         USER_SEND_SUCCESS,
         USER_SEND_FAILURE,
@@ -14,9 +17,6 @@ import {USER_LOGIN_REQUEST,
         USER_REGISTER_REQUEST,
         USER_REGISTER_SUCCESS,
         USER_REGISTER_FAILURE,
-        USER_UNREGISTER_REQUEST,
-        USER_UNREGISTER_SUCCESS,
-        USER_UNREGISTER_FAILURE,
         USER_DETAILS_REQUEST,
         USER_DETAILS_SUCCESS,
         USER_DETAILS_FAILURE,
@@ -53,7 +53,21 @@ export const  userLoginReducer = (state={},action) => {
   }
 }
 
-//i am here , trying to create a reducer that'll handle when a user SENDS a message
+
+export const  releaseDriverReducer = (state={},action) => {
+  switch(action.type){
+    case RELEASE_DRIVER_REQUEST : return {loading:true}
+
+    case RELEASE_DRIVER_SUCCESS: return{ loading:false, driverInfo:action.payload}
+
+    case RELEASE_DRIVER_FAILURE: return{ loading:false, error:action.payload}
+
+    default: return state
+
+  }
+}
+
+
 export const userSendReducer = (state={},action)=> {
    switch(action.type){
      case USER_SEND_REQUEST: return { loading:true } 
@@ -108,19 +122,7 @@ export const  userRegisterReducer = (state={},action) => {
   }
 }
 
-export const  userUnRegisterReducer = (state={},action) => {
-  switch(action.type){
-    case USER_UNREGISTER_REQUEST : return {loading:true}
 
-    case USER_UNREGISTER_SUCCESS: return{ loading:false, userInfo:action.payload}
-
-    case USER_UNREGISTER_FAILURE: return{ loading:false, error:action.payload}
-
-
-    default: return state
-
-  }
-}
 
 export const  userDetailsReducer = (state={ user :{}},action) => {
   switch(action.type){

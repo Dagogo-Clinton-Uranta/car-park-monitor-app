@@ -11,7 +11,7 @@ import flatbedENLImage from '../components/flatbedENL.png'
 import flatbedAPMTImage from '../components/flatbedAPMT.jpeg'
 import barcode from '../components/barcode.jpeg'
 import {useDispatch, useSelector} from 'react-redux'
-import {login} from '../actions/userActions.js'
+import {login,driverDetails} from '../actions/userActions.js'
 import {listProductDetails,createProductReview} from '../actions/productActions.js'
 import {PRODUCT_CREATE_REVIEW_RESET} from '../constants/productConstants.js'
 import {register} from '../actions/userActions.js'
@@ -34,11 +34,14 @@ const PrintingScreen = ({history,match}) => {
   const {success:successProductReview, error:errorProductReview} = productCreateReview
   
 
-  const userLogin = useSelector(state => state.userLogin)
-  const {userInfo} = userLogin
+  
+
+  const releaseDriver = useSelector(state => state.releaseDriver)
+  const {driverInfo} = releaseDriver
   
  useEffect(()=>{
-  dispatch(login(match.params.id))
+  /*dispatch(login())*/
+  dispatch(driverDetails()) 
   dispatch(listProductDetails())
   
    
@@ -50,10 +53,10 @@ const updateAndPrintHandler = () => {
   dispatch(register(zoneArea,zoneCounter,change))
   /*dispatch(unregister(zoneArea,zoneCounter))*/
   /*dispatch(createOrder({
-    bookingNumber:userInfo.bookingNumber,
-    truckCategory:userInfo.truckCategory,
-    containerNumber:userInfo.containerNumber,
-    truckNumber:userInfo.truckNumber,
+    bookingNumber:driverInfo.bookingNumber,
+    truckCategory:driverInfo.truckCategory,
+    containerNumber:driverInfo.containerNumber,
+    truckNumber:driverInfo.truckNumber,
     entryTime:`${showTime()}`,
     entryDate:`${date.toLocaleDateString()}`,
     parkZone:zoneArea,
@@ -97,33 +100,47 @@ const previousPageHandler = () => {
      let currentTime = hour +":" + min + " " + am_pm
      return currentTime
   }
+
+  
+
+
+
   const change = -1
   let zoneArea
   let zoneCounter  
-  if(userInfo && userInfo.truckCategory === "EXPORT" && product  && product[5].number < 52 ){ zoneArea = 'F'}
-  else if(userInfo && userInfo.truckCategory === 'EXPORT' && product && product[5].number === 52 && product[6].number < 50 ){zoneArea = 'G'}
-  else if(userInfo && userInfo.truckCategory === 'EXPORT' && product && product[6].number === 50 && product[7].number < 51 ){zoneArea = 'H'}
-  else if(userInfo && userInfo.truckCategory === 'EXPORT' && product && product[7].number === 51 && product[8].number < 95 ){zoneArea = 'R'}
-  else if(userInfo && userInfo.truckCategory === "FLAT BED ENL/EKO" && product  && product[0].number < 37 ){zoneArea = 'A'}
-  else if(userInfo && userInfo.truckCategory === "FLAT BED ENL/EKO" && product  && product[0].number === 37 && product[1].number < 46 ){zoneArea = 'B'}
-  else if(userInfo && userInfo.truckCategory === "FLAT BED APMT" && product  && product[2].number < 78 ){zoneArea = 'C'}
-  else if(userInfo && userInfo.truckCategory === "FLAT BED APMT" && product  && product[2].number === 78 && product[3].number < 30 ){zoneArea = 'D'}
-  else if(userInfo && userInfo.truckCategory === "FLAT BED APMT" && product  && product[3].number === 30 && product[4].number < 71 ){zoneArea = 'E' }
+  let occupiedSpace
+
+   if(driverInfo && driverInfo.truckCategory === 'EXPORT' && product && product[5].number === 0 && product[6].number === 0 && product[7].number === 0 && product[8].number === 0 ){zoneArea = 'X'}
+  else if(driverInfo && driverInfo.truckCategory === "EXPORT" && product  && product[5].number < 52 ){ zoneArea = 'F'}
+  else if(driverInfo && driverInfo.truckCategory === 'EXPORT' && product && product[5].number === 52 && product[6].number < 50 ){zoneArea = 'G'}
+  else if(driverInfo && driverInfo.truckCategory === 'EXPORT' && product && product[6].number === 50 && product[7].number < 51 ){zoneArea = 'H'}
+  else if(driverInfo && driverInfo.truckCategory === 'EXPORT' && product && product[7].number === 51 && product[8].number < 95 ){zoneArea = 'R'}
+  else if(driverInfo && driverInfo.truckCategory === "FLAT BED ENL/EKO" && product && product[0].number === 0 && product[1].number === 0 ){zoneArea = 'X'}
+  else if(driverInfo && driverInfo.truckCategory === "FLAT BED ENL/EKO" && product  && product[0].number < 37 ){zoneArea = 'A'}
+  else if(driverInfo && driverInfo.truckCategory === "FLAT BED ENL/EKO" && product  && product[0].number === 37 && product[1].number < 46 ){zoneArea = 'B'}
+  else if(driverInfo && driverInfo.truckCategory === "FLAT BED APMT" && product && product[2].number === 0 && product[3].number === 0 && product[4].number === 0){zoneArea = 'X'}
+  else if(driverInfo && driverInfo.truckCategory === "FLAT BED APMT" && product  && product[2].number < 78 ){zoneArea = 'C'}
+  else if(driverInfo && driverInfo.truckCategory === "FLAT BED APMT" && product  && product[2].number === 78 && product[3].number < 30 ){zoneArea = 'D'}
+  else if(driverInfo && driverInfo.truckCategory === "FLAT BED APMT" && product  && product[3].number === 30 && product[4].number < 71 ){zoneArea = 'E' }
   else{ zoneArea ='-'}
 
-  if(userInfo && userInfo.truckCategory === "EXPORT" && product  && product[5].number < 52 ){  zoneCounter = product[5].number}
-  else if(userInfo && userInfo.truckCategory === 'EXPORT' && product && product[5].number === 52 && product[6].number < 50 ){ zoneCounter =product[6].number}
-  else if(userInfo && userInfo.truckCategory === 'EXPORT' && product && product[6].number === 50 && product[7].number < 51 ){ zoneCounter =product[7].number}
-  else if(userInfo && userInfo.truckCategory === 'EXPORT' && product && product[7].number === 51 && product[8].number < 95 ){ zoneCounter =product[8].number}
-  else if(userInfo && userInfo.truckCategory === "FLAT BED ENL/EKO" && product  && product[0].number < 37 ){ zoneCounter =product[0].number}
-  else if(userInfo && userInfo.truckCategory === "FLAT BED ENL/EKO" && product  && product[0].number === 37 && product[1].number < 46 ){ zoneCounter =product[1].number}
-  else if(userInfo && userInfo.truckCategory === "FLAT BED APMT" && product  && product[2].number < 78 ){ zoneCounter =product[2].number}
-  else if(userInfo && userInfo.truckCategory === "FLAT BED APMT" && product  && product[2].number === 78 && product[3].number < 30 ){ zoneCounter =product[3].number}
-  else if(userInfo && userInfo.truckCategory === "FLAT BED APMT" && product  && product[3].number === 30 && product[4].number < 71 ){ zoneCounter =product[4].number}
+  if(driverInfo && driverInfo.truckCategory === 'EXPORT' && product && product[5].number === 0 && product[6].number === 0 && product[7].number === 0 && product[8].number === 0 ){zoneCounter = occupiedSpace  = -1}
+  if(driverInfo && driverInfo.truckCategory === "EXPORT" && product  && product[5].number < 52 ){  zoneCounter = product[5].number}
+  else if(driverInfo && driverInfo.truckCategory === 'EXPORT' && product && product[5].number === 52 && product[6].number < 50 ){ zoneCounter =product[6].number}
+  else if(driverInfo && driverInfo.truckCategory === 'EXPORT' && product && product[6].number === 50 && product[7].number < 51 ){ zoneCounter =product[7].number}
+  else if(driverInfo && driverInfo.truckCategory === 'EXPORT' && product && product[7].number === 51 && product[8].number < 95 ){ zoneCounter =product[8].number}
+  
+  else if(driverInfo && driverInfo.truckCategory === "FLAT BED ENL/EKO" && product && product[0].number === 0 && product[1].number === 0 ){zoneCounter= occupiedSpace = -1}
+  else if(driverInfo && driverInfo.truckCategory === "FLAT BED ENL/EKO" && product  && product[0].number < 37 ){ zoneCounter =product[0].number}
+  else if(driverInfo && driverInfo.truckCategory === "FLAT BED ENL/EKO" && product  && product[0].number === 37 && product[1].number < 46 ){ zoneCounter =product[1].number}
+  
+  else if(driverInfo && driverInfo.truckCategory === "FLAT BED APMT" && product && product[2].number === 0 && product[3].number === 0 && product[4].number === 0){zoneCounter= occupiedSpace = -1}
+  else if(driverInfo && driverInfo.truckCategory === "FLAT BED APMT" && product  && product[2].number < 78 ){ zoneCounter =product[2].number}
+  else if(driverInfo && driverInfo.truckCategory === "FLAT BED APMT" && product  && product[2].number === 78 && product[3].number < 30 ){ zoneCounter =product[3].number}
+  else if(driverInfo && driverInfo.truckCategory === "FLAT BED APMT" && product  && product[3].number === 30 && product[4].number < 71 ){ zoneCounter =product[4].number}
   else{zoneCounter = 0 }
 
 
-  console.log(typeof(change))
 
       return(
         <>
@@ -131,6 +148,8 @@ const previousPageHandler = () => {
         {/*loading ? <Loader/>:error ?<Message variant='danger'>{error}</Message>:*/(
           <>
           <Meta title={"FLACS PARKING SYSTEM"}/>
+
+          {occupiedSpace===-1 &&<center className='messageSpacing'> <p className='driversEntryPermit ' >ALL PARKING SLOTS FOR {driverInfo.truckCategory} ARE EMPTY, PLEASE WAIT UNTIL SOMEONE ENTERS AND IS READY TO LEAVE. </p></center>}
           <Row className= "ticketBorder" >
             <Col>
           <Row><p className='apapa'>LILYPOND</p></Row> 
@@ -143,13 +162,13 @@ const previousPageHandler = () => {
 
             <Col>
             <Row>
-           <Image className="truckImage" src={userInfo && userInfo.truckCategory === "FLAT BED APMT"?flatbedAPMTImage:(userInfo && userInfo.truckCategory === "FLAT BED ENL/EKO"?flatbedENLImage:(userInfo && userInfo.truckCategory === "EXPORT"?exportImage:(invalidTicket)))} alt={"truck image"} fluid>
+           <Image className="truckImage" src={driverInfo && driverInfo.truckCategory === "FLAT BED APMT"?flatbedAPMTImage:(driverInfo && driverInfo.truckCategory === "FLAT BED ENL/EKO"?flatbedENLImage:(driverInfo && driverInfo.truckCategory === "EXPORT"?exportImage:(invalidTicket)))} alt={"truck image"} fluid>
            </Image>
            </Row>
             </Col> 
             
             <Col>
-            <p className="centreAttempt">TRUCK CATEGORY:</p><p className="centreAttempt slightlyLesserAppFont">{userInfo?userInfo.truckCategory:'N/A'}</p> 
+            <p className="centreAttempt">TRUCK CATEGORY:</p><p className="centreAttempt slightlyLesserAppFont">{driverInfo?driverInfo.truckCategory:'N/A'}</p> 
             </Col> 
             </Row>
             </Col>
@@ -208,7 +227,7 @@ const previousPageHandler = () => {
                  <Row className="appFont">
                    <Col>BOOKING NUMBER:</Col>
                    <Col>
-                   <h2 className="appFont">{userInfo?userInfo.bookingNumber:'N/A'}</h2>
+                   <h2 className="appFont">{driverInfo?driverInfo.bookingNumber:'N/A'}</h2>
                    </Col>
                  </Row>
                </ListGroup.Item>
@@ -219,7 +238,7 @@ const previousPageHandler = () => {
                  <Row className="appFont">
                    <Col>TRUCK NUMBER:</Col>
                    <Col>
-                   <h2 className="appFont">{userInfo?userInfo.truckNumber:'N/A'}</h2>
+                   <h2 className="appFont">{driverInfo?driverInfo.truckNumber:'N/A'}</h2>
                    </Col>
                  </Row>
                </ListGroup.Item>
@@ -228,7 +247,7 @@ const previousPageHandler = () => {
                  <Row className="appFont">
                    <Col>CONTAINER NUMBER:</Col>
                    <Col>
-                   <h2 className="appFont">{userInfo?userInfo.containerNumber:'N/A'} </h2>
+                   <h2 className="appFont">{driverInfo?driverInfo.containerNumber:'N/A'} </h2>
                    </Col>
                  </Row>
                </ListGroup.Item>
@@ -246,7 +265,7 @@ const previousPageHandler = () => {
                  <Row className="appFont">
                    <Col> TIME:</Col>
                    <Col>
-                    <strong className="appFont">{showTime()}</strong>
+                    <strong className="appFont">{occupiedSpace=== -1 ?'--':showTime()}</strong>
                    </Col>
                  </Row>
                </ListGroup.Item>
@@ -256,7 +275,7 @@ const previousPageHandler = () => {
                    <Col> DATE:</Col>
                    <Col>
                     {/*<strong>{product.countInStock > 4 ?'In Stock':product.countInStock <= 3 ?'Few Left !!':product.countInStock === 0 ? 'Out of Stock':'Currently being restocked' //this currenty being restocked is not the right thing, you just put it there as filler, till the need comes to fix it }</strong>*/}
-                     <strong className="appFont">{date.toLocaleDateString()}</strong>
+                     <strong className="appFont">{occupiedSpace=== -1 ?'--':date.toLocaleDateString()}</strong>
                    </Col>
                  </Row>
                </ListGroup.Item>
@@ -291,7 +310,7 @@ const previousPageHandler = () => {
            </Row>
 
           </Row>
-             { buttonVis && <center>
+             { occupiedSpace !== -1 && <center>
           <Button onClick={updateAndPrintHandler} className='btn-block printFont printButtonTop' type='button' >
                  <i className='fas fa-print'></i> Print
                  </Button>
@@ -299,13 +318,13 @@ const previousPageHandler = () => {
 
                  
 
-               { buttonVis &&   <center>
+               { /*   <center>
                  
           <Button  onClick={previousPageHandler} className='btn-block printFont printButton' type='button' >
                  <i className='fas fa-arrow-left'></i> Go Back
                  </Button>
                  
-                 </center> }
+               </center> */}
           </>
         )}
 

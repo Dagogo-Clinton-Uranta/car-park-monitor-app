@@ -45,11 +45,11 @@ const App = () => {
     < Route path= '/communications' component={CommunicationScreen} />*/}
        
         < Route path='/'exact component={ProductScreen}/> 
-        < Route path='/print/:id' component={PrintingScreen}/> 
+        < Route path='/printenter' component={PrintingScreen}/> 
         < Route path='/parklogs' exact component={OrderListScreen}/>
         < Route path='/parklog/:id' component={TruckParkDetailsScreen}/>
         < Route path='/exit'exact component={ExitScreen}/> 
-        < Route path='/exit/:id' component={ExitPrintScreen}/> 
+        < Route path='/printexit' component={ExitPrintScreen}/> 
         {/*< Route path='/cart/:id?' component={CartScreen}/>
         < Route path='/admin/userlist' component={UserListScreen}/>
         < Route path='/admin/user/:id/communications' component={AdminComScreen}/>

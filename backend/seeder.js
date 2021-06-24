@@ -11,11 +11,15 @@ import orders from './data/orders.js'
 import users from './data/users.js'
 //const users =require('./data/users.js')
 
+import freshExits from './data/freshExits.js'
+
 import products from './data/products.js'
 //const products =require('./data/products.js')
 
 import User from './models/userModel.js'
 //onst User =require('./models/userModel.js')
+
+import FreshExit from './models/freshExitModel.js'
 
 import Product from './models/productModel.js'
 //const Product =require('./models/productModel.js')
@@ -36,18 +40,23 @@ connectDB()
 const importData = async()=> {
 
   try{
-      await Order.deleteMany()
+     /* await Order.deleteMany()
       await Product.deleteMany()
-      await User.deleteMany()
+      await User.deleteMany()*/
+      await FreshExit.deleteMany()
 
-    /*const createdUsers= */ await User.insertMany(users)
-    /*const adminUser = createdUsers[0]._id*/
+    /*const createdUsers= */
+     /*await User.insertMany(users)*/
+    /*await Product.insertMany(products)*/
+       /*await Order.insertMany(orders)*/
+       await FreshExit.insertMany(freshExits)
 
+    
+       /*const adminUser = createdUsers[0]._id*/
     /*const sampleProducts = products.map((product)=>{
        return {...product, user:adminUser}
     })*/
-       await Product.insertMany(products)
-       await Order.insertMany(orders)
+       
        
        console.log('Data Imported'.green.inverse)
        process.exit() /*what is this process.exit?*/

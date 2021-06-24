@@ -65,7 +65,7 @@ const ProductScreen = ({history,match}) => {
  const fetchDetailsHandler = (e) => {
   
   /*dispatch(login(bookingNo))*/
-   dispatch(login(email.bookingNo))
+   /*dispatch(login(email.bookingNo))*/
 
 }
 

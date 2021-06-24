@@ -1,7 +1,7 @@
 import express from 'express'
 //const express = require('express')
 
-import {authUser,presentClientMessage,presentAdminMessage, getUserProfile, registerUser,updateUserProfile,getUsers, deleteUser,getUserById, updateUser,verifyUser} from '../controllers/userControllers.js'
+import {authUser,presentClientMessage,presentAdminMessage, getUserProfile, registerUser,updateUserProfile,getUsers, deleteUser,getUserById, updateUser,verifyUser/*,entryPopulateTicket*/,exitPopulateTicket,entryTicketRequest/*,exitTicketRequest*/} from '../controllers/userControllers.js'
 //const {authUser, getUserProfile, registerUser,updateUserProfile,getUsers, deleteUser,getUserById, updateUser} =require('../controllers/userControllers.js')
 
 import {protect,admin} from '../Middleware/authMiddleware.js'
@@ -14,7 +14,11 @@ const router = express.Router()
 //@Public access
 //@this is good commenting syntax,leting others know the routes
 router.route('/').post(registerUser).get(protect,admin,getUsers)
-router.route('/login').post(authUser)
+router.route('/parkenter').post(entryTicketRequest) 
+router.route('/login').get(authUser)
+/*login(authUser) is currently populating the ticket, but i want it to be entryPopulateTicket that does it */
+/*router.route('/parkexit').post(exitTicketRequest)*/
+router.route('/populateexit').get(exitPopulateTicket)
 router.route('/clientMessage').patch(presentClientMessage)
 router.route('/adminMessage').patch(protect,admin,presentAdminMessage)
 router.route('/verify').post(verifyUser)

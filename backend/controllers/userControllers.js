@@ -1,5 +1,6 @@
 import User from '../models/userModel.js'
-//const User = require('../models/userModel.js')
+
+import FreshExit from '../models/freshExitModel.js'
 
 import Product from '../models/productModel.js' /*you're not supposed to do this usually */
 import asyncHandler from 'express-async-handler'
@@ -24,23 +25,23 @@ import mongoose from 'mongoose'
 
 dotenv.config()
 
-//@desc  Auth user & get a token
+//@desc  Populate the ticket when a user wants one
 //@route POST /api/users/login
 //@access Public
 const authUser = asyncHandler(async (req, res) => {
   res.header("Access-Control-Allow-Origin","*")
-  const { email } = req.body
+  /*const { email } = req.body*/
   //req.body will give us the object thats sent in the body of our front end/POSTMAN JSON, take note
   //res.send accepts an object i think and not just variables, take note...hese are part of the things that you have to research on yor own
 
-  const user = await User.findOne({ bookingNumber: email })
+  const user = await User.find({ })
   if (user) {
     res.json({
-      _id: user._id,
-      bookingNumber: user.bookingNumber,
-      truckNumber: user.truckNumber,
-      containerNumber: user.containerNumber,
-      truckCategory: user.truckCategory,
+      _id: user[0]._id,
+      bookingNumber: user[0].bookingNumber,
+      truckNumber: user[0].truckNumber,
+      containerNumber: user[0].containerNumber,
+      truckCategory: user[0].truckCategory,
       /*isAdmin: user.isAdmin,
       isMerchant: user.isMerchant,
       token: generateToken(user._id)*/
@@ -48,12 +49,81 @@ const authUser = asyncHandler(async (req, res) => {
 
     })
   } else {
-    res.status(404) //this means not found
+    res.send(404) //this means not found
+    throw new Error('Unable to populate ENTRY ticket')
+  }
+
+
+})
+
+
+const exitPopulateTicket = asyncHandler(async (req, res) => {
+  res.header("Access-Control-Allow-Origin","*")
+  /*const { email } = req.body*/
+  //req.body will give us the object thats sent in the body of our front end/POSTMAN JSON, take note
+  //res.send accepts an object i think and not just variables, take note...hese are part of the things that you have to research on yor own
+
+  const newExit = await FreshExit.find({ })
+  if (newExit) {
+    res.json({
+      _id: newExit[0]._id,
+      bookingNumber: newExit[0].bookingNumber,
+      truckNumber: newExit[0].truckNumber,
+      containerNumber: newExit[0].containerNumber,
+      truckCategory: newExit[0].truckCategory,
+      /*isAdmin: user.isAdmin,
+      isMerchant: user.isMerchant,
+      token: generateToken(user._id)*/
+
+
+    })
+  } else {
+    res.send(404) //this means not found
+    throw new Error('Unable to populate EXIT ticket')
+  }
+
+
+})
+
+
+//@desc  Recieve truck details
+//@route POST /api/users/parkenter
+//@access Public
+const entryTicketRequest = asyncHandler(async (req, res) => {
+  res.header("Access-Control-Allow-Origin","*")
+  const { email } = req.body
+  //req.body will give us the object thats sent in the body of our front end/POSTMAN JSON, take note
+  //res.send accepts an object i think and not just variables, take note...hese are part of the things that you have to research on yor own
+   User.deleteMany()
+  const user = await User.save(email)
+  const product = Product.find({})
+
+  let spaceAvailability 
+  if(user && user.truckCategory === 'EXPORT' && product && product[5].number === 52 && product[6].number === 50 && product[7].number === 51 && product[8].number === 95 ){spaceAvailability = 'No spaces available for this category of truck(EXPORT)'}
+  else if(user && user.truckCategory === "FLAT BED ENL/EKO" && product && product[0].number === 37 && product[1].number === 46 ){spaceAvailability = 'No spaces available for this category of truck(FLAT BED ENL/EKO)'}
+  else if(userInfo && userInfo.truckCategory === "FLAT BED APMT" && product && product[2].number === 78 && product[3].number === 30 && product[4].number === 71){spaceAvailability = 'No spaces available for this category of truck(FLATBED APMT)'}
+  else{spaceAvailability = 'Spaces Available'}
+
+  if (user) {
+    res.json({
+      URL: `https://www.flacscarpark.herokuapp.com/printenter`,
+      Availability:spaceAvailability
+      /*_id: user._id,
+      truckNumber: user.truckNumber,
+      containerNumber: user.containerNumber,
+      truckCategory: user.truckCategory,*/
+     
+
+
+    })
+  } else {
+    res.send(404) //this means not found
     throw new Error('booking number not recognized')
   }
 
 
 })
+
 
 //@desc Set the message that the user wants to convey to the admin
 //@route PATCH /api/users/clientMessage
@@ -426,7 +496,7 @@ const updateUser = asyncHandler(async (req, res) => {
 
 export {
   authUser, presentClientMessage, presentAdminMessage, getUserProfile, registerUser,
-  updateUserProfile, getUsers, deleteUser, getUserById, updateUser,verifyUser
+  updateUserProfile, getUsers, deleteUser, getUserById, updateUser,verifyUser,entryTicketRequest,exitPopulateTicket
 }
 
 //exports.authUser =authUser

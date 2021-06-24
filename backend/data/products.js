@@ -27,22 +27,22 @@ const products = [
   {
     
     tagCounter: 'F',
-    number: 0
+    number: 52
   },
   {
     
     tagCounter: 'G',
-    number: 0
+    number: 50
   },
   {
     
     tagCounter: 'H',
-    number: 0
+    number: 51
   },
   {
     
     tagCounter: 'R',
-    number: 0
+    number: 95
   }
 ]
 
