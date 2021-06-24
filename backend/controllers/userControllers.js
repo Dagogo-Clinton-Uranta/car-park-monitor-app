@@ -97,7 +97,11 @@ const entryTicketRequest = asyncHandler(async (req, res) => {
   //req.body will give us the object thats sent in the body of our front end/POSTMAN JSON, take note
   //res.send accepts an object i think and not just variables, take note...hese are part of the things that you have to research on yor own
    User.deleteMany()
-  const user = await User.save(req.body)
+  const user = await User.create({bookingNumber:req.body.bookingNumber,
+    truckNumber: req.body.truckNumber,
+    containerNumber: req.body.containerNumber,
+    truckCategory: req.body.truckCategory })
+    
   const product = Product.find({})
 
   let spaceAvailability 
