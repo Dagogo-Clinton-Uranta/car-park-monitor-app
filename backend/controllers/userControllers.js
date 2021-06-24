@@ -93,11 +93,11 @@ const exitPopulateTicket = asyncHandler(async (req, res) => {
 const entryTicketRequest = asyncHandler(async (req, res) => {
   res.header("Access-Control-Allow-Origin","*")
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-  const { email } = req.body
+  /*const { email } = req.body*/
   //req.body will give us the object thats sent in the body of our front end/POSTMAN JSON, take note
   //res.send accepts an object i think and not just variables, take note...hese are part of the things that you have to research on yor own
    User.deleteMany()
-  const user = await User.save(email)
+  const user = await User.save(req.body)
   const product = Product.find({})
 
   let spaceAvailability 
