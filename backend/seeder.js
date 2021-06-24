@@ -40,16 +40,16 @@ connectDB()
 const importData = async()=> {
 
   try{
-     /* await Order.deleteMany()
+     // await Order.deleteMany()
       await Product.deleteMany()
-      await User.deleteMany()*/
-      await FreshExit.deleteMany()
+     // await User.deleteMany()
+      /*await FreshExit.deleteMany()*/
 
     /*const createdUsers= */
      /*await User.insertMany(users)*/
-    /*await Product.insertMany(products)*/
+    await Product.insertMany(products)
        /*await Order.insertMany(orders)*/
-       await FreshExit.insertMany(freshExits)
+       /*await FreshExit.insertMany(freshExits)*/
 
     
        /*const adminUser = createdUsers[0]._id*/

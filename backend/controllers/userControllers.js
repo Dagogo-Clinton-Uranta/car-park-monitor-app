@@ -90,7 +90,7 @@ const exitPopulateTicket = asyncHandler(async (req, res) => {
 //@route POST /api/users/parkenter
 //@access Public
 const entryTicketRequest = asyncHandler(async (req, res) => {
-  res.header("Access-Control-Allow-Origin","*")
+  /*res.header("Access-Control-Allow-Origin","*")*/
   const { email } = req.body
   //req.body will give us the object thats sent in the body of our front end/POSTMAN JSON, take note
   //res.send accepts an object i think and not just variables, take note...hese are part of the things that you have to research on yor own
