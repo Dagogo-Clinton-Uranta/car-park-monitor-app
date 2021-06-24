@@ -17,6 +17,9 @@ import {USER_LOGIN_REQUEST,
         USER_REGISTER_REQUEST,
         USER_REGISTER_SUCCESS,
         USER_REGISTER_FAILURE,
+        USER_PARK_ENTER_REQUEST,
+        USER_PARK_ENTER_SUCCESS,
+        USER_PARK_ENTER_FAILURE,
         USER_DETAILS_REQUEST,
         USER_DETAILS_SUCCESS,
         USER_DETAILS_FAILURE,
@@ -122,6 +125,19 @@ export const  userRegisterReducer = (state={},action) => {
   }
 }
 
+export const  userDirectionReducer = (state={},action) => {
+  switch(action.type){
+    case USER_PARK_ENTER_REQUEST : return {loading:true}
+
+    case USER_PARK_ENTER_SUCCESS: return{ loading:false, ticketInfo:action.payload}
+
+    case USER_PARK_ENTER_FAILURE: return{ loading:false, error:action.payload}
+
+
+    default: return state
+
+  }
+}
 
 
 export const  userDetailsReducer = (state={ user :{}},action) => {

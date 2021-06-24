@@ -92,33 +92,33 @@ const exitPopulateTicket = asyncHandler(async (req, res) => {
 //@access Public
 const entryTicketRequest = asyncHandler(async (req, res) => {
   res.header("Access-Control-Allow-Origin","*")
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  
   /*const { email } = req.body*/
   //req.body will give us the object thats sent in the body of our front end/POSTMAN JSON, take note
   //res.send accepts an object i think and not just variables, take note...hese are part of the things that you have to research on yor own
-   User.deleteMany()
-  const user = await User.create({bookingNumber:req.body.bookingNumber,
+   await User.deleteMany()
+  await User.create({bookingNumber:req.body.bookingNumber,
     truckNumber: req.body.truckNumber,
     containerNumber: req.body.containerNumber,
     truckCategory: req.body.truckCategory })
-    
-  const product = Product.find({})
 
-  let spaceAvailability 
-  if(user && user.truckCategory === 'EXPORT' && product && product[5].number === 52 && product[6].number === 50 && product[7].number === 51 && product[8].number === 95 ){spaceAvailability = 'No spaces available for this category of truck(EXPORT)'}
-  else if(user && user.truckCategory === "FLAT BED ENL/EKO" && product && product[0].number === 37 && product[1].number === 46 ){spaceAvailability = 'No spaces available for this category of truck(FLAT BED ENL/EKO)'}
-  else if(userInfo && userInfo.truckCategory === "FLAT BED APMT" && product && product[2].number === 78 && product[3].number === 30 && product[4].number === 71){spaceAvailability = 'No spaces available for this category of truck(FLATBED APMT)'}
+    const user = await User.findOne({bookingNumber:req.body.bookingNumber})
+    /*console.log(user)*/
+
+  const product = await Product.find({})
+  console.log(product)
+    
+  let spaceAvailability = 1
+  
+  if(user.truckCategory === 'EXPORT'  && product[5].number === 52 && product[6].number === 50 && product[7].number === 51 && product[8].number === 95 ){spaceAvailability = 'No spaces available for this category of truck(EXPORT)'}
+  else if( user.truckCategory === "FLAT BED ENL/EKO"  && product[0].number === 37 && product[1].number === 46 ){spaceAvailability = 'No spaces available for this category of truck(FLAT BED ENL/EKO)'}
+  else if(user && user.truckCategory === "FLAT BED APMT" && product[2].number === 78 && product[3].number === 30 && product[4].number === 71){spaceAvailability = 'No spaces available for this category of truck(FLATBED APMT)'}
   else{spaceAvailability = 'Spaces Available'}
 
   if (user) {
     res.json({
-      URL: `https://www.flacscarpark.herokuapp.com/printenter`,
+      URL: `https://flacscarpark.herokuapp.com/printenter`,
       Availability:spaceAvailability
-      /*_id: user._id,
-      truckNumber: user.truckNumber,
-      containerNumber: user.containerNumber,
-      truckCategory: user.truckCategory,*/
-     
 
 
     })

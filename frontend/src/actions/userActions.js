@@ -8,6 +8,9 @@
          RELEASE_DRIVER_SUCCESS,
          RELEASE_DRIVER_FAILURE,
          USER_SEND_REQUEST,
+         USER_PARK_ENTER_REQUEST,
+         USER_PARK_ENTER_SUCCESS,
+         USER_PARK_ENTER_FAILURE,
          USER_SEND_SUCCESS,
          USER_SEND_FAILURE,
          ADMIN_SEND_REQUEST,
@@ -221,7 +224,33 @@ export const register = (zoneArea,zoneCounter,change) => async(dispatch)=> {
 }
 
 
+export const createTicket = (object) => async(dispatch)=> {
+  //redux thunk was used just now in the form of async (dispatch) above
+ try {
+   dispatch({type: USER_PARK_ENTER_REQUEST})
 
+   //we do config cus we wanna send the headers a content type of application/json
+   const config = {
+     headers:{
+       'Content-Type':'application/json'
+     }
+   }
+   const {data} = await axios.post('/api/users/parkenter',object,config)
+   //i'm gonna take a stab here and say that the third argument for axios is for setting header property
+
+   dispatch({
+             type: USER_PARK_ENTER_SUCCESS,
+             payload:data})
+
+
+
+ }
+  catch(error){
+    dispatch({type:USER_PARK_ENTER_FAILURE,
+              payload: error.response && error.response.data.message?
+               error.response.data.message:error.message })
+  }
+}
 
 
 export const getUserDetails = (id) => async (dispatch,getState) => {

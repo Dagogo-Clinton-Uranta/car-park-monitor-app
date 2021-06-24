@@ -3,7 +3,7 @@ import thunk from 'redux-thunk'
 import {composeWithDevTools} from 'redux-devtools-extension'
 import {productListReducer,productListByMerchantReducer, productDetailsReducer, productDeleteReducer,productCreateReducer,productUpdateReducer, productCreateReviewReducer,productTopRatedReducer} from './reducers/productReducers.js'
 import {cartReducer} from './reducers/cartReducers.js'
-import {userLoginReducer, releaseDriverReducer, userSendReducer,adminSendReducer, userVerifyReducer, userUnRegisterReducer,userRegisterReducer, userDetailsReducer, userProfileUpdateReducer,userListReducer,userDeleteReducer,userUpdateReducer} from './reducers/userReducers.js'
+import {userLoginReducer, releaseDriverReducer, userSendReducer,adminSendReducer, userVerifyReducer, userDirectionReducer,userRegisterReducer, userDetailsReducer, userProfileUpdateReducer,userListReducer,userDeleteReducer,userUpdateReducer} from './reducers/userReducers.js'
 import {orderCreateReducer, orderDetailsReducer, orderPayReducer,orderDeliverReducer, orderListMyReducer,orderListReducer,orderApproveReducer } from './reducers/orderReducers.js'
 
 const reducer = combineReducers({
@@ -22,6 +22,7 @@ const reducer = combineReducers({
   adminSend:adminSendReducer,
   userVerify:userVerifyReducer,
   userRegister:userRegisterReducer,
+  userDirection:userDirectionReducer,
   userDetails:userDetailsReducer,
   userProfileUpdate:userProfileUpdateReducer,
   userList:userListReducer,

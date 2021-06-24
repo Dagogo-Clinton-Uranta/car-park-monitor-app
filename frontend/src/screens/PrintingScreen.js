@@ -33,6 +33,7 @@ const PrintingScreen = ({history,match}) => {
   const productCreateReview = useSelector(state => state.productCreateReview)
   const {success:successProductReview, error:errorProductReview} = productCreateReview
   
+  
 
   const userLogin = useSelector(state => state.userLogin)
   const {userInfo} = userLogin
@@ -47,6 +48,7 @@ const PrintingScreen = ({history,match}) => {
  },[dispatch])
 
  console.log(`${showTime()}`)
+
 
 const updateAndPrintHandler = () => {
   dispatch(register(zoneArea,zoneCounter,change))

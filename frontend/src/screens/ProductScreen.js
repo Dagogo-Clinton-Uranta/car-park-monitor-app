@@ -5,7 +5,7 @@ import Rating from '../components/Rating'
 import Message from '../components/Message'
 import Loader from '../components/Loader'
 import Meta from '../components/Meta'
-import {login} from '../actions/userActions.js'
+import {login,createTicket} from '../actions/userActions.js'
 import {useDispatch, useSelector} from 'react-redux'
 import {listProductDetails,createProductReview} from '../actions/productActions.js'
 import {PRODUCT_CREATE_REVIEW_RESET} from '../constants/productConstants.js'
@@ -27,7 +27,10 @@ const ProductScreen = ({history,match}) => {
 
   const userLogin = useSelector(state => state.userLogin)
   const {userInfo} = userLogin
-    
+   
+  const userDirection = useSelector(state => state.userDirection)
+  const {ticketInfo} = userDirection
+
   
   const [email, setEmail] = useState({bookingNo:''})
   const [bookingNo,setBookingNo] = useState('')
@@ -36,7 +39,7 @@ const ProductScreen = ({history,match}) => {
   let zoneArea
   
   console.log(email.bookingNo)
-  
+  console.log(userDirection)
   
  useEffect(()=>{
   dispatch(listProductDetails())
@@ -69,7 +72,14 @@ const ProductScreen = ({history,match}) => {
 
 }
 
+const object = {bookingNumber:"3000",
+truckNumber:"iughinsiog",
+containerNumber:"85789234579",
+ truckCategory:"FLAT BED APMT"}
 
+const createTicketHandler= (e) => {
+  dispatch(createTicket(object))
+}
 
 
 /*const addToCartHandler = () => {
@@ -271,11 +281,11 @@ const previousPageHandler = () => {
              )}
 
                <ListGroup.Item>
-               <Link to={`/print/${bookingNo}`}>
-                 <Button  className='btn-block printFont' type='button' >
+              
+                 <Button onClick={createTicketHandler}  className='btn-block printFont' type='button' >
                  <i className='fas fa-print'></i> Generate Ticket
                  </Button>
-                 </Link>
+                 
 
                </ListGroup.Item>
 
