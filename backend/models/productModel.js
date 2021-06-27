@@ -2,26 +2,27 @@ import mongoose from 'mongoose'
 //const mongoose= require('mongoose')
 
 const Schema = mongoose.Schema
-/*const reviewSchema = mongoose.Schema({
-  name:{type: String ,required:true},
-  rating:{type: Number ,required:true},
-  comment:{type: String ,required:true},
-  user:{type:mongoose.Schema.Types.ObjectId,required:true, ref:'User'}
-}, {timestamps:true})*/
+
+const parkedTruckSchema = mongoose.Schema({
+  bookingNumber:{type: String },
+  truckCategory:{type: String },
+  containerNumber:{type: String },
+  truckNumber:{type: String },
+  entryTime:{type: String },
+  exitDate:{type: String },
+  exitTime:{type: String },
+  entryDate:{type: String },
+  parkZone:{type: String },
+  tagNumber:{type: String}
+}, {timestamps:false})
 
 const productSchema =  mongoose.Schema({
   tagCounter: {type:String ,required:true},
-  number: {type:Number ,required:true} 
-  /*tagCounterC: [{type:String ,required:true}] ,
-    tagCounterD: [{type:String ,required:true}] ,
-    tagCounterE: [{type:String ,required:true}],
-    tagCounterF: [{type:String ,required:true}] ,
-    tagCounterG: [{type:String ,required:true}] , 
-    tagCounterH: [{type:String ,required:true}] ,
-    tagCounterR: [{type:String ,required:true}] */
-        
+  parkedTrucks: [parkedTruckSchema], 
+  occupiedSpaces: {type:Number ,required:true, default:0}, 
+  currentFreeSpace: {type:Number ,required:true, default:1}   
 
-},{timestamps:false /*you want a createdAt? you add timestamps:true*/})
+},{timestamps:false })
 
 
 const Product = mongoose.model('Product',productSchema)

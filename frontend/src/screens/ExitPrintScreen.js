@@ -15,7 +15,7 @@ import {login,driverDetails} from '../actions/userActions.js'
 import {listProductDetails,createProductReview} from '../actions/productActions.js'
 import {PRODUCT_CREATE_REVIEW_RESET} from '../constants/productConstants.js'
 import {register} from '../actions/userActions.js'
-import {createOrder} from '../actions/orderActions.js'
+import {createOrder, sendRecords} from '../actions/orderActions.js'
 
 const PrintingScreen = ({history,match}) => {
       /*cuz we need a single product from the array of products,and we gotta do it PER PAGE, we use.find method
@@ -24,21 +24,21 @@ const PrintingScreen = ({history,match}) => {
    const [rating ,setRating] = useState(0)
    const [comment ,setComment] = useState('')
    const [buttonVis ,setButtonVis] = useState(true)
+   const [allowPrint, setAllowPrint] = useState(true)
 
   const dispatch = useDispatch()
   
   const productDetails = useSelector(state => state.productDetails)
   const {product,loading, error} = productDetails
 
-  const productCreateReview = useSelector(state => state.productCreateReview)
-  const {success:successProductReview, error:errorProductReview} = productCreateReview
-  
-
+  const updateRecords = useSelector(state => state.updateRecords)
+  const {order,loading:loadingRecords, error:errorRecords} = updateRecords
   
 
   const releaseDriver = useSelector(state => state.releaseDriver)
   const {driverInfo} = releaseDriver
   
+  console.log(driverInfo)
  useEffect(()=>{
   /*dispatch(login())*/
   dispatch(driverDetails()) 
@@ -50,20 +50,23 @@ const PrintingScreen = ({history,match}) => {
 
 
 const updateAndPrintHandler = () => {
-  dispatch(register(zoneArea,zoneCounter,change))
-  /*dispatch(unregister(zoneArea,zoneCounter))*/
-  /*dispatch(createOrder({
+ /*dispatch(register(zoneArea,zoneCounter,change))*/
+  
+  dispatch(sendRecords({
     bookingNumber:driverInfo.bookingNumber,
     truckCategory:driverInfo.truckCategory,
     containerNumber:driverInfo.containerNumber,
     truckNumber:driverInfo.truckNumber,
-    entryTime:`${showTime()}`,
-    entryDate:`${date.toLocaleDateString()}`,
-    parkZone:zoneArea,
-    tagNumber:`${zoneCounter}`
+    entryTime:driverInfo.entryTime,
+    entryDate:driverInfo.entryDate,
+    exitTime:`${showTime()}`,
+    exitDate:`${date.toLocaleDateString()}`,
+    parkZone:driverInfo.parkZone,
+    tagNumber:driverInfo.tagNumber
     
-  }))*/
+  }))
   window.print()
+  window.location.reload()
 }
   
 const previousPageHandler = () => {
@@ -72,7 +75,7 @@ const previousPageHandler = () => {
 }
 
 
-
+console.log(driverInfo)
 
  
   let date = new Date()
@@ -110,42 +113,45 @@ const previousPageHandler = () => {
   let zoneCounter  
   let occupiedSpace
 
-   if(driverInfo && driverInfo.truckCategory === 'EXPORT' && product && product[5].number === 0 && product[6].number === 0 && product[7].number === 0 && product[8].number === 0 ){zoneArea = 'X'}
-  else if(driverInfo && driverInfo.truckCategory === "EXPORT" && product  && product[5].number < 52 ){ zoneArea = 'F'}
-  else if(driverInfo && driverInfo.truckCategory === 'EXPORT' && product && product[5].number === 52 && product[6].number < 50 ){zoneArea = 'G'}
-  else if(driverInfo && driverInfo.truckCategory === 'EXPORT' && product && product[6].number === 50 && product[7].number < 51 ){zoneArea = 'H'}
-  else if(driverInfo && driverInfo.truckCategory === 'EXPORT' && product && product[7].number === 51 && product[8].number < 95 ){zoneArea = 'R'}
-  else if(driverInfo && driverInfo.truckCategory === "FLAT BED ENL/EKO" && product && product[0].number === 0 && product[1].number === 0 ){zoneArea = 'X'}
-  else if(driverInfo && driverInfo.truckCategory === "FLAT BED ENL/EKO" && product  && product[0].number < 37 ){zoneArea = 'A'}
-  else if(driverInfo && driverInfo.truckCategory === "FLAT BED ENL/EKO" && product  && product[0].number === 37 && product[1].number < 46 ){zoneArea = 'B'}
-  else if(driverInfo && driverInfo.truckCategory === "FLAT BED APMT" && product && product[2].number === 0 && product[3].number === 0 && product[4].number === 0){zoneArea = 'X'}
-  else if(driverInfo && driverInfo.truckCategory === "FLAT BED APMT" && product  && product[2].number < 78 ){zoneArea = 'C'}
-  else if(driverInfo && driverInfo.truckCategory === "FLAT BED APMT" && product  && product[2].number === 78 && product[3].number < 30 ){zoneArea = 'D'}
-  else if(driverInfo && driverInfo.truckCategory === "FLAT BED APMT" && product  && product[3].number === 30 && product[4].number < 71 ){zoneArea = 'E' }
+    /*in the code below, you gotta MAKE parkedTrucks.filter((e)=>{e !=={}}).length  INTO A SIMPLE VARIABLE */
+
+
+  /* if(driverInfo && driverInfo.truckCategory === 'EXPORT' && product && product[5].parkedTrucks.filter((e)=>{e !=={}}).length === 0 && product[6].parkedTrucks.filter((e)=>{e !=={}}).length === 0 && product[7].parkedTrucks.filter((e)=>{e !=={}}).length === 0 && product[8].parkedTrucks.filter((e)=>{e !=={}}).length === 0 ){zoneArea = 'X'}
+  else if(driverInfo && driverInfo.truckCategory === "EXPORT" && product  && product[5].parkedTrucks.filter((e)=>{e !=={}}).length < 52 ){ zoneArea = 'F'}
+  else if(driverInfo && driverInfo.truckCategory === 'EXPORT' && product && product[5].parkedTrucks.filter((e)=>{e !=={}}).length === 52 && product[6].parkedTrucks.filter((e)=>{e !=={}}).length < 50 ){zoneArea = 'G'}
+  else if(driverInfo && driverInfo.truckCategory === 'EXPORT' && product && product[6].parkedTrucks.filter((e)=>{e !=={}}).length === 50 && product[7].parkedTrucks.filter((e)=>{e !=={}}).length < 51 ){zoneArea = 'H'}
+  else if(driverInfo && driverInfo.truckCategory === 'EXPORT' && product && product[7].parkedTrucks.filter((e)=>{e !=={}}).length === 51 && product[8].parkedTrucks.filter((e)=>{e !=={}}).length < 95 ){zoneArea = 'R'}
+  else if(driverInfo && driverInfo.truckCategory === "FLAT BED ENL/EKO" && product && product[0].parkedTrucks.filter((e)=>{e !=={}}).length === 0 && product[1].parkedTrucks.filter((e)=>{e !=={}}).length === 0 ){zoneArea = 'X'}
+  else if(driverInfo && driverInfo.truckCategory === "FLAT BED ENL/EKO" && product  && product[0].parkedTrucks.filter((e)=>{e !=={}}).length < 37 ){zoneArea = 'A'}
+  else if(driverInfo && driverInfo.truckCategory === "FLAT BED ENL/EKO" && product  && product[0].parkedTrucks.filter((e)=>{e !=={}}).length === 37 && product[1].parkedTrucks.filter((e)=>{e !=={}}).length < 46 ){zoneArea = 'B'}
+  else if(driverInfo && driverInfo.truckCategory === "FLAT BED APMT" && product && product[2].parkedTrucks.filter((e)=>{e !=={}}).length === 0 && product[3].parkedTrucks.filter((e)=>{e !=={}}).length === 0 && product[4].parkedTrucks.filter((e)=>{e !=={}}).length === 0){zoneArea = 'X'}
+  else if(driverInfo && driverInfo.truckCategory === "FLAT BED APMT" && product  && product[2].parkedTrucks.filter((e)=>{e !=={}}).length < 78 ){zoneArea = 'C'}
+  else if(driverInfo && driverInfo.truckCategory === "FLAT BED APMT" && product  && product[2].parkedTrucks.filter((e)=>{e !=={}}).length === 78 && product[3].parkedTrucks.filter((e)=>{e !=={}}).length < 30 ){zoneArea = 'D'}
+  else if(driverInfo && driverInfo.truckCategory === "FLAT BED APMT" && product  && product[3].parkedTrucks.filter((e)=>{e !=={}}).length === 30 && product[4].parkedTrucks.filter((e)=>{e !=={}}).length < 71 ){zoneArea = 'E' }
   else{ zoneArea ='-'}
 
-  if(driverInfo && driverInfo.truckCategory === 'EXPORT' && product && product[5].number === 0 && product[6].number === 0 && product[7].number === 0 && product[8].number === 0 ){zoneCounter = occupiedSpace  = -1}
-  if(driverInfo && driverInfo.truckCategory === "EXPORT" && product  && product[5].number < 52 ){  zoneCounter = product[5].number}
-  else if(driverInfo && driverInfo.truckCategory === 'EXPORT' && product && product[5].number === 52 && product[6].number < 50 ){ zoneCounter =product[6].number}
-  else if(driverInfo && driverInfo.truckCategory === 'EXPORT' && product && product[6].number === 50 && product[7].number < 51 ){ zoneCounter =product[7].number}
-  else if(driverInfo && driverInfo.truckCategory === 'EXPORT' && product && product[7].number === 51 && product[8].number < 95 ){ zoneCounter =product[8].number}
+  if(driverInfo && driverInfo.truckCategory === 'EXPORT' && product && product[5].parkedTrucks.filter((e)=>{e !=={}}).length === 0 && product[6].parkedTrucks.filter((e)=>{e !=={}}).length === 0 && product[7].parkedTrucks.filter((e)=>{e !=={}}).length === 0 && product[8].parkedTrucks.filter((e)=>{e !=={}}).length === 0 ){zoneCounter = occupiedSpace  = -1}
+  if(driverInfo && driverInfo.truckCategory === "EXPORT" && product  && product[5].parkedTrucks.filter((e)=>{e !=={}}).length < 52 ){  zoneCounter = product[5].parkedTrucks.filter((e)=>{e !=={}}).length}
+  else if(driverInfo && driverInfo.truckCategory === 'EXPORT' && product && product[5].parkedTrucks.filter((e)=>{e !=={}}).length === 52 && product[6].parkedTrucks.filter((e)=>{e !=={}}).length < 50 ){ zoneCounter =product[6].parkedTrucks.filter((e)=>{e !=={}}).length}
+  else if(driverInfo && driverInfo.truckCategory === 'EXPORT' && product && product[6].parkedTrucks.filter((e)=>{e !=={}}).length === 50 && product[7].parkedTrucks.filter((e)=>{e !=={}}).length < 51 ){ zoneCounter =product[7].parkedTrucks.filter((e)=>{e !=={}}).length}
+  else if(driverInfo && driverInfo.truckCategory === 'EXPORT' && product && product[7].parkedTrucks.filter((e)=>{e !=={}}).length === 51 && product[8].parkedTrucks.filter((e)=>{e !=={}}).length < 95 ){ zoneCounter =product[8].parkedTrucks.filter((e)=>{e !=={}}).length}
   
-  else if(driverInfo && driverInfo.truckCategory === "FLAT BED ENL/EKO" && product && product[0].number === 0 && product[1].number === 0 ){zoneCounter= occupiedSpace = -1}
-  else if(driverInfo && driverInfo.truckCategory === "FLAT BED ENL/EKO" && product  && product[0].number < 37 ){ zoneCounter =product[0].number}
-  else if(driverInfo && driverInfo.truckCategory === "FLAT BED ENL/EKO" && product  && product[0].number === 37 && product[1].number < 46 ){ zoneCounter =product[1].number}
+  else if(driverInfo && driverInfo.truckCategory === "FLAT BED ENL/EKO" && product && product[0].parkedTrucks.filter((e)=>{e !=={}}).length === 0 && product[1].parkedTrucks.filter((e)=>{e !=={}}).length === 0 ){zoneCounter= occupiedSpace = -1}
+  else if(driverInfo && driverInfo.truckCategory === "FLAT BED ENL/EKO" && product  && product[0].parkedTrucks.filter((e)=>{e !=={}}).length < 37 ){ zoneCounter =product[0].parkedTrucks.filter((e)=>{e !=={}}).length}
+  else if(driverInfo && driverInfo.truckCategory === "FLAT BED ENL/EKO" && product  && product[0].parkedTrucks.filter((e)=>{e !=={}}).length === 37 && product[1].parkedTrucks.filter((e)=>{e !=={}}).length < 46 ){ zoneCounter =product[1].parkedTrucks.filter((e)=>{e !=={}}).length}
   
-  else if(driverInfo && driverInfo.truckCategory === "FLAT BED APMT" && product && product[2].number === 0 && product[3].number === 0 && product[4].number === 0){zoneCounter= occupiedSpace = -1}
-  else if(driverInfo && driverInfo.truckCategory === "FLAT BED APMT" && product  && product[2].number < 78 ){ zoneCounter =product[2].number}
-  else if(driverInfo && driverInfo.truckCategory === "FLAT BED APMT" && product  && product[2].number === 78 && product[3].number < 30 ){ zoneCounter =product[3].number}
-  else if(driverInfo && driverInfo.truckCategory === "FLAT BED APMT" && product  && product[3].number === 30 && product[4].number < 71 ){ zoneCounter =product[4].number}
-  else{zoneCounter = 0 }
+  else if(driverInfo && driverInfo.truckCategory === "FLAT BED APMT" && product && product[2].parkedTrucks.filter((e)=>{e !=={}}).length === 0 && product[3].parkedTrucks.filter((e)=>{e !=={}}).length === 0 && product[4].parkedTrucks.filter((e)=>{e !=={}}).length === 0){zoneCounter= occupiedSpace = -1}
+  else if(driverInfo && driverInfo.truckCategory === "FLAT BED APMT" && product  && product[2].parkedTrucks.filter((e)=>{e !=={}}).length < 78 ){ zoneCounter =product[2].parkedTrucks.filter((e)=>{e !=={}}).length}
+  else if(driverInfo && driverInfo.truckCategory === "FLAT BED APMT" && product  && product[2].parkedTrucks.filter((e)=>{e !=={}}).length === 78 && product[3].parkedTrucks.filter((e)=>{e !=={}}).length < 30 ){ zoneCounter =product[3].parkedTrucks.filter((e)=>{e !=={}}).length}
+  else if(driverInfo && driverInfo.truckCategory === "FLAT BED APMT" && product  && product[3].parkedTrucks.filter((e)=>{e !=={}}).length === 30 && product[4].parkedTrucks.filter((e)=>{e !=={}}).length < 71 ){ zoneCounter =product[4].parkedTrucks.filter((e)=>{e !=={}}).length}
+  else{zoneCounter = 0 }*/
 
 
 
       return(
         <>
        
-        {/*loading ? <Loader/>:error ?<Message variant='danger'>{error}</Message>:*/(
+        
           <>
           <Meta title={"FLACS PARKING SYSTEM"}/>
 
@@ -192,7 +198,8 @@ const previousPageHandler = () => {
                <ListGroup.Item>
                 <center>
                 <p className="bigNumber" >
-                 {zoneArea}
+                  
+                 {driverInfo?driverInfo.parkZone:'-'}
                  </p>
                  </center>
                </ListGroup.Item>
@@ -326,7 +333,7 @@ const previousPageHandler = () => {
                  
                </center> */}
           </>
-        )}
+       {order && <Message variant='danger'>{order.instruction}</Message>}
 
         </>
       )

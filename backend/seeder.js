@@ -43,11 +43,11 @@ const importData = async()=> {
      // await Order.deleteMany()
       await Product.deleteMany()
      // await User.deleteMany()
-      /*await FreshExit.deleteMany()*/
+      //await FreshExit.deleteMany()
 
     /*const createdUsers= */
      /*await User.insertMany(users)*/
-    await Product.insertMany(products)
+    await Product.insertMany(products())
        /*await Order.insertMany(orders)*/
        /*await FreshExit.insertMany(freshExits)*/
 

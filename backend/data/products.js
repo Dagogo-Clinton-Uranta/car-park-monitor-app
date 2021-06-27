@@ -1,49 +1,103 @@
-const products = [
+
+function products(){
+const F = 52
+const G = 50
+const H = 51
+const R = 95
+const A = 37
+const B = 46
+const C = 78
+const D = 30
+const E = 71
+
+let parkedTrucksF = []
+let parkedTrucksG = []
+let parkedTrucksH = []
+let parkedTrucksR = []
+let parkedTrucksA = []
+let parkedTrucksB = []
+let parkedTrucksC = []
+let parkedTrucksD = []
+let parkedTrucksE = []
+
+for(let i = 0 ; i < F; i++){parkedTrucksF.push({bookingNumber:'empty'}) }
+for(let i = 0 ; i < G; i++){parkedTrucksG.push({bookingNumber:'empty'}) }
+for(let i = 0 ; i < H; i++){parkedTrucksH.push({bookingNumber:'empty'}) }
+for(let i = 0 ; i < R; i++){parkedTrucksR.push({bookingNumber:'empty'}) }
+for(let i = 0 ; i < A; i++){parkedTrucksA.push({bookingNumber:'empty'}) }
+for(let i = 0 ; i < B; i++){parkedTrucksB.push({bookingNumber:'empty'}) }
+for(let i = 0 ; i < C; i++){parkedTrucksC.push({bookingNumber:'empty'}) }
+for(let i = 0 ; i < D; i++){parkedTrucksD.push({bookingNumber:'empty'}) }
+for(let i = 0 ; i < E; i++){parkedTrucksE.push({bookingNumber:'empty'}) }
+
+
+const productsArray = [
   {
     
     tagCounter: 'A',
-    number: 0
+    parkedTrucks: parkedTrucksA, 
+    occupiedSpaces:0,
+    currentFreeSpace:1
   },
   {
     
     tagCounter: 'B',
-    number: 0
+    parkedTrucks: parkedTrucksB, 
+    occupiedSpaces:0,
+    currentFreeSpace:1
   },
   {
     
     tagCounter: 'C',
-    number: 0
+    parkedTrucks: parkedTrucksC, 
+    occupiedSpaces:0,
+    currentFreeSpace:1
   },
   {
     
     tagCounter: 'D',
-    number: 0
+    parkedTrucks: parkedTrucksD,
+    occupiedSpaces:0,
+    currentFreeSpace:1 
   },
   {
     
     tagCounter: 'E',
-    number: 0
+    parkedTrucks: parkedTrucksE,
+    occupiedSpaces:0,
+    currentFreeSpace:1 
   },
   {
     
     tagCounter: 'F',
-    number: 0
+    parkedTrucks: parkedTrucksF,
+    occupiedSpaces:0,
+    currentFreeSpace:1 
   },
   {
     
     tagCounter: 'G',
-    number: 0
+    parkedTrucks: parkedTrucksG,
+    occupiedSpaces:0,
+    currentFreeSpace:1 
   },
   {
     
     tagCounter: 'H',
-    number: 0
+    parkedTrucks: parkedTrucksH,
+    occupiedSpaces:0,
+    currentFreeSpace:1 
   },
   {
     
     tagCounter: 'R',
-    number: 0
+    parkedTrucks: parkedTrucksR,
+    occupiedSpaces:0,
+    currentFreeSpace:1 
   }
-]
+] 
+
+  return productsArray
+}
 
 export default products

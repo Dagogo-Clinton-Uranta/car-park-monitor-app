@@ -8,13 +8,15 @@ const orderSchema =  mongoose.Schema({
         
         
        bookingNumber:{type: String,required:true },
-       truckCategory:{type: String,required:true  },
-       truckNumber:{type: String,required:true  },
-       containerNumber:{type: String,required:true  },
-       entryTime:{type: String,required:true  },
-       entryDate:{type: String,required:true  },
-       parkZone:{type: String,required:true  },
-       tagNumber:{type: String,required:true  }
+       truckCategory:{type: String  },
+       truckNumber:{type: String  },
+       containerNumber:{type: String  },
+       entryTime:{type: String  },
+       entryDate:{type: String  },
+       exitDate:{type: String },
+       exitTime:{type: String },
+       parkZone:{type: String  },
+       tagNumber:{type: Number  }
        
 
 },{timestamps:true /*you want a createdAt? you add timestamps:true*/})

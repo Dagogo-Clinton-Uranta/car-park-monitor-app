@@ -3,8 +3,8 @@ import thunk from 'redux-thunk'
 import {composeWithDevTools} from 'redux-devtools-extension'
 import {productListReducer,productListByMerchantReducer, productDetailsReducer, productDeleteReducer,productCreateReducer,productUpdateReducer, productCreateReviewReducer,productTopRatedReducer} from './reducers/productReducers.js'
 import {cartReducer} from './reducers/cartReducers.js'
-import {userLoginReducer, releaseDriverReducer, userSendReducer,adminSendReducer, userVerifyReducer, userDirectionReducer,userRegisterReducer, userDetailsReducer, userProfileUpdateReducer,userListReducer,userDeleteReducer,userUpdateReducer} from './reducers/userReducers.js'
-import {orderCreateReducer, orderDetailsReducer, orderPayReducer,orderDeliverReducer, orderListMyReducer,orderListReducer,orderApproveReducer } from './reducers/orderReducers.js'
+import {userLoginReducer, releaseDriverReducer, userSendReducer,adminSendReducer, userVerifyReducer, userDirectionReducer,userExitDirectionReducer,userRegisterReducer, userDetailsReducer, userProfileUpdateReducer,userListReducer,userDeleteReducer,userUpdateReducer} from './reducers/userReducers.js'
+import {orderCreateReducer, orderDetailsReducer, orderPayReducer,orderDeliverReducer, orderListMyReducer,orderListReducer,orderApproveReducer,updateRecordsReducer } from './reducers/orderReducers.js'
 
 const reducer = combineReducers({
   productList: productListReducer,
@@ -23,6 +23,7 @@ const reducer = combineReducers({
   userVerify:userVerifyReducer,
   userRegister:userRegisterReducer,
   userDirection:userDirectionReducer,
+  userExitDirection:userExitDirectionReducer,
   userDetails:userDetailsReducer,
   userProfileUpdate:userProfileUpdateReducer,
   userList:userListReducer,
@@ -34,7 +35,8 @@ const reducer = combineReducers({
   orderDeliver:orderDeliverReducer,
   orderListMy:orderListMyReducer,
   orderList:orderListReducer,
-  orderApprove:orderApproveReducer 
+  orderApprove:orderApproveReducer,
+  updateRecords:updateRecordsReducer 
 
 })
 //WE JSON.PARSE LOCAL STORAGE CUZ ITS IN STRING FORM AND WE WANT OUR OBJECT BACK

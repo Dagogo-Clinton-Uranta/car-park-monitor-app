@@ -1,6 +1,9 @@
 import {ORDER_CREATE_REQUEST,
         ORDER_CREATE_SUCCESS,
         ORDER_CREATE_FAILURE,
+        UPDATE_RECORDS_REQUEST,
+        UPDATE_RECORDS_SUCCESS,
+        UPDATE_RECORDS_FAILURE,
         ORDER_DETAILS_REQUEST,
         ORDER_DETAILS_SUCCESS,
         ORDER_DETAILS_FAILURE,
@@ -34,6 +37,14 @@ export const orderCreateReducer = (state={}, action) => {
     }
 }
 
+export const updateRecordsReducer = (state={}, action) => {
+  switch (action.type) {
+    case UPDATE_RECORDS_REQUEST: return {loading:true}
+    case UPDATE_RECORDS_SUCCESS:return {loading:false,success:true, order:action.payload}
+    case UPDATE_RECORDS_FAILURE: return {loading:false, error:action.payload}
+    default: return state
+  }
+}
 
 export const orderDetailsReducer = ( state={loading:true, orderItems:[],shippingAddress:{} }, action) => {
     switch (action.type) {

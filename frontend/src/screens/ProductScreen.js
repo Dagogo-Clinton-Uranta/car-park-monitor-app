@@ -29,13 +29,16 @@ const ProductScreen = ({history,match}) => {
   const {userInfo} = userLogin
    
   const userDirection = useSelector(state => state.userDirection)
-  const {ticketInfo} = userDirection
+  const {ticketInfo,loading:loadingticket,error:errorticket} = userDirection
 
   
   const [email, setEmail] = useState({bookingNo:''})
   const [bookingNo,setBookingNo] = useState('')
-/*const [truckNumber,setTruckNumber] = useState('')*/
-  let zoneCounter
+  const [truckNumber, setTruckNumber] = useState('')
+const [containerNumber,setContainerNumber] = useState('')
+const [truckCategory, setTruckCategory] = useState('')
+
+let zoneCounter
   let zoneArea
   
   console.log(email.bookingNo)
@@ -72,10 +75,10 @@ const ProductScreen = ({history,match}) => {
 
 }
 
-const object = {bookingNumber:"3000",
-truckNumber:"iughinsiog",
-containerNumber:"85789234579",
- truckCategory:"FLAT BED APMT"}
+const object = {bookingNumber:email.bookingNo,
+truckNumber:truckNumber,
+containerNumber:containerNumber,
+ truckCategory:truckCategory}
 
 const createTicketHandler= (e) => {
   dispatch(createTicket(object))
@@ -127,6 +130,7 @@ const previousPageHandler = () => {
      return currentTime
   }
   
+  /*it is not product.number anymore , its occupied spaces and free spaces */
   if(userInfo && userInfo.truckCategory === "EXPORT" && product  && product[5].number < 52 ){ zoneArea = 'F'}
   else if(userInfo && userInfo.truckCategory === 'EXPORT' && product && product[5].number === 52 && product[6].number < 50 ){zoneArea = 'G'}
   else if(userInfo && userInfo.truckCategory === 'EXPORT' && product && product[6].number === 50 && product[7].number < 51 ){zoneArea = 'H'}
@@ -163,13 +167,15 @@ const previousPageHandler = () => {
         <>
         <center><p className='apapa'>LILYPOND</p></center>
         <hr/>
-        <center><p className='greenBackground'><h2> ENTRANCE TICKET GENERATOR</h2></p></center>
+        <center><p className='greenBackground'><h2> ENTRANCE TICKET GENERATOR (FOR DEMO ONLY)</h2></p></center>
         <hr/>
         <center><p className='warningInstruction'><h6>PLEASE NOTE:</h6> Do not use this page at the exit facility, it is used for ENTRANCE only. Select 'exit' from the menu if you wish to process trucks leaving the park.</p></center>
         <hr/>
+        <p className="appFont">{/*ticketInfo && ticketInfo.URL*/}</p>
         {/*loading ? <Loader/>:error ?<Message variant='danger'>{error}</Message>:*/(
           <>
           <Meta title={"FLACS PARKING SYSTEM"}/>
+         
           <Row >
            <Col md={5}>
             
@@ -224,9 +230,9 @@ const previousPageHandler = () => {
                    <Col>
                    <Form.Control as='input' className='inputBorder' value={email.bookingNo} onChange={(e) =>{setEmail({bookingNo:e.target.value, truckNumber:'',containerNumber:'',entryTime:'',entryDate:'',truckCategory:''})}}   />
                    </Col>
-                   <Col>
+                  {/* <Col>
                    <Button type='submit' variant='primary' onClick={fetchDetailsHandler}>Process</Button>
-                   </Col>
+                   </Col>*/}
                  </Row>
                  {/*</Form>*/}
                </ListGroup.Item>
@@ -237,7 +243,7 @@ const previousPageHandler = () => {
                  <Row className="appFont">
                    <Col>TRUCK NUMBER:</Col>
                    <Col>
-                   {email.truckNumber}{/*userInfo?userInfo.truckNumber:'N/A'*/}
+                   <Form.Control as='input' className='inputBorder' value={truckNumber} onChange={(e) =>{setTruckNumber(e.target.value)}}   />
                    </Col>
                  </Row>
                </ListGroup.Item>
@@ -246,40 +252,43 @@ const previousPageHandler = () => {
                  <Row className="appFont">
                    <Col>CONTAINER NUMBER:</Col>
                    <Col>
-                   {email.containerNumber}
+                   <Form.Control as='input' className='inputBorder' value={containerNumber} onChange={(e) =>{setContainerNumber(e.target.value)}}   />
                    </Col>
                  </Row>
                </ListGroup.Item>
 
-               <ListGroup.Item>
-                 <Row className="appFont">
-                   <Col>ENTRY TIME:</Col>
-                   <Col>
-                    <strong>{userInfo?email.entryTime:''}</strong>
-                   </Col>
-                 </Row>
-               </ListGroup.Item>
 
-               <ListGroup.Item>
-                 <Row className="appFont">
-                   <Col>ENTRY DATE:</Col>
-                   <Col>
-                    {/*<strong>{product.countInStock > 4 ?'In Stock':product.countInStock <= 3 ?'Few Left !!':product.countInStock === 0 ? 'Out of Stock':'Currently being restocked' //this currenty being restocked is not the right thing, you just put it there as filler, till the need comes to fix it }</strong>*/}
-                     <strong>{userInfo?email.entryDate:''}</strong>
-                   </Col>
-                 </Row>
-               </ListGroup.Item>
-             {/*product.countInStock > 0 &&*/ (
+               {
                <ListGroup.Item>
                   <Row className="appFont">
                     <Col>TRUCK CATEGORY:</Col>
                     <Col>
-                    {email.truckCategory}
+                    <Form.Control as='input' className='inputBorder' value={truckCategory} onChange={(e) =>{setTruckCategory(e.target.value)}}   />
                     </Col>
                   </Row>
                 </ListGroup.Item>
-             )}
+             }
 
+
+               <ListGroup.Item>
+                 <Row >
+                   <Col className="appFont">TICKET STATUS:</Col>
+                   <Col>
+                    <strong>{ticketInfo?ticketInfo.statusMessage:errorticket?errorticket:''}</strong>
+                   </Col>
+                 </Row>
+               </ListGroup.Item>
+
+               <ListGroup.Item>
+                 <Row >
+                   <Col className="appFont">URL:</Col>
+                   <Col>
+                   
+                     <strong>{ticketInfo && ticketInfo.URL}</strong>
+                   </Col>
+                 </Row>
+               </ListGroup.Item>
+             
                <ListGroup.Item>
               
                  <Button onClick={createTicketHandler}  className='btn-block printFont' type='button' >

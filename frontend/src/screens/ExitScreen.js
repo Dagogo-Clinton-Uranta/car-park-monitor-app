@@ -5,7 +5,7 @@ import Rating from '../components/Rating'
 import Message from '../components/Message'
 import Loader from '../components/Loader'
 import Meta from '../components/Meta'
-import {login} from '../actions/userActions.js'
+import {login,createExitTicket} from '../actions/userActions.js'
 import {useDispatch, useSelector} from 'react-redux'
 import {listProductDetails,createProductReview} from '../actions/productActions.js'
 import {PRODUCT_CREATE_REVIEW_RESET} from '../constants/productConstants.js'
@@ -21,9 +21,9 @@ const ExitScreen = ({history,match}) => {
   const productDetails = useSelector(state => state.productDetails)
   const {product,loading, error} = productDetails
 
-  const productCreateReview = useSelector(state => state.productCreateReview)
-  const {success:successProductReview, error:errorProductReview} = productCreateReview
-  
+  const userExitDirection = useSelector(state => state.userExitDirection)
+  const {exitTicketInfo ,loading:loadingexit,error:errorexit} = userExitDirection
+  console.log(userExitDirection)
 
   const userLogin = useSelector(state => state.userLogin)
   const {userInfo} = userLogin
@@ -62,10 +62,10 @@ const ExitScreen = ({history,match}) => {
  },[dispatch,userInfo])
 
  
- const fetchDetailsHandler = (e) => {
+ const createExitTicketHandler = (e) => {
   
   /*dispatch(login(bookingNo))*/
-   dispatch(login(email.bookingNo))
+   dispatch(createExitTicket({bookingNumber:email.bookingNo}))
 
 }
 
@@ -153,7 +153,7 @@ const previousPageHandler = () => {
         <>
         <center><p className='apapa'>LILYPOND</p></center>
         <hr/>
-        <center><p className='greenBackground'><h2> EXIT SLIP GENERATOR</h2></p></center>
+        <center><p className='greenBackground'><h2> EXIT SLIP GENERATOR (FOR DEMO ONLY)</h2></p></center>
         <hr/>
         <center><p className='warningInstruction'><h6>PLEASE NOTE:</h6> Do not use this page at the entrance facility, it is used for EXIT only. Select 'entrance' from the menu if you wish to process trucks entering the park.</p></center>
         <hr/>
@@ -161,6 +161,13 @@ const previousPageHandler = () => {
           <>
           <Meta title={"FLACS PARKING SYSTEM"}/>
           <Row >
+            <Row>
+              <center className="mb-4" >
+          {/*exitTicketInfo && <h6>{exitTicketInfo.statusMessage}</h6>*/}
+            {/*exitTicketInfo && <h2>{exitTicketInfo.URL}</h2>*/}
+            {errorexit && <h2>{errorexit}</h2>}
+            </center>
+            </Row>
            <Col md={5}>
             
             <Row>
@@ -176,7 +183,7 @@ const previousPageHandler = () => {
                <ListGroup.Item>
                 <center>
                 <p className="bigNumber" >
-                {zoneArea}
+                {exitTicketInfo?exitTicketInfo.zone:'-'}
                  
                  </p>
                  </center>
@@ -216,7 +223,7 @@ const previousPageHandler = () => {
                    <Form.Control as='input' className='inputBorder' value={email.bookingNo} onChange={(e) =>{setEmail({bookingNo:e.target.value, truckNumber:'',containerNumber:'',entryTime:'',entryDate:'',truckCategory:''})}}   />
                    </Col>
                    <Col>
-                   <Button type='submit' variant='primary' onClick={fetchDetailsHandler}>Process</Button>
+                   <Button type='submit' variant='primary' onClick={createExitTicketHandler}>Generate</Button>
                    </Col>
                  </Row>
                  {/*</Form>*/}
@@ -225,42 +232,42 @@ const previousPageHandler = () => {
               
               
               <ListGroup.Item>
-                 <Row className="appFont">
-                   <Col>TRUCK NUMBER:</Col>
+                 <Row >
+                   <Col className="appFont">TICKET STATUS:</Col>
                    <Col>
-                   {email.truckNumber}{/*userInfo?userInfo.truckNumber:'N/A'*/}
+                   {exitTicketInfo && exitTicketInfo.statusMessage}
                    </Col>
                  </Row>
                </ListGroup.Item>
               
                <ListGroup.Item>
-                 <Row className="appFont">
-                   <Col>CONTAINER NUMBER:</Col>
+                 <Row >
+                   <Col className="appFont">URL:</Col>
                    <Col>
-                   {email.containerNumber}
+                   {exitTicketInfo && exitTicketInfo.URL}
                    </Col>
                  </Row>
                </ListGroup.Item>
 
-               <ListGroup.Item>
+               {/*<ListGroup.Item>
                  <Row className="appFont">
                    <Col>EXIT TIME:</Col>
                    <Col>
                     <strong>{userInfo?email.entryTime:''}</strong>
                    </Col>
                  </Row>
-               </ListGroup.Item>
+               </ListGroup.Item>*/}
 
-               <ListGroup.Item>
+               {/*<ListGroup.Item>
                  <Row className="appFont">
                    <Col>EXIT DATE:</Col>
                    <Col>
-                    {/*<strong>{product.countInStock > 4 ?'In Stock':product.countInStock <= 3 ?'Few Left !!':product.countInStock === 0 ? 'Out of Stock':'Currently being restocked' //this currenty being restocked is not the right thing, you just put it there as filler, till the need comes to fix it }</strong>*/}
+                   
                      <strong>{userInfo?email.entryDate:''}</strong>
                    </Col>
                  </Row>
-               </ListGroup.Item>
-             {/*product.countInStock > 0 &&*/ (
+               </ListGroup.Item>*/}
+             {/*
                <ListGroup.Item>
                   <Row className="appFont">
                     <Col>TRUCK CATEGORY:</Col>
@@ -269,16 +276,16 @@ const previousPageHandler = () => {
                     </Col>
                   </Row>
                 </ListGroup.Item>
-             )}
-
-               <ListGroup.Item>
-               <Link to={`/exit/${bookingNo}`}>
+             */}
+                  {/*<Link to={`/exit/${bookingNo}`}></Link>*/}
+              {/* <ListGroup.Item>
+               
                  <Button  className='btn-block printFont' type='button' >
                  <i className='fas fa-print'></i> Generate PERMIT
                  </Button>
-                 </Link>
+                 
 
-               </ListGroup.Item>
+               </ListGroup.Item>*/}
 
               </ListGroup>
              </Card>

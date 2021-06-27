@@ -11,6 +11,9 @@ import {ORDER_CREATE_REQUEST,
         ORDER_APPROVE_SUCCESS,
         ORDER_APPROVE_FAILURE,
         //ORDER_PAY_RESET,
+        UPDATE_RECORDS_REQUEST,
+        UPDATE_RECORDS_SUCCESS,
+        UPDATE_RECORDS_FAILURE,
         ORDER_LIST_MY_REQUEST,
         ORDER_LIST_MY_SUCCESS,
         ORDER_LIST_MY_FAILURE,
@@ -50,6 +53,34 @@ export const createOrder  = (order) => async (dispatch,getState)=> {
                payload: error.response && error.response.data.message?
                 error.response.data.message:error.message })
    }
+}
+
+export const sendRecords  = (trailer) => async (dispatch,getState)=> {
+  //redux thunk was used just now in the form of async (dispatch) above
+ try {
+   dispatch({type: UPDATE_RECORDS_REQUEST})
+
+    const {userLogin:{userInfo}} = getState()
+   //we do config cus we wanna send he headers a content type of application/json
+   const config = {
+     headers:{
+       'Content-Type':'application/json',
+       Authorization:`Bearer ${userInfo.token}`
+     }
+   }
+   const {data} = await axios.post(`/api/orders/update`,trailer,config)
+   //i'm gonna take a stab here and say that the third argument for axios is for setting header property
+
+   dispatch({
+             type: UPDATE_RECORDS_SUCCESS,
+             payload:data })
+
+ }
+  catch(error){
+    dispatch({type:UPDATE_RECORDS_FAILURE,
+              payload: error.response && error.response.data.message?
+               error.response.data.message:error.message })
+  }
 }
 
 

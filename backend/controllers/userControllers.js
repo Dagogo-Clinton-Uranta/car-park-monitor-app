@@ -50,7 +50,7 @@ const authUser = asyncHandler(async (req, res) => {
 
     })
   } else {
-    res.send(404) //this means not found
+    res.status(404) //this means not found
     throw new Error('Unable to populate ENTRY ticket')
   }
 
@@ -72,6 +72,7 @@ const exitPopulateTicket = asyncHandler(async (req, res) => {
       truckNumber: newExit[0].truckNumber,
       containerNumber: newExit[0].containerNumber,
       truckCategory: newExit[0].truckCategory,
+      parkZone: newExit[0].parkZone
       /*isAdmin: user.isAdmin,
       isMerchant: user.isMerchant,
       token: generateToken(user._id)*/
@@ -87,7 +88,7 @@ const exitPopulateTicket = asyncHandler(async (req, res) => {
 })
 
 
-//@desc  Recieve truck details
+//@desc  Recieve truck details,CHECK IT AGAINST THE TRUCK LOG FOR UNIQUENESS AND THE TRUCKS IN THE PARK FOR SPACE/ if it satisfies both conditions, then add it to the 'current' truck store(so that it can populate the print screen, but not the car park log)/then send the url AND AN OK STATUS MESSAGE, otherwise send "this truck is already in the park, check the booking number, or there is no space in the park"
 //@route POST /api/users/parkenter
 //@access Public
 const entryTicketRequest = asyncHandler(async (req, res) => {
@@ -95,41 +96,130 @@ const entryTicketRequest = asyncHandler(async (req, res) => {
   
   /*const { email } = req.body*/
   //req.body will give us the object thats sent in the body of our front end/POSTMAN JSON, take note
-  //res.send accepts an object i think and not just variables, take note...hese are part of the things that you have to research on yor own
-   await User.deleteMany()
+  let frontendMessage
+  
+  let object = {
+    URL: `could not generate ticket`,
+    statusMessage:frontendMessage
+  }
+
+  await User.deleteMany()
+  const product = await Product.find({})
+  console.log(product)
+
+  let reg = []
+  let confirmUniqueBooking = []
+  
+  for(let i = 0 ; i < product.length; i++){
+      let isBookingNumberInParkingRegion = product[i].parkedTrucks.some(el => el.bookingNumber === req.body.bookingNumber)
+
+      confirmUniqueBooking.push(isBookingNumberInParkingRegion)
+  }
+  
+  for(let i = 0 ; i < product.length; i++){
+    let trucksInParkingRegion = product[i].parkedTrucks.filter(el => el.bookingNumber !== "empty")
+
+    reg.push(trucksInParkingRegion)
+}
+ 
+
+  if( confirmUniqueBooking.indexOf(true) !== -1 ){frontendMessage = 'A truck with this booking number is currently in this park, please check the booking number again'}
+  else if(req.body.truckCategory === 'EXPORT'  && reg[5].length === 52 && reg[6].length === 50 && reg[7].length === 51 && reg[8].length === 95 ){frontendMessage = 'No spaces available for this category of truck(EXPORT)'}
+  else if( req.body.truckCategory === "FLAT BED ENL/EKO"  && reg[0].length === 37 && reg[1].length === 46 ){frontendMessage = 'No spaces available for this category of truck(FLAT BED ENL/EKO)'}
+  else if(req.body.truckCategory === "FLAT BED APMT" && reg[2].length === 78 && reg[3].length === 30 && reg[4].length === 71){frontendMessage = 'No spaces available for this category of truck(FLAT BED APMT)'}
+  else if(req.body.truckCategory !== "FLAT BED APMT" ||req.body.truckCategory !== "EXPORT" ||req.body.truckCategory !== "FLAT BED ENL/EKO"  ){frontendMessage ='Could not process the requested truck category'}
+  else{frontendMessage = 'Spaces are available to park this truck, please proceed to the printing screen via the URL'}
+
+  
+  
+  if(frontendMessage = 'Spaces are available to park this truck, please proceed to the printing screen via the URL'){
   await User.create({bookingNumber:req.body.bookingNumber,
     truckNumber: req.body.truckNumber,
     containerNumber: req.body.containerNumber,
     truckCategory: req.body.truckCategory })
 
-    const user = await User.findOne({bookingNumber:req.body.bookingNumber})
-    /*console.log(user)*/
-
-  const product = await Product.find({})
-  console.log(product)
-    
-  let spaceAvailability = 1
-  
-  if(user.truckCategory === 'EXPORT'  && product[5].number === 52 && product[6].number === 50 && product[7].number === 51 && product[8].number === 95 ){spaceAvailability = 'No spaces available for this category of truck(EXPORT)'}
-  else if( user.truckCategory === "FLAT BED ENL/EKO"  && product[0].number === 37 && product[1].number === 46 ){spaceAvailability = 'No spaces available for this category of truck(FLAT BED ENL/EKO)'}
-  else if(user && user.truckCategory === "FLAT BED APMT" && product[2].number === 78 && product[3].number === 30 && product[4].number === 71){spaceAvailability = 'No spaces available for this category of truck(FLATBED APMT)'}
-  else{spaceAvailability = 'Spaces Available'}
-
-  if (user) {
-    res.json({
+    object = {
       URL: `https://flacscarpark.herokuapp.com/printenter`,
-      Availability:spaceAvailability
+      statusMessage:frontendMessage
+    }
 
+   }else{
+    object = {
+      URL: `could not generate ticket`,
+      statusMessage:frontendMessage
+    }
 
-    })
-  } else {
-    res.send(404) //this means not found
-    throw new Error('booking number not recognized')
-  }
+   }
+  
+res.json(object)
+  
 
 
 })
 
+
+//@desc  Search the parkedTrucks arrays for the booking number that just came in, populate the FreshExit collection, then SEND a link to where to find the exit ticket./ if no match send a status message saying no such truck found
+//@route POST /api/users/parkexit
+//@access Public
+const exitTicketRequest = asyncHandler(async (req, res) => {
+  res.header("Access-Control-Allow-Origin","*")
+  
+    /*i believe that i need to find said user from the park arrays -- I HAVE DONE THAT*/
+   
+    
+
+    const product = await Product.find({/*'parkedTrucks.bookingNumber':req.body.bookingNumber*/},/*{parkedTrucks:{$elemMatch:{bookingNumber:req.body.bookingNumber}},createdAt:1,time:1}*/) 
+    
+
+    let confirmUniqueBooking = []
+  
+    for(let i = 0 ; i < product.length; i++){
+        let isBookingNumberInParkingRegion = product[i].parkedTrucks.some(el => el.bookingNumber === req.body.bookingNumber)
+  
+        confirmUniqueBooking.push(isBookingNumberInParkingRegion)
+    }
+   
+     if(confirmUniqueBooking.indexOf(true) !== -1 ){
+      let truckExists = [] 
+      
+      for(let i = 0 ; i < product.length; i++){
+        let searchArray = product[i].parkedTrucks.filter(el => el.bookingNumber === req.body.bookingNumber)
+  
+       if(searchArray[0] !== undefined ){truckExists.push(searchArray[0])}      /*i can get away with putting zero here, cuz booking number is unique, so it will only return one item per array */
+    }
+    
+
+  /*const foundIndex = truckExists.findIndex(function(e){e.bookingNumber === req.body.bookingNumber}) */
+    /*const truckDetails = truckExists.filter(function(e){typeof(e) !== 'undefined'})*/ 
+     console.log(truckExists)
+      
+       await FreshExit.deleteMany()
+      const newExit = await FreshExit.create({
+        bookingNumber:truckExists[0].bookingNumber,
+        trucKNumber:truckExists[0].truckNumber,
+        containerNumber:truckExists[0].containerNumber,
+        truckCategory:truckExists[0].truckCategory,
+        parkZone:truckExists[0].parkZone
+
+       })
+        
+          
+          
+           
+           res.json( {URL: `https://flacscarpark.herokuapp.com/printexit`,
+           statusMessage:'Your truck is ready to exit, please go to the URL to print out a ticket',
+          zone: truckExists[0].parkZone})  
+
+     }else{
+      res.status(404)
+     throw new Error('The truck you requested is currently not in Lilypond park, please cross-check the booking number')
+
+}
+  
+
+
+
+})
 
 //@desc Set the message that the user wants to convey to the admin
 //@route PATCH /api/users/clientMessage
@@ -326,32 +416,12 @@ const verifyUser = asyncHandler(async (req, res) => {
 const registerUser = asyncHandler(async (req, res) => {
   res.header("Access-Control-Allow-Origin","*")
   const { zoneArea,zoneCounter,change } = req.body
-  //req.body will give us the object thats sent in the body of our front end/POSTMAN JSON, take note
-  /* res.send({email,  this res,send was just done for example btw
-     password}) */ //res.send accepts an object i think and not just variables, take note...hese are part of the things that you have to research on yor own
+  
 
-    /*let tagCounters = await Product.find({})
-  console.log(tagCounters)
-
-   let position = tagCounters.map((e)=>{return e.area}).indexOf(zoneArea)
-
-   tagCounters[position][2] = zoneCounter 
-
-   await Product.deleteMany()
-  await Product.insertMany(tagCounters)*/
-
-  await Product.findOneAndUpdate({tagCounter:zoneArea}, {number:zoneCounter + change}, { useFindAndModify: false })/*:(
-  zoneArea='B'?await Product.findOneAndUpdate({tagCounterB:zoneCounter}, {tagCounterB:zoneCounter + 1}, { useFindAndModify: false }):(
-  zoneArea='C'?await Product.findOneAndUpdate({tagCounterC:zoneCounter}, {tagCounterC:zoneCounter + 1}, { useFindAndModify: false }):(
-  zoneArea='D'?await Product.findOneAndUpdate({tagCounterD:zoneCounter}, {tagCounterD:zoneCounter + 1}, { useFindAndModify: false }):(
-  zoneArea='E'?await Product.findOneAndUpdate({tagCounterE:zoneCounter}, {tagCounterE:zoneCounter + 1}, { useFindAndModify: false }):(
-  zoneArea='F'?await Product.findOneAndUpdate({tagCounterF:zoneCounter}, {tagCounterF:zoneCounter + 1}, { useFindAndModify: false }):(
-  zoneArea='G'?await Product.findOneAndUpdate({tagCounterG:zoneCounter}, {tagCounterG:zoneCounter + 1}, { useFindAndModify: false }):(
-  zoneArea='H'?await Product.findOneAndUpdate({tagCounterH:zoneCounter}, {tagCounterH:zoneCounter + 1}, { useFindAndModify: false }):(
-  zoneArea='R'?await Product.findOneAndUpdate({tagCounterR:zoneCounter}, {tagCounterR:zoneCounter + 1}, { useFindAndModify: false }):(
-  console.log('There is no zoneArea coming from the front end')
-                                                                                                            )))))))))*/
+  await Product.findOneAndUpdate({tagCounter:zoneArea}, {occupiedSpaces:zoneCounter + change}, { useFindAndModify: false })
 })
+
+
 //@desc  GET user profile
 //@route GET /api/users/profile
 //@access Private
@@ -502,7 +572,7 @@ const updateUser = asyncHandler(async (req, res) => {
 
 export {
   authUser, presentClientMessage, presentAdminMessage, getUserProfile, registerUser,
-  updateUserProfile, getUsers, deleteUser, getUserById, updateUser,verifyUser,entryTicketRequest,exitPopulateTicket
+  updateUserProfile, getUsers, deleteUser, getUserById, updateUser,verifyUser,entryTicketRequest,exitTicketRequest,exitPopulateTicket
 }
 
 //exports.authUser =authUser

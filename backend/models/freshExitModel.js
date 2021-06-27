@@ -7,10 +7,16 @@ const Schema = mongoose.Schema
 //the use of "Schema" on it's own below is simply the use of the constant above, i later changed it to bypass this constant
 const freshExitSchema =  mongoose.Schema({
 
-        truckNumber:{type: String ,required:true},
-        bookingNumber:{type: String ,required:true},
-        containerNumber:{type: String ,required:true},
-        truckCategory:{type: String ,required:true}
+        bookingNumber:{type: String },
+  truckCategory:{type: String },
+  containerNumber:{type: String },
+  truckNumber:{type: String },
+  entryTime:{type: String },
+  exitDate:{type: String },
+  exitTime:{type: String },
+  entryDate:{type: String },
+  parkZone:{type: String },
+  tagNumber:{type: String}
         
 },{timestamps:true /*you want a createdAt? you add timestamps:true*/})
 

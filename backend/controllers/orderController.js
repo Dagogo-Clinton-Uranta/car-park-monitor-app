@@ -1,34 +1,96 @@
 import Order from '../models/orderModel.js'
+import Product from '../models/productModel.js'
+
 //const Order = require('../models/orderModel.js')
 //const asyncHandler = require('express-async-handler')
 import asyncHandler from 'express-async-handler'
 
 //const colors  = require('colors')
 import mongoose from 'mongoose'
+import User from '../models/userModel.js'
 
-//@desc  create new order
+//@desc  find if the truck is already in the park, then add it to the long term log, the find the first free space in the park, replace it with the truck's details.
 //@route POST /api/orders
-//@access Private
+//@access Public
 
 const addOrderItems = asyncHandler(async (req,res)=>{
   res.header("Access-Control-Allow-Origin","*")
   const {bookingNumber,truckCategory,truckNumber, containerNumber,entryTime, entryDate, parkZone, tagNumber} = req.body
 
-  
+  const truckExists = await Product.findOne({tagCounter:parkZone},{parkedTrucks:{$elemMatch:{bookingNumber:bookingNumber}}/*,createdAt:1,time:1*/},{ useFindAndModify: false})
+
+  if(truckExists.parkedTrucks.length === 0){
    const order = new Order({
      
-    bookingNumber,truckCategory,truckNumber, containerNumber,entryTime, entryDate, parkZone, tagNumber
+    bookingNumber,truckCategory,truckNumber, containerNumber,entryTime, entryDate, exitTime:'not exited', exitDate:'not exited', parkZone, tagNumber
    })
 
    
    const createdOrder = await Order.create(order)
-    
-   console.log(createdOrder)
+   const carParkSpaces = await Product.findOne({tagCounter:parkZone},{parkedTrucks:{_id:0}}) 
+
+   const freeSpace = carParkSpaces.parkedTrucks.findIndex(function(e){return e.bookingNumber === "empty"})
+
+  carParkSpaces.parkedTrucks[freeSpace] = createdOrder
+
+  const occupada = carParkSpaces.parkedTrucks.filter(function(e){return e.bookingNumber !== "empty"}).length
+
+  const updatedFreeSpace = carParkSpaces.parkedTrucks.findIndex(function(e){return e.bookingNumber === "empty"})
+
+  const buggy = await Product.findOneAndUpdate({tagCounter:parkZone},{parkedTrucks:carParkSpaces.parkedTrucks,occupiedSpaces:occupada , currentFreeSpace:updatedFreeSpace +1},{ useFindAndModify: false })
+  res.json({instruction:'Do not allow further printing'})
+  
+  /*await User.deleteMany()*/
+  }else{
+   /*res.status(201).json(createdOrder)*/
+    res.json({instruction:"A truck with this booking number is already in the park, ticket will not be valid"})
+  }
+  
      
-    /*res.status(201).json(createdOrder)*/
- 
 })
 
+
+//@desc find the truck in the park, replace it with a free space, then update the long term log with exit time and date
+//@route POST /api/orders/update
+//@access Public
+const updateParkAndLog = asyncHandler(async (req,res)=>{
+  res.header("Access-Control-Allow-Origin","*")
+  const {bookingNumber,truckCategory,truckNumber, containerNumber,entryTime, entryDate,exitTime, exitDate, parkZone, tagNumber} = req.body
+
+  const truckExists = await Product.findOne({tagCounter:parkZone},{parkedTrucks:{$elemMatch:{bookingNumber:bookingNumber}}/*,createdAt:1,time:1*/},{ useFindAndModify: false})
+  console.log(truckExists)
+
+  if(truckExists.parkedTrucks.length === 1){
+  /* const order = new Order({
+     
+    bookingNumber,truckCategory,truckNumber, containerNumber,entryTime, entryDate, parkZone, tagNumber
+   })*/
+   await Order.findOneAndUpdate({bookingNumber:bookingNumber},{exitTime:exitTime, exitDate:exitDate},{ useFindAndModify: false })
+   
+   const carParkSpaces = await Product.findOne({tagCounter:parkZone},{parkedTrucks:{_id:0}}) 
+
+   const truckPosition = carParkSpaces.parkedTrucks.findIndex(function(e){return e.bookingNumber === bookingNumber})
+
+  carParkSpaces.parkedTrucks[truckPosition] = {bookingNumber:"empty"}
+
+  const occupada = carParkSpaces.parkedTrucks.filter(function(e){return e.bookingNumber !== "empty"}).length
+  
+  console.log(truckPosition)
+
+  const updatedFreeSpace = carParkSpaces.parkedTrucks.findIndex(function(e){return e.bookingNumber === "empty"})
+
+  const buggy = await Product.findOneAndUpdate({tagCounter:parkZone},{parkedTrucks:carParkSpaces.parkedTrucks,occupiedSpaces:occupada,currentFreeSpace:updatedFreeSpace + 1},{ useFindAndModify: false })
+  res.json({instruction:'Do not allow further printing'})
+  
+  /*await User.deleteMany()*/
+  }else{
+   /*res.status(201).json(createdOrder)*/
+    res.status(404)/*.json({instruction:"The truck with this booking number is not in the park, an exit ticket cannot be printed"})*/
+    throw new Error("The truck with this booking number is not in the park, an exit ticket cannot be printed")
+  }
+  
+     
+})
 
 //@desc  Get order by ID
 //@route GET /api/orders/:id
@@ -143,7 +205,7 @@ const updatePromisedQty = asyncHandler(async (req,res)=>{
  /*res.json(orders)*/
 })
 
-export {addOrderItems, getOrderById, updateOrderToPaid,
+export {addOrderItems, updateParkAndLog, getOrderById, updateOrderToPaid,
 updateOrderToDelivered, getMyOrders,getOrders, updatePromisedQty}
 
 //exports.addOrderItems =addOrderItems
