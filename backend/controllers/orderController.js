@@ -54,16 +54,16 @@ const addOrderItems = asyncHandler(async (req,res)=>{
 //@access Public
 
 
-const updateParkAndLog = asyncHandler(async (req,res)=>{
+/*const updateParkAndLog = asyncHandler(async (req,res)=>{
   res.header("Access-Control-Allow-Origin","*")
   const {bookingNumber,truckCategory,truckNumber, containerNumber,entryTime, entryDate,exitTime, exitDate, parkZone, tagNumber} = req.body
 
   await Order.findOneAndUpdate({bookingNumber:bookingNumber},{exitTime:exitTime, exitDate:exitDate},{ useFindAndModify: false })
 
- /* const truckExists = await Product.findOne({tagCounter:parkZone},{parkedTrucks:{_id:0}})
-  console.log(truckExists)*/
+  const truckExists = await Product.findOne({tagCounter:parkZone},{parkedTrucks:{_id:0}})
+  console.log(truckExists)
 
-  /*if(truckExists.parkedTrucks.length === 1){
+  if(truckExists.parkedTrucks.length === 1){
   
    const carParkSpaces = await Product.findOne({tagCounter:parkZone},{parkedTrucks:{_id:0}}) 
 
@@ -104,7 +104,7 @@ const updateParkAndLog = asyncHandler(async (req,res)=>{
 //@desc find the truck in the park, replace it with a free space, then update the long term log with exit time and date
 //@route POST /api/orders/update
 //@access Public
-/*const updateParkAndLog = asyncHandler(async (req,res)=>{
+const updateParkAndLog = asyncHandler(async (req,res)=>{
   res.header("Access-Control-Allow-Origin","*")
   const {bookingNumber,truckCategory,truckNumber, containerNumber,entryTime, entryDate,exitTime, exitDate, parkZone, tagNumber} = req.body
 
@@ -141,7 +141,7 @@ const updateParkAndLog = asyncHandler(async (req,res)=>{
   }
   
      
-})*/
+})
 
 //@desc  Get order by ID
 //@route GET /api/orders/:id
