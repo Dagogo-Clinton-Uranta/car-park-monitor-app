@@ -70,16 +70,19 @@ const updateParkAndLog = asyncHandler(async (req,res)=>{
    const carParkSpaces = await Product.findOne({tagCounter:parkZone},{parkedTrucks:{_id:0}}) 
 
    const truckPosition = carParkSpaces.parkedTrucks.findIndex(function(e){return e.bookingNumber === bookingNumber})
+    
+   console.log(truckPosition)
+   
 
   carParkSpaces.parkedTrucks[truckPosition] = {bookingNumber:"empty"}
 
   const occupada = carParkSpaces.parkedTrucks.filter(function(e){return e.bookingNumber !== "empty"}).length
   
-  console.log(truckPosition)
+  console.log(carParkSpaces.parkedTrucks)
 
   const updatedFreeSpace = carParkSpaces.parkedTrucks.findIndex(function(e){return e.bookingNumber === "empty"})
 
-  const buggy = await Product.findOneAndUpdate({tagCounter:parkZone},{parkedTrucks:carParkSpaces.parkedTrucks,occupiedSpaces:occupada,currentFreeSpace:updatedFreeSpace + 1},{ useFindAndModify: false })
+  await Product.findOneAndUpdate({tagCounter:parkZone},{parkedTrucks:carParkSpaces.parkedTrucks,occupiedSpaces:occupada,currentFreeSpace:updatedFreeSpace + 1},{ useFindAndModify: false })
   res.json({instruction:'Do not allow further printing'})
   
   /*await User.deleteMany()*/

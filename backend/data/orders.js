@@ -2,13 +2,13 @@
 
 const orders = [
     {
-      bookingNumber:'SEEDER',
-      truckNumber:'SEEDER',
-      containerNumber:'SEEDER',
-      truckCategory:'SEEDER',
-      entryTime:'SEEDER',
-      entryDate:'SEEDER',
-      parkZone:'SEEDER',
+      bookingNumber:'SAMPLE',
+      truckNumber:'SAMPLE',
+      containerNumber:'SAMPLE',
+      truckCategory:'SAMPLE',
+      entryTime:'SAMPLE',
+      entryDate:'SAMPLE',
+      parkZone:'SAMPLE',
       tagNumber:19876,
       /*isMerchant:false,
       userMessage:'hi',

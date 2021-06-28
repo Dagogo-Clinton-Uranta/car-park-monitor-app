@@ -188,7 +188,9 @@ const exitTicketRequest = asyncHandler(async (req, res) => {
         confirmUniqueBooking.push(isBookingNumberInParkingRegion)
     }
    
-     if(confirmUniqueBooking.indexOf(true) !== -1 ){
+    console.log(confirmUniqueBooking)
+     
+    if(confirmUniqueBooking.includes(true) === true ){
       let truckExists = [] 
       
       for(let i = 0 ; i < product.length; i++){
@@ -200,7 +202,7 @@ const exitTicketRequest = asyncHandler(async (req, res) => {
 
   /*const foundIndex = truckExists.findIndex(function(e){e.bookingNumber === req.body.bookingNumber}) */
     /*const truckDetails = truckExists.filter(function(e){typeof(e) !== 'undefined'})*/ 
-     console.log(truckExists)
+    
       
        await FreshExit.deleteMany()
       const newExit = await FreshExit.create({
