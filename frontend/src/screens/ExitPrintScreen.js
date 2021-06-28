@@ -59,8 +59,8 @@ const updateAndPrintHandler = () => {
     truckNumber:driverInfo.truckNumber,
     entryTime:driverInfo.entryTime,
     entryDate:driverInfo.entryDate,
-    exitTime:`${showTime()}`,
-    exitDate:`${date.toLocaleDateString()}`,
+    exitTime:showTime(), // i removed the template literals
+    exitDate:date.toLocaleDateString(), // i removed the template literals
     parkZone:driverInfo.parkZone,
     tagNumber:driverInfo.tagNumber
     
