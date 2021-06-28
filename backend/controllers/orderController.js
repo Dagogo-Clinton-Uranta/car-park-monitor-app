@@ -7,7 +7,7 @@ import asyncHandler from 'express-async-handler'
 
 //const colors  = require('colors')
 import mongoose from 'mongoose'
-import User from '../models/userModel.js'
+import FreshExit from '../models/freshExitModel.js'
 
 //@desc  find if the truck is already in the park, then add it to the long term log, the find the first free space in the park, replace it with the truck's details.
 //@route POST /api/orders
@@ -63,31 +63,26 @@ const updateParkAndLog = asyncHandler(async (req,res)=>{
   console.log(truckExists)
 
   if(truckExists.parkedTrucks.length === 1){
-  /* const order = new Order({
-     
-    bookingNumber,truckCategory,truckNumber, containerNumber,entryTime, entryDate, parkZone, tagNumber
-   })*/
-   
-   
+  
    const carParkSpaces = await Product.findOne({tagCounter:parkZone},{parkedTrucks:{_id:0}}) 
 
    const truckPosition = carParkSpaces.parkedTrucks.findIndex(function(e){return e.bookingNumber === bookingNumber})
     
-   console.log(truckPosition)
+   /*console.log(truckPosition)*/
    
 
   carParkSpaces.parkedTrucks[truckPosition] = {bookingNumber:"empty"}
 
   const occupada = carParkSpaces.parkedTrucks.filter(function(e){return e.bookingNumber !== "empty"}).length
   
-  console.log(carParkSpaces.parkedTrucks)
+  /*console.log(carParkSpaces.parkedTrucks)*/
 
   const updatedFreeSpace = carParkSpaces.parkedTrucks.findIndex(function(e){return e.bookingNumber === "empty"})
 
   await Product.findOneAndUpdate({tagCounter:parkZone},{parkedTrucks:carParkSpaces.parkedTrucks,occupiedSpaces:occupada,currentFreeSpace:updatedFreeSpace + 1},{ useFindAndModify: false })
-  res.json({instruction:'Do not allow further printing'})
+  /*res.json({instruction:'Do not allow further printing'})*/
   
-  /*await User.deleteMany()*/
+  await FreshExit.deleteMany()
   }else{
    /*res.status(201).json(createdOrder)*/
     res.status(404)/*.json({instruction:"The truck with this booking number is not in the park, an exit ticket cannot be printed"})*/
