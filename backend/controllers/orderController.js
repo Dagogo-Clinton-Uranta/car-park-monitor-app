@@ -57,6 +57,8 @@ const updateParkAndLog = asyncHandler(async (req,res)=>{
   res.header("Access-Control-Allow-Origin","*")
   const {bookingNumber,truckCategory,truckNumber, containerNumber,entryTime, entryDate,exitTime, exitDate, parkZone, tagNumber} = req.body
 
+  await Order.findOneAndUpdate({bookingNumber:bookingNumber},{exitTime:exitTime, exitDate:exitDate},{ useFindAndModify: false })
+
   const truckExists = await Product.findOne({tagCounter:parkZone},{parkedTrucks:{$elemMatch:{bookingNumber:bookingNumber}}/*,createdAt:1,time:1*/},{ useFindAndModify: false})
   console.log(truckExists)
 
@@ -65,7 +67,7 @@ const updateParkAndLog = asyncHandler(async (req,res)=>{
      
     bookingNumber,truckCategory,truckNumber, containerNumber,entryTime, entryDate, parkZone, tagNumber
    })*/
-   await Order.findOneAndUpdate({bookingNumber:bookingNumber},{exitTime:exitTime, exitDate:exitDate},{ useFindAndModify: true })
+   
    
    const carParkSpaces = await Product.findOne({tagCounter:parkZone},{parkedTrucks:{_id:0}}) 
 
