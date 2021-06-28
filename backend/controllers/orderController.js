@@ -49,17 +49,68 @@ const addOrderItems = asyncHandler(async (req,res)=>{
      
 })
 
-
 //@desc find the truck in the park, replace it with a free space, then update the long term log with exit time and date
 //@route POST /api/orders/update
 //@access Public
+
+
 const updateParkAndLog = asyncHandler(async (req,res)=>{
   res.header("Access-Control-Allow-Origin","*")
   const {bookingNumber,truckCategory,truckNumber, containerNumber,entryTime, entryDate,exitTime, exitDate, parkZone, tagNumber} = req.body
 
   await Order.findOneAndUpdate({bookingNumber:bookingNumber},{exitTime:exitTime, exitDate:exitDate},{ useFindAndModify: false })
 
-  const truckExists = await Product.findOne({tagCounter:parkZone},{parkedTrucks:{$elemMatch:{bookingNumber:bookingNumber}}/*,createdAt:1,time:1*/},{ useFindAndModify: false})
+ /* const truckExists = await Product.findOne({tagCounter:parkZone},{parkedTrucks:{_id:0}})
+  console.log(truckExists)*/
+
+  /*if(truckExists.parkedTrucks.length === 1){
+  
+   const carParkSpaces = await Product.findOne({tagCounter:parkZone},{parkedTrucks:{_id:0}}) 
+
+   const truckPosition = carParkSpaces.parkedTrucks.findIndex(function(e){return e.bookingNumber === bookingNumber})
+    
+  
+   
+
+  carParkSpaces.parkedTrucks[truckPosition] = {bookingNumber:"empty"}
+
+  const occupada = carParkSpaces.parkedTrucks.filter(function(e){return e.bookingNumber !== "empty"}).length
+  
+  
+
+  const updatedFreeSpace = carParkSpaces.parkedTrucks.findIndex(function(e){return e.bookingNumber === "empty"})
+
+  await Product.findOneAndUpdate({tagCounter:parkZone},{parkedTrucks:carParkSpaces.parkedTrucks,occupiedSpaces:occupada,currentFreeSpace:updatedFreeSpace + 1},{ useFindAndModify: false })
+  
+  
+  await FreshExit.deleteMany()
+  }else{
+  
+    res.status(404)
+    throw new Error("The truck with this booking number is not in the park, an exit ticket cannot be printed")
+  }*/
+  
+     
+})
+
+
+
+
+
+
+
+
+
+//@desc find the truck in the park, replace it with a free space, then update the long term log with exit time and date
+//@route POST /api/orders/update
+//@access Public
+/*const updateParkAndLog = asyncHandler(async (req,res)=>{
+  res.header("Access-Control-Allow-Origin","*")
+  const {bookingNumber,truckCategory,truckNumber, containerNumber,entryTime, entryDate,exitTime, exitDate, parkZone, tagNumber} = req.body
+
+  await Order.findOneAndUpdate({bookingNumber:bookingNumber},{exitTime:exitTime, exitDate:exitDate},{ useFindAndModify: false })
+
+  const truckExists = await Product.findOne({tagCounter:parkZone},{parkedTrucks:{$elemMatch:{bookingNumber:bookingNumber}}})
   console.log(truckExists)
 
   if(truckExists.parkedTrucks.length === 1){
@@ -68,29 +119,29 @@ const updateParkAndLog = asyncHandler(async (req,res)=>{
 
    const truckPosition = carParkSpaces.parkedTrucks.findIndex(function(e){return e.bookingNumber === bookingNumber})
     
-   /*console.log(truckPosition)*/
+  
    
 
   carParkSpaces.parkedTrucks[truckPosition] = {bookingNumber:"empty"}
 
   const occupada = carParkSpaces.parkedTrucks.filter(function(e){return e.bookingNumber !== "empty"}).length
   
-  /*console.log(carParkSpaces.parkedTrucks)*/
+  
 
   const updatedFreeSpace = carParkSpaces.parkedTrucks.findIndex(function(e){return e.bookingNumber === "empty"})
 
   await Product.findOneAndUpdate({tagCounter:parkZone},{parkedTrucks:carParkSpaces.parkedTrucks,occupiedSpaces:occupada,currentFreeSpace:updatedFreeSpace + 1},{ useFindAndModify: false })
-  /*res.json({instruction:'Do not allow further printing'})*/
+  
   
   await FreshExit.deleteMany()
   }else{
-   /*res.status(201).json(createdOrder)*/
-    res.status(404)/*.json({instruction:"The truck with this booking number is not in the park, an exit ticket cannot be printed"})*/
+  
+    res.status(404)
     throw new Error("The truck with this booking number is not in the park, an exit ticket cannot be printed")
   }
   
      
-})
+})*/
 
 //@desc  Get order by ID
 //@route GET /api/orders/:id
