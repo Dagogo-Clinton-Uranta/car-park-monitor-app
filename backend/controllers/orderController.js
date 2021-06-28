@@ -88,10 +88,10 @@ const addOrderItems = asyncHandler(async (req,res)=>{
   
     res.status(404)
     throw new Error("The truck with this booking number is not in the park, an exit ticket cannot be printed")
-  }*/
+  }
   
      
-})
+})*/
 
 
 
