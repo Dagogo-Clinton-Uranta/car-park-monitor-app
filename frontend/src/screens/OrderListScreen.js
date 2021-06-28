@@ -57,11 +57,16 @@ const OrderListScreen = ({history}) => { //he is taking location & history out o
           <tr>
            <th>BOOKING NUMBER</th>
            <th>TRUCK NUMBER</th>
+           <th>CONTAINER NUMBER</th>
+           <th>TRUCK CATEGORY</th>
            <th>ENTRY DATE</th>
+           <th>ENTRY TIME</th>
+           <th>EXIT DATE</th>
+           <th>EXIT TIME</th>
            {/*userInfo.isAdmin ?(<th>TOTAL</th>):(<th>TO RECEIVE:</th> )}{/*AS PER TOTAL PRICE*/}
            {/*<th>PAID</th>*/}
-           <th>TRUCK CATEGORY</th>
-           <th>CONTAINER NUMBER</th>
+           
+          
          </tr>
          </thead>
          <tbody>
@@ -69,16 +74,20 @@ const OrderListScreen = ({history}) => { //he is taking location & history out o
             <tr key={order._id} >
               <td>{order.bookingNumber}</td>
               <td>{order.truckNumber}</td>
-              <td>{order.entryDate}</td>
+              <td>{order.containerNumber}</td>
               <td>{order.truckCategory}</td>
+              <td>{order.entryDate}</td>
+              <td>{order.entryTime}</td>
+              <td>{order.exitDate}</td>
+              <td>{order.exitTime}</td>
+              
+              
 
               {/*<td>{order.isPaid ? (order.paidAt.substring(0,10)): there used to be curly braces around order.paidAt 
                 (<i className='fas fa-times' style={{color:'red'}}></i>)}
               </td>*/}
 
-              <td>
-                {order.containerNumber}
-              </td>
+              
 
               <td>
                <LinkContainer to={`/parklog/${order._id}`}>

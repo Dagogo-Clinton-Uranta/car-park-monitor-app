@@ -100,7 +100,7 @@ const entryTicketRequest = asyncHandler(async (req, res) => {
   
   let object = {
     URL: `could not generate ticket`,
-    statusMessage:frontendMessage
+    statusMessage: 'A truck with this booking number is already in the park! please check the booking number again'
   }
 
   await User.deleteMany()
@@ -121,37 +121,46 @@ const entryTicketRequest = asyncHandler(async (req, res) => {
 
     reg.push(trucksInParkingRegion)
 }
- 
+console.log(confirmUniqueBooking)
+console.log(confirmUniqueBooking.includes(true))
 
-  if( confirmUniqueBooking.indexOf(true) !== -1 ){frontendMessage = 'A truck with this booking number is currently in this park, please check the booking number again'}
-  else if(req.body.truckCategory === 'EXPORT'  && reg[5].length === 52 && reg[6].length === 50 && reg[7].length === 51 && reg[8].length === 95 ){frontendMessage = 'No spaces available for this category of truck(EXPORT)'}
+  if( confirmUniqueBooking.includes(true) === false ){
+    await User.create({bookingNumber:req.body.bookingNumber,
+      truckNumber: req.body.truckNumber,
+      containerNumber: req.body.containerNumber,
+      truckCategory: req.body.truckCategory })
+  
+      /*object.URL =`https://flacscarpark.herokuapp.com/printenter`
+      object.statusMessage = frontendMessage*/
+      res.json({
+        URL:`https://flacscarpark.herokuapp.com/printenter`,
+        statusMessage:'Spaces are available to park this truck, please proceed to the printing screen via the URL'
+      })
+
+  }
+  else{res.json(object)}
+
+  /*else if(req.body.truckCategory === 'EXPORT'  && reg[5].length === 52 && reg[6].length === 50 && reg[7].length === 51 && reg[8].length === 95 ){frontendMessage = 'No spaces available for this category of truck(EXPORT)'}
   else if( req.body.truckCategory === "FLAT BED ENL/EKO"  && reg[0].length === 37 && reg[1].length === 46 ){frontendMessage = 'No spaces available for this category of truck(FLAT BED ENL/EKO)'}
   else if(req.body.truckCategory === "FLAT BED APMT" && reg[2].length === 78 && reg[3].length === 30 && reg[4].length === 71){frontendMessage = 'No spaces available for this category of truck(FLAT BED APMT)'}
-  else if(req.body.truckCategory !== "FLAT BED APMT" ||req.body.truckCategory !== "EXPORT" ||req.body.truckCategory !== "FLAT BED ENL/EKO"  ){frontendMessage ='Could not process the requested truck category'}
-  else{frontendMessage = 'Spaces are available to park this truck, please proceed to the printing screen via the URL'}
+  else if(req.body.truckCategory !== "FLAT BED APMT" ||req.body.truckCategory !== "EXPORT" ||req.body.truckCategory !== "FLAT BED ENL/EKO"  ){frontendMessage ='Could not process the requested truck category'}*/
+ 
 
   
   
-  if(frontendMessage = 'Spaces are available to park this truck, please proceed to the printing screen via the URL'){
-  await User.create({bookingNumber:req.body.bookingNumber,
-    truckNumber: req.body.truckNumber,
-    containerNumber: req.body.containerNumber,
-    truckCategory: req.body.truckCategory })
+  if(frontendMessage === 'Spaces are available to park this truck, please proceed to the printing screen via the URL'){
+  
+  
 
-    object = {
-      URL: `https://flacscarpark.herokuapp.com/printenter`,
-      statusMessage:frontendMessage
-    }
-
-   }else{
+   } /*else{
     object = {
       URL: `could not generate ticket`,
       statusMessage:frontendMessage
     }
 
-   }
+   }*/
   
-res.json(object)
+
   
 
 
