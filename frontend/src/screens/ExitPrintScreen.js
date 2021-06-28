@@ -66,7 +66,7 @@ const updateAndPrintHandler = () => {
     
   }))
   window.print()
-  window.location.reload()
+  /*window.location.reload()*/
 }
   
 const previousPageHandler = () => {
