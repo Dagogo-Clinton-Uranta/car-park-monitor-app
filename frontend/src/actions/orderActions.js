@@ -55,20 +55,20 @@ export const createOrder  = (order) => async (dispatch,getState)=> {
    }
 }
 
-export const sendRecords  = (trailer) => async (dispatch,getState)=> {
+export const sendRecords  = (trailer) => async (dispatch/*,getState*/)=> {
   //redux thunk was used just now in the form of async (dispatch) above
  try {
    dispatch({type: UPDATE_RECORDS_REQUEST})
 
-    const {userLogin:{userInfo}} = getState()
-   //we do config cus we wanna send he headers a content type of application/json
-   const config = {
+   // const {userLogin:{userInfo}} = getState()
+   
+   /*const config = {
      headers:{
        'Content-Type':'application/json',
        Authorization:`Bearer ${userInfo.token}`
      }
-   }
-   const {data} = await axios.post(`/api/orders/update`,trailer,config)
+   }*/
+   const {data} = await axios.post(`/api/orders/update`,trailer/*,config*/)
    //i'm gonna take a stab here and say that the third argument for axios is for setting header property
 
    dispatch({
