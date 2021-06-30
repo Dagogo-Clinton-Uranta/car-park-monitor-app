@@ -54,8 +54,8 @@ const PrintingScreen = ({history,match}) => {
  console.log(product)
 
 const updateAndPrintHandler = () => {
-  /*dispatch(register(zoneArea,zoneCounter,change))*/
-  dispatch(createOrder({
+  
+  if(freeSpace!==0){dispatch(createOrder({
     bookingNumber:userInfo.bookingNumber,
     truckCategory:userInfo.truckCategory,
     containerNumber:userInfo.containerNumber,
@@ -68,15 +68,17 @@ const updateAndPrintHandler = () => {
   }))
   window.print()
   window.location.reload()
-}
-  
+
+}else{
+  window.alert('ALL SPACES ARE FULL FOR THIS TRUCK CATEGORY, THIS TICKET CANNOT BE PRINTED.')
+} 
+ }
 
 
-
-const previousPageHandler = () => {
+/*const previousPageHandler = () => {
   
   window.history.back()
-}
+}*/
 
 
 
@@ -123,9 +125,10 @@ const previousPageHandler = () => {
 
   if(userInfo && userInfo.truckCategory === "EXPORT" && product  && product[5].occupiedSpaces < 52 ){ zoneArea = 'F'}
   else if(userInfo && userInfo.truckCategory === 'EXPORT' && product && product[5].occupiedSpaces === 52 && product[6].occupiedSpaces < 50 ){zoneArea = 'G'}
-  else if(userInfo && userInfo.truckCategory === 'EXPORT' && product && product[6].occupiedSpaces === 50 && product[7].occupiedSpaces < 51 ){zoneArea = 'H'}
-  else if(userInfo && userInfo.truckCategory === 'EXPORT' && product && product[7].occupiedSpaces === 51 && product[8].occupiedSpaces < 95 ){zoneArea = 'R'}
+  else if(userInfo && userInfo.truckCategory === 'EXPORT' && product && product[6].occupiedSpaces === 50 && product[8].occupiedSpaces < 95 ){zoneArea = 'R'}
   else if(userInfo && userInfo.truckCategory === 'EXPORT' && product && product[5].occupiedSpaces === 52 && product[6].occupiedSpaces === 50 && product[7].occupiedSpaces === 51 && product[8].occupiedSpaces === 95 ){zoneArea = 'X'}
+  else if(userInfo && userInfo.truckCategory === 'EXCEPTION' && product && product[7].occupiedSpaces < 51 ){zoneArea = 'H'}
+  else if(userInfo && userInfo.truckCategory === 'EXCEPTION' && product && product[7].occupiedSpaces === 51 ){zoneArea = 'X'}
   else if(userInfo && userInfo.truckCategory === "FLAT BED ENL/EKO" && product  && product[0].occupiedSpaces < 37 ){zoneArea = 'A'}
   else if(userInfo && userInfo.truckCategory === "FLAT BED ENL/EKO" && product  && product[0].occupiedSpaces === 37 && product[1].occupiedSpaces < 46 ){zoneArea = 'B'}
   else if(userInfo && userInfo.truckCategory === "FLAT BED ENL/EKO" && product && product[0].occupiedSpaces === 37 && product[1].occupiedSpaces === 46 ){zoneArea = 'X'}
@@ -133,13 +136,14 @@ const previousPageHandler = () => {
   else if(userInfo && userInfo.truckCategory === "FLAT BED APMT" && product  && product[2].occupiedSpaces === 78 && product[3].occupiedSpaces < 30 ){zoneArea = 'D'}
   else if(userInfo && userInfo.truckCategory === "FLAT BED APMT" && product  && product[3].occupiedSpaces === 30 && product[4].occupiedSpaces < 71 ){zoneArea = 'E' }
   else if(userInfo && userInfo.truckCategory === "FLAT BED APMT" && product && product[2].occupiedSpaces === 78 && product[3].occupiedSpaces === 30 && product[4].occupiedSpaces === 71){zoneArea = 'X'}
-  else{ zoneArea ='--'}
+  else{ zoneArea ='-'}
 
   if(userInfo && userInfo.truckCategory === "EXPORT" && product  && product[5].occupiedSpaces < 52 ){  zoneCounter = product[5].currentFreeSpace}
   else if(userInfo && userInfo.truckCategory === 'EXPORT' && product && product[5].occupiedSpaces === 52 && product[6].occupiedSpaces < 50 ){ zoneCounter =product[6].currentFreeSpace}
-  else if(userInfo && userInfo.truckCategory === 'EXPORT' && product && product[6].occupiedSpaces === 50 && product[7].occupiedSpaces < 51 ){ zoneCounter =product[7].currentFreeSpace}
-  else if(userInfo && userInfo.truckCategory === 'EXPORT' && product && product[7].occupiedSpaces === 51 && product[8].occupiedSpaces < 95 ){ zoneCounter =product[8].currentFreeSpace}
+  else if(userInfo && userInfo.truckCategory === 'EXPORT' && product && product[6].occupiedSpaces === 50 && product[8].occupiedSpaces < 95 ){ zoneCounter =product[8].currentFreeSpace}
   else if(userInfo && userInfo.truckCategory === 'EXPORT' && product && product[5].occupiedSpaces === 52 && product[6].occupiedSpaces === 50 && product[7].occupiedSpaces === 51 && product[8].occupiedSpaces === 95 ){zoneCounter= freeSpace = 0}
+  else if(userInfo && userInfo.truckCategory === 'EXCEPTION' && product && product[7].occupiedSpaces < 51){ zoneCounter =product[7].currentFreeSpace}
+  else if(userInfo && userInfo.truckCategory === 'EXCEPTION' && product && product[7].occupiedSpaces === 51 ){zoneCounter= freeSpace = 0}
   else if(userInfo && userInfo.truckCategory === "FLAT BED ENL/EKO" && product  && product[0].occupiedSpaces < 37 ){ zoneCounter =product[0].currentFreeSpace}
   else if(userInfo && userInfo.truckCategory === "FLAT BED ENL/EKO" && product  && product[0].occupiedSpaces === 37 && product[1].occupiedSpaces < 46 ){ zoneCounter =product[1].currentFreeSpace}
   else if(userInfo && userInfo.truckCategory === "FLAT BED ENL/EKO" && product && product[0].occupiedSpaces === 37 && product[1].occupiedSpaces === 46 ){zoneCounter= freeSpace = 0}
@@ -172,7 +176,7 @@ const previousPageHandler = () => {
 
             <Col>
             <Row>
-           <Image className="truckImage" src={userInfo && userInfo.truckCategory === "FLAT BED APMT"?flatbedAPMTImage:(userInfo && userInfo.truckCategory === "FLAT BED ENL/EKO"?flatbedENLImage:(userInfo && userInfo.truckCategory === "EXPORT"?exportImage:(invalidTicket)))} alt={"truck image"} fluid>
+           <Image className="truckImage" src={userInfo && userInfo.truckCategory === "FLAT BED APMT"?flatbedAPMTImage:(userInfo && userInfo.truckCategory === "FLAT BED ENL/EKO"?flatbedENLImage:(userInfo && userInfo.truckCategory === "EXPORT"?exportImage:(userInfo && userInfo.truckCategory === "EXCEPTION"?exportImage:(invalidTicket))))} alt={"image of a trailer, based on it's category"} fluid>
            </Image>
            </Row>
             </Col> 
@@ -235,7 +239,7 @@ const previousPageHandler = () => {
               <ListGroup variant='flush'  className='borderless'>
               <ListGroup.Item className='borderless'>
                  <Row className="appFont">
-                   <Col>BOOKING NUMBER:</Col>
+                   <Col>JOURNEY CODE:</Col>
                    <Col>
                    <h2 className="appFont">{userInfo?userInfo.bookingNumber:'N/A'}</h2>
                    </Col>
@@ -246,7 +250,7 @@ const previousPageHandler = () => {
               
               <ListGroup.Item className='borderless'>
                  <Row className="appFont">
-                   <Col>TRUCK NUMBER:</Col>
+                   <Col>PLATE NUMBER:</Col>
                    <Col>
                    <h2 className="appFont">{userInfo?userInfo.truckNumber:'N/A'}</h2>
                    </Col>
@@ -264,7 +268,7 @@ const previousPageHandler = () => {
 
 
                <ListGroup.Item className='borderless centerAttempt entryHeader'>
-                 <Row className="headerFont ">
+                 <Row className="entryDetailsFont ">
                    <Col >ENTRY DETAILS</Col> 
                    
                  </Row>
@@ -272,20 +276,20 @@ const previousPageHandler = () => {
 
 
                <ListGroup.Item className='borderless'>
-                 <Row className="appFont">
+                 <Row className="headerFont">
                    <Col> TIME:</Col>
                    <Col>
-                    <strong className="appFont">{freeSpace=== 0 ?'--':showTime()}</strong>
+                    <strong className="headerFont">{freeSpace=== 0 ?'--':showTime()}</strong>
                    </Col>
                  </Row>
                </ListGroup.Item>
 
                <ListGroup.Item className='borderless'>
-                 <Row className="appFont">
+                 <Row className="headerFont">
                    <Col> DATE:</Col>
                    <Col>
                     
-                     <strong className="appFont">{freeSpace=== 0 ?'--': date.toLocaleDateString()}</strong>
+                     <strong className="headerFont">{freeSpace=== 0 ?'--': date.toLocaleDateString()}</strong>
                    </Col>
                  </Row>
                </ListGroup.Item>
@@ -349,6 +353,7 @@ const previousPageHandler = () => {
         </>
       )
 
-}
+
+ }
 
 export default PrintingScreen

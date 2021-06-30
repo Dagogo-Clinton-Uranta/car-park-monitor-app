@@ -45,6 +45,11 @@ h2 {
   font-size:1.8rem;
 }
 
+.entryDetailsFont {
+  font-weight: 900;
+  font-size:1.3rem;
+}
+
 .tagFont {
   font-weight: 500;
   font-size:1.3rem;
@@ -70,7 +75,7 @@ h2 {
 
 .headerFont {
   font-weight: 900;
-  font-size:1.6rem;
+  font-size:2.6rem;
 }
 
  

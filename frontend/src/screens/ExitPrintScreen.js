@@ -168,7 +168,7 @@ console.log(driverInfo)
 
             <Col>
             <Row>
-           <Image className="truckImage" src={driverInfo && driverInfo.truckCategory === "FLAT BED APMT"?flatbedAPMTImage:(driverInfo && driverInfo.truckCategory === "FLAT BED ENL/EKO"?flatbedENLImage:(driverInfo && driverInfo.truckCategory === "EXPORT"?exportImage:(invalidTicket)))} alt={"truck image"} fluid>
+           <Image className="truckImage" src={driverInfo && driverInfo.truckCategory === "FLAT BED APMT"?flatbedAPMTImage:(driverInfo && driverInfo.truckCategory === "FLAT BED ENL/EKO"?flatbedENLImage:(driverInfo && driverInfo.truckCategory === "EXPORT"?exportImage:(driverInfo && driverInfo.truckCategory === "EXCEPTION"?exportImage:(invalidTicket))))} alt={"truck image"} fluid>
            </Image>
            </Row>
             </Col> 
@@ -232,7 +232,7 @@ console.log(driverInfo)
               <ListGroup variant='flush'  className='borderless'>
               <ListGroup.Item className='borderless'>
                  <Row className="appFont">
-                   <Col>BOOKING NUMBER:</Col>
+                   <Col>JOURNEY CODE:</Col>
                    <Col>
                    <h2 className="appFont">{driverInfo?driverInfo.bookingNumber:'N/A'}</h2>
                    </Col>
@@ -243,7 +243,7 @@ console.log(driverInfo)
               
               <ListGroup.Item className='borderless'>
                  <Row className="appFont">
-                   <Col>TRUCK NUMBER:</Col>
+                   <Col>PLATE NUMBER:</Col>
                    <Col>
                    <h2 className="appFont">{driverInfo?driverInfo.truckNumber:'N/A'}</h2>
                    </Col>
@@ -261,7 +261,7 @@ console.log(driverInfo)
 
 
                <ListGroup.Item className='borderless centerAttempt entryHeader'>
-                 <Row className="headerFont ">
+                 <Row className="entryDetailsFont ">
                    <Col >EXIT DETAILS</Col> 
                    
                  </Row>
@@ -269,20 +269,20 @@ console.log(driverInfo)
 
 
                <ListGroup.Item className='borderless'>
-                 <Row className="appFont">
+                 <Row className="headerFont ">
                    <Col> TIME:</Col>
                    <Col>
-                    <strong className="appFont">{occupiedSpace=== -1 ?'--':showTime()}</strong>
+                    <strong className="headerFont ">{occupiedSpace=== -1 ?'--':showTime()}</strong>
                    </Col>
                  </Row>
                </ListGroup.Item>
 
                <ListGroup.Item className='borderless'>
-                 <Row className="appFont">
+                 <Row className="headerFont ">
                    <Col> DATE:</Col>
                    <Col>
                     {/*<strong>{product.countInStock > 4 ?'In Stock':product.countInStock <= 3 ?'Few Left !!':product.countInStock === 0 ? 'Out of Stock':'Currently being restocked' //this currenty being restocked is not the right thing, you just put it there as filler, till the need comes to fix it }</strong>*/}
-                     <strong className="appFont">{occupiedSpace=== -1 ?'--':date.toLocaleDateString()}</strong>
+                     <strong className="headerFont ">{occupiedSpace=== -1 ?'--':date.toLocaleDateString()}</strong>
                    </Col>
                  </Row>
                </ListGroup.Item>

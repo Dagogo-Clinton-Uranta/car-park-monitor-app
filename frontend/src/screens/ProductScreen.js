@@ -40,6 +40,7 @@ const [truckCategory, setTruckCategory] = useState('')
 
 let zoneCounter
   let zoneArea
+  let freeSpace
   
   console.log(email.bookingNo)
   console.log(userDirection)
@@ -130,28 +131,38 @@ const previousPageHandler = () => {
      return currentTime
   }
   
-  /*it is not product.number anymore , its occupied spaces and free spaces */
-  if(userInfo && userInfo.truckCategory === "EXPORT" && product  && product[5].number < 52 ){ zoneArea = 'F'}
-  else if(userInfo && userInfo.truckCategory === 'EXPORT' && product && product[5].number === 52 && product[6].number < 50 ){zoneArea = 'G'}
-  else if(userInfo && userInfo.truckCategory === 'EXPORT' && product && product[6].number === 50 && product[7].number < 51 ){zoneArea = 'H'}
-  else if(userInfo && userInfo.truckCategory === 'EXPORT' && product && product[7].number === 51 && product[8].number < 95 ){zoneArea = 'R'}
-  else if(userInfo && userInfo.truckCategory === "FLAT BED ENL/EKO" && product  && product[0].number < 37 ){zoneArea = 'A'}
-  else if(userInfo && userInfo.truckCategory === "FLAT BED ENL/EKO" && product  && product[0].number === 37 && product[1].number < 46 ){zoneArea = 'B'}
-  else if(userInfo && userInfo.truckCategory === "FLAT BED APMT" && product  && product[2].number < 78 ){zoneArea = 'C'}
-  else if(userInfo && userInfo.truckCategory === "FLAT BED APMT" && product  && product[2].number === 78 && product[3].number < 30 ){zoneArea = 'D'}
-  else if(userInfo && userInfo.truckCategory === "FLAT BED APMT" && product  && product[3].number === 30 && product[4].number < 71 ){zoneArea = 'E' }
-  else{ zoneArea ='--'}
+  /*this is the updated logic, to include exception zone, zone H, in case you need it here */
+ 
+  if(userInfo && userInfo.truckCategory === "EXPORT" && product  && product[5].occupiedSpaces < 52 ){ zoneArea = 'F'}
+  else if(userInfo && userInfo.truckCategory === 'EXPORT' && product && product[5].occupiedSpaces === 52 && product[6].occupiedSpaces < 50 ){zoneArea = 'G'}
+  else if(userInfo && userInfo.truckCategory === 'EXPORT' && product && product[6].occupiedSpaces === 50 && product[8].occupiedSpaces < 95 ){zoneArea = 'R'}
+  else if(userInfo && userInfo.truckCategory === 'EXPORT' && product && product[5].occupiedSpaces === 52 && product[6].occupiedSpaces === 50 && product[7].occupiedSpaces === 51 && product[8].occupiedSpaces === 95 ){zoneArea = 'X'}
+  else if(userInfo && userInfo.truckCategory === 'EXCEPTION' && product && product[7].occupiedSpaces < 51 ){zoneArea = 'H'}
+  else if(userInfo && userInfo.truckCategory === 'EXCEPTION' && product && product[7].occupiedSpaces === 51 ){zoneArea = 'X'}
+  else if(userInfo && userInfo.truckCategory === "FLAT BED ENL/EKO" && product  && product[0].occupiedSpaces < 37 ){zoneArea = 'A'}
+  else if(userInfo && userInfo.truckCategory === "FLAT BED ENL/EKO" && product  && product[0].occupiedSpaces === 37 && product[1].occupiedSpaces < 46 ){zoneArea = 'B'}
+  else if(userInfo && userInfo.truckCategory === "FLAT BED ENL/EKO" && product && product[0].occupiedSpaces === 37 && product[1].occupiedSpaces === 46 ){zoneArea = 'X'}
+  else if(userInfo && userInfo.truckCategory === "FLAT BED APMT" && product  && product[2].occupiedSpaces < 78 ){zoneArea = 'C'}
+  else if(userInfo && userInfo.truckCategory === "FLAT BED APMT" && product  && product[2].occupiedSpaces === 78 && product[3].occupiedSpaces < 30 ){zoneArea = 'D'}
+  else if(userInfo && userInfo.truckCategory === "FLAT BED APMT" && product  && product[3].occupiedSpaces === 30 && product[4].occupiedSpaces < 71 ){zoneArea = 'E' }
+  else if(userInfo && userInfo.truckCategory === "FLAT BED APMT" && product && product[2].occupiedSpaces === 78 && product[3].occupiedSpaces === 30 && product[4].occupiedSpaces === 71){zoneArea = 'X'}
+  else{ zoneArea ='-'}
 
-  if(userInfo && userInfo.truckCategory === "EXPORT" && product  && product[5].number < 52 ){  zoneCounter = product[5].number}
-  else if(userInfo && userInfo.truckCategory === 'EXPORT' && product && product[5].number === 52 && product[6].number < 50 ){ zoneCounter =product[6].number}
-  else if(userInfo && userInfo.truckCategory === 'EXPORT' && product && product[6].number === 50 && product[7].number < 51 ){ zoneCounter =product[7].number}
-  else if(userInfo && userInfo.truckCategory === 'EXPORT' && product && product[7].number === 51 && product[8].number < 95 ){ zoneCounter =product[8].number}
-  else if(userInfo && userInfo.truckCategory === "FLAT BED ENL/EKO" && product  && product[0].number < 37 ){ zoneCounter =product[0].number}
-  else if(userInfo && userInfo.truckCategory === "FLAT BED ENL/EKO" && product  && product[0].number === 37 && product[1].number < 46 ){ zoneCounter =product[1].number}
-  else if(userInfo && userInfo.truckCategory === "FLAT BED APMT" && product  && product[2].number < 78 ){ zoneCounter =product[2].number}
-  else if(userInfo && userInfo.truckCategory === "FLAT BED APMT" && product  && product[2].number === 78 && product[3].number < 30 ){ zoneCounter =product[3].number}
-  else if(userInfo && userInfo.truckCategory === "FLAT BED APMT" && product  && product[3].number === 30 && product[4].number < 71 ){ zoneCounter =product[4].number}
+  if(userInfo && userInfo.truckCategory === "EXPORT" && product  && product[5].occupiedSpaces < 52 ){  zoneCounter = product[5].currentFreeSpace}
+  else if(userInfo && userInfo.truckCategory === 'EXPORT' && product && product[5].occupiedSpaces === 52 && product[6].occupiedSpaces < 50 ){ zoneCounter =product[6].currentFreeSpace}
+  else if(userInfo && userInfo.truckCategory === 'EXPORT' && product && product[6].occupiedSpaces === 50 && product[8].occupiedSpaces < 95 ){ zoneCounter =product[8].currentFreeSpace}
+  else if(userInfo && userInfo.truckCategory === 'EXPORT' && product && product[5].occupiedSpaces === 52 && product[6].occupiedSpaces === 50 && product[7].occupiedSpaces === 51 && product[8].occupiedSpaces === 95 ){zoneCounter= freeSpace = 0}
+  else if(userInfo && userInfo.truckCategory === 'EXCEPTION' && product && product[7].occupiedSpaces < 51){ zoneCounter =product[7].currentFreeSpace}
+  else if(userInfo && userInfo.truckCategory === 'EXCEPTION' && product && product[7].occupiedSpaces === 51 ){zoneCounter= freeSpace = 0}
+  else if(userInfo && userInfo.truckCategory === "FLAT BED ENL/EKO" && product  && product[0].occupiedSpaces < 37 ){ zoneCounter =product[0].currentFreeSpace}
+  else if(userInfo && userInfo.truckCategory === "FLAT BED ENL/EKO" && product  && product[0].occupiedSpaces === 37 && product[1].occupiedSpaces < 46 ){ zoneCounter =product[1].currentFreeSpace}
+  else if(userInfo && userInfo.truckCategory === "FLAT BED ENL/EKO" && product && product[0].occupiedSpaces === 37 && product[1].occupiedSpaces === 46 ){zoneCounter= freeSpace = 0}
+  else if(userInfo && userInfo.truckCategory === "FLAT BED APMT" && product  && product[2].occupiedSpaces < 78 ){ zoneCounter =product[2].currentFreeSpace}
+  else if(userInfo && userInfo.truckCategory === "FLAT BED APMT" && product  && product[2].occupiedSpaces === 78 && product[3].occupiedSpaces < 30 ){ zoneCounter =product[3].currentFreeSpace}
+  else if(userInfo && userInfo.truckCategory === "FLAT BED APMT" && product  && product[3].occupiedSpaces === 30 && product[4].occupiedSpaces < 71 ){ zoneCounter =product[4].currentFreeSpace}
+  else if(userInfo && userInfo.truckCategory === "FLAT BED APMT" && product && product[2].occupiedSpaces === 78 && product[3].occupiedSpaces === 30 && product[4].occupiedSpaces === 71){zoneCounter= freeSpace = 0}
   else{zoneCounter = 0 }
+
 
 /*const submitHandler =(e) =>{
   e.preventDefault() //since submit handler is being called inside a form
@@ -192,7 +203,7 @@ const previousPageHandler = () => {
                <ListGroup.Item>
                 <center>
                 <p className="bigNumber" >
-                 {zoneCounter + 1}
+                 {zoneCounter}
                  </p>
                  </center>
                </ListGroup.Item>
@@ -226,7 +237,7 @@ const previousPageHandler = () => {
               <ListGroup.Item>
               {/*<Form onSubmit={submitHandler}>*/}
                  <Row className="appFont">
-                   <Col>BOOKING NUMBER:</Col>
+                   <Col>JOURNEY CODE:</Col>
                    <Col>
                    <Form.Control as='input' className='inputBorder' value={email.bookingNo} onChange={(e) =>{setEmail({bookingNo:e.target.value, truckNumber:'',containerNumber:'',entryTime:'',entryDate:'',truckCategory:''})}}   />
                    </Col>
@@ -241,7 +252,7 @@ const previousPageHandler = () => {
               
               <ListGroup.Item>
                  <Row className="appFont">
-                   <Col>TRUCK NUMBER:</Col>
+                   <Col>PLATE NUMBER:</Col>
                    <Col>
                    <Form.Control as='input' className='inputBorder' value={truckNumber} onChange={(e) =>{setTruckNumber(e.target.value)}}   />
                    </Col>

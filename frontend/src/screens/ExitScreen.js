@@ -218,7 +218,7 @@ const previousPageHandler = () => {
               <ListGroup.Item>
               {/*<Form onSubmit={submitHandler}>*/}
                  <Row className="appFont">
-                   <Col>BOOKING NUMBER:</Col>
+                   <Col>JOURNEY CODE:</Col>
                    <Col>
                    <Form.Control as='input' className='inputBorder' value={email.bookingNo} onChange={(e) =>{setEmail({bookingNo:e.target.value, truckNumber:'',containerNumber:'',entryTime:'',entryDate:'',truckCategory:''})}}   />
                    </Col>
