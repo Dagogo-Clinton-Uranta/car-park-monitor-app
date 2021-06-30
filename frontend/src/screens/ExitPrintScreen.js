@@ -121,16 +121,16 @@ console.log(driverInfo)
     if(driverInfo && driverInfo.truckCategory === "EXPORT" && product  && product[5].occupiedSpaces < 52 ){  zoneCounter = product[5].currentFreeSpace}
     else if(driverInfo && driverInfo.truckCategory === 'EXPORT' && product && product[5].occupiedSpaces === 52 && product[6].occupiedSpaces < 50 ){ zoneCounter =product[6].currentFreeSpace}
     else if(driverInfo && driverInfo.truckCategory === 'EXPORT' && product && product[6].occupiedSpaces === 50 && product[8].occupiedSpaces < 95 ){ zoneCounter =product[8].currentFreeSpace}
-    else if(driverInfo && driverInfo.truckCategory === 'EXPORT' && product && product[5].occupiedSpaces === 52 && product[6].occupiedSpaces === 50 && product[7].occupiedSpaces === 51 && product[8].occupiedSpaces === 95 ){zoneCounter= freeSpace = 0}
+    else if(driverInfo && driverInfo.truckCategory === 'EXPORT' && product && product[5].occupiedSpaces === 0 && product[6].occupiedSpaces === 0 && product[7].occupiedSpaces === 0 && product[8].occupiedSpaces === 0 ){zoneCounter= freeSpace = 0}
     else if(driverInfo && driverInfo.truckCategory === 'EXCEPTION' && product && product[7].occupiedSpaces < 51){ zoneCounter =product[7].currentFreeSpace}
-    else if(driverInfo && driverInfo.truckCategory === 'EXCEPTION' && product && product[7].occupiedSpaces === 51 ){zoneCounter= freeSpace = 0}
+    else if(driverInfo && driverInfo.truckCategory === 'EXCEPTION' && product && product[7].occupiedSpaces === 0 ){zoneCounter= freeSpace = 0}
     else if(driverInfo && driverInfo.truckCategory === "FLAT BED ENL/EKO" && product  && product[0].occupiedSpaces < 37 ){ zoneCounter =product[0].currentFreeSpace}
     else if(driverInfo && driverInfo.truckCategory === "FLAT BED ENL/EKO" && product  && product[0].occupiedSpaces === 37 && product[1].occupiedSpaces < 46 ){ zoneCounter =product[1].currentFreeSpace}
-    else if(driverInfo && driverInfo.truckCategory === "FLAT BED ENL/EKO" && product && product[0].occupiedSpaces === 37 && product[1].occupiedSpaces === 46 ){zoneCounter= freeSpace = 0}
+    else if(driverInfo && driverInfo.truckCategory === "FLAT BED ENL/EKO" && product && product[0].occupiedSpaces === 0 && product[1].occupiedSpaces === 0 ){zoneCounter= freeSpace = 0}
     else if(driverInfo && driverInfo.truckCategory === "FLAT BED APMT" && product  && product[2].occupiedSpaces < 78 ){ zoneCounter =product[2].currentFreeSpace}
     else if(driverInfo && driverInfo.truckCategory === "FLAT BED APMT" && product  && product[2].occupiedSpaces === 78 && product[3].occupiedSpaces < 30 ){ zoneCounter =product[3].currentFreeSpace}
     else if(driverInfo && driverInfo.truckCategory === "FLAT BED APMT" && product  && product[3].occupiedSpaces === 30 && product[4].occupiedSpaces < 71 ){ zoneCounter =product[4].currentFreeSpace}
-    else if(driverInfo && driverInfo.truckCategory === "FLAT BED APMT" && product && product[2].occupiedSpaces === 78 && product[3].occupiedSpaces === 30 && product[4].occupiedSpaces === 71){zoneCounter= freeSpace = 0}
+    else if(driverInfo && driverInfo.truckCategory === "FLAT BED APMT" && product && product[2].occupiedSpaces === 0 && product[3].occupiedSpaces === 0 && product[4].occupiedSpaces === 0){zoneCounter= freeSpace = 0}
     else{zoneCounter = 0 }
 
 
@@ -259,7 +259,7 @@ console.log(driverInfo)
                  <Row className="headerFont ">
                    <Col> TIME:</Col>
                    <Col className="tightMargin ">
-                    <strong className="headerFont ">{occupiedSpace=== -1 ?'--':showTime()}</strong>
+                    <strong className="headerFont ">{freeSpace=== 0 ?'--':showTime()}</strong>
                    </Col>
                  </Row>
                </ListGroup.Item>
@@ -269,7 +269,7 @@ console.log(driverInfo)
                    <Col> DATE:</Col>
                    <Col >
                     {/*<strong>{product.countInStock > 4 ?'In Stock':product.countInStock <= 3 ?'Few Left !!':product.countInStock === 0 ? 'Out of Stock':'Currently being restocked' //this currenty being restocked is not the right thing, you just put it there as filler, till the need comes to fix it }</strong>*/}
-                     <strong className="headerFont ">{occupiedSpace=== -1 ?'--':date.toLocaleDateString()}</strong>
+                     <strong className="headerFont ">{freeSpace=== 0 ?'--':date.toLocaleDateString()}</strong>
                    </Col>
                  </Row>
                </ListGroup.Item>
@@ -304,7 +304,7 @@ console.log(driverInfo)
            </Row>
 
           </Row>
-             { occupiedSpace !== -1 && <center>
+             { freeSpace !== 0 && <center>
           <Button onClick={updateAndPrintHandler} className='btn-block printFont printButtonTop' type='button' >
                  <i className='fas fa-print'></i> Print
                  </Button>
