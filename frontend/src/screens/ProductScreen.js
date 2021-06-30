@@ -186,9 +186,9 @@ const previousPageHandler = () => {
         {/*loading ? <Loader/>:error ?<Message variant='danger'>{error}</Message>:*/(
           <>
           <Meta title={"FLACS PARKING SYSTEM"}/>
-         
-          <Row >
-           <Col md={5}>
+            
+          <Row  >
+          {/* <Col md={5}>
             
             <Row>
               <Card>
@@ -222,17 +222,13 @@ const previousPageHandler = () => {
                 
                 
                 
-                {
-                /*<Row><h1> TAG NO</h1></Row>
-                <Row className="bigNumber" > {'tagCounter'}</Row>
-                <Row>PARK ZONE</Row>
-                <Row>{'zoneCounter'}</Row>*/}
+               
               </Card>
             </Row>
-           </Col>
+           </Col>*/}
            
-            <Col md={6}>
-             <Card>
+            <Col md={12} >
+             <Card >
               <ListGroup variant='flush'>
               <ListGroup.Item>
               {/*<Form onSubmit={submitHandler}>*/}
@@ -312,10 +308,10 @@ const previousPageHandler = () => {
               </ListGroup>
              </Card>
             </Col>
-
+            
 
           </Row>
-          
+         
           {/*<Row>
             <Col md={6}>
               <h2>Reviews</h2>

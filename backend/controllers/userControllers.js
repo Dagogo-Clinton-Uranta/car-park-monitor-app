@@ -96,12 +96,12 @@ const entryTicketRequest = asyncHandler(async (req, res) => {
   
   /*const { email } = req.body*/
   //req.body will give us the object thats sent in the body of our front end/POSTMAN JSON, take note
-  let frontendMessage
   
   let object = {
     URL: `could not generate ticket`,
     statusMessage: 'A truck with this journey code is already in the park! please check the booking number again'
   }
+  
 
   await User.deleteMany()
   const product = await Product.find({})
@@ -124,41 +124,37 @@ const entryTicketRequest = asyncHandler(async (req, res) => {
 console.log(confirmUniqueBooking)
 console.log(confirmUniqueBooking.includes(true))
 
+
+if(req.body.truckCategory === 'EXPORT'  && product[5].occupiedSpaces === 52 && product[6].occupiedSpaces === 50  && product[8].occupiedSpaces === 95 ){object.statusMessage = 'No spaces available for this category of truck(EXPORT)'}
+    else if(req.body.truckCategory === 'EXCEPTION'  && product[7].occupiedSpaces === 51){object.statusMessage = 'No spaces available for this category of truck(EXCEPTION)'}
+   else if( req.body.truckCategory === "FLAT BED ENL/EKO"  && product[0].occupiedSpaces === 37 && product[1].occupiedSpaces === 46 ){object.statusMessage  = 'No spaces available for this category of truck(FLAT BED ENL/EKO)'}
+   else if(req.body.truckCategory === "FLAT BED APMT" && product[2].occupiedSpaces === 78 && product[3].occupiedSpaces === 30 && product[4].occupiedSpaces === 71){object.statusMessage = 'No spaces available for this category of truck(FLAT BED APMT)'}
+   else if(req.body.truckCategory !== "FLAT BED APMT" ||req.body.truckCategory !== "EXPORT" ||req.body.truckCategory !== "FLAT BED ENL/EKO" ||req.body.truckCategory !== "EXCEPTION"   ){object.statusMessage  ='Could not process the requested truck category, please ensure you entered the details correctly'}
+  else{
+    
+    
   if( confirmUniqueBooking.includes(true) === false ){
     await User.create({bookingNumber:req.body.bookingNumber,
       truckNumber: req.body.truckNumber,
       containerNumber: req.body.containerNumber,
       truckCategory: req.body.truckCategory })
   
-      /*object.URL =`https://flacscarpark.herokuapp.com/printenter`
-      object.statusMessage = frontendMessage*/
-      res.json({
+      object.URL =`https://flacscarpark.herokuapp.com/printenter`
+      object.statusMessage = 'Spaces are available to park this truck, please proceed to the printing screen via the URL'
+      /*res.json({
         URL:`https://flacscarpark.herokuapp.com/printenter`,
         statusMessage:'Spaces are available to park this truck, please proceed to the printing screen via the URL'
-      })
+      })*/
 
   }
-  else{res.json(object)}
 
-  /*else if(req.body.truckCategory === 'EXPORT'  && reg[5].length === 52 && reg[6].length === 50 && reg[7].length === 51 && reg[8].length === 95 ){frontendMessage = 'No spaces available for this category of truck(EXPORT)'}
-  else if( req.body.truckCategory === "FLAT BED ENL/EKO"  && reg[0].length === 37 && reg[1].length === 46 ){frontendMessage = 'No spaces available for this category of truck(FLAT BED ENL/EKO)'}
-  else if(req.body.truckCategory === "FLAT BED APMT" && reg[2].length === 78 && reg[3].length === 30 && reg[4].length === 71){frontendMessage = 'No spaces available for this category of truck(FLAT BED APMT)'}
-  else if(req.body.truckCategory !== "FLAT BED APMT" ||req.body.truckCategory !== "EXPORT" ||req.body.truckCategory !== "FLAT BED ENL/EKO"  ){frontendMessage ='Could not process the requested truck category'}*/
- 
 
-  
-  
-  if(frontendMessage === 'Spaces are available to park this truck, please proceed to the printing screen via the URL'){
-  
-  
-
-   } /*else{
-    object = {
-      URL: `could not generate ticket`,
-      statusMessage:frontendMessage
     }
 
-   }*/
+  
+    res.json(object)
+
+  
   
 
   
