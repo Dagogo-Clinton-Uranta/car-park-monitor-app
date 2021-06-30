@@ -75,7 +75,7 @@ h2 {
 
 .headerFont {
   font-weight: 900;
-  font-size:2.6rem;
+  font-size:2.2rem;
 }
 
  
@@ -156,6 +156,12 @@ h2 {
 
  .centerAttempt {
    margin: 0 auto;
+ }
+
+ .tightMargin{
+  margin-left: -5rem;
+  margin-right: -2.5rem;
+
  }
 
   .entryHeader {

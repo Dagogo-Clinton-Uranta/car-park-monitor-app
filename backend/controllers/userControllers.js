@@ -100,7 +100,7 @@ const entryTicketRequest = asyncHandler(async (req, res) => {
   
   let object = {
     URL: `could not generate ticket`,
-    statusMessage: 'A truck with this booking number is already in the park! please check the booking number again'
+    statusMessage: 'A truck with this journey code is already in the park! please check the booking number again'
   }
 
   await User.deleteMany()
@@ -223,7 +223,7 @@ const exitTicketRequest = asyncHandler(async (req, res) => {
 
      }else{
       res.status(404)
-     throw new Error('The truck you requested is currently not in Lilypond park, please cross-check the booking number')
+     throw new Error('The truck you requested is currently not in Lilypond park, please cross-check the journey code')
 
 }
   

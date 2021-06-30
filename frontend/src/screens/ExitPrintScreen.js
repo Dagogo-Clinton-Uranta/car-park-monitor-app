@@ -111,40 +111,27 @@ console.log(driverInfo)
   const change = -1
   let zoneArea
   let zoneCounter  
-  let occupiedSpace
+  let freeSpace
 
     /*in the code below, you gotta MAKE parkedTrucks.filter((e)=>{e !=={}}).length  INTO A SIMPLE VARIABLE */
 
 
-  /* if(driverInfo && driverInfo.truckCategory === 'EXPORT' && product && product[5].parkedTrucks.filter((e)=>{e !=={}}).length === 0 && product[6].parkedTrucks.filter((e)=>{e !=={}}).length === 0 && product[7].parkedTrucks.filter((e)=>{e !=={}}).length === 0 && product[8].parkedTrucks.filter((e)=>{e !=={}}).length === 0 ){zoneArea = 'X'}
-  else if(driverInfo && driverInfo.truckCategory === "EXPORT" && product  && product[5].parkedTrucks.filter((e)=>{e !=={}}).length < 52 ){ zoneArea = 'F'}
-  else if(driverInfo && driverInfo.truckCategory === 'EXPORT' && product && product[5].parkedTrucks.filter((e)=>{e !=={}}).length === 52 && product[6].parkedTrucks.filter((e)=>{e !=={}}).length < 50 ){zoneArea = 'G'}
-  else if(driverInfo && driverInfo.truckCategory === 'EXPORT' && product && product[6].parkedTrucks.filter((e)=>{e !=={}}).length === 50 && product[7].parkedTrucks.filter((e)=>{e !=={}}).length < 51 ){zoneArea = 'H'}
-  else if(driverInfo && driverInfo.truckCategory === 'EXPORT' && product && product[7].parkedTrucks.filter((e)=>{e !=={}}).length === 51 && product[8].parkedTrucks.filter((e)=>{e !=={}}).length < 95 ){zoneArea = 'R'}
-  else if(driverInfo && driverInfo.truckCategory === "FLAT BED ENL/EKO" && product && product[0].parkedTrucks.filter((e)=>{e !=={}}).length === 0 && product[1].parkedTrucks.filter((e)=>{e !=={}}).length === 0 ){zoneArea = 'X'}
-  else if(driverInfo && driverInfo.truckCategory === "FLAT BED ENL/EKO" && product  && product[0].parkedTrucks.filter((e)=>{e !=={}}).length < 37 ){zoneArea = 'A'}
-  else if(driverInfo && driverInfo.truckCategory === "FLAT BED ENL/EKO" && product  && product[0].parkedTrucks.filter((e)=>{e !=={}}).length === 37 && product[1].parkedTrucks.filter((e)=>{e !=={}}).length < 46 ){zoneArea = 'B'}
-  else if(driverInfo && driverInfo.truckCategory === "FLAT BED APMT" && product && product[2].parkedTrucks.filter((e)=>{e !=={}}).length === 0 && product[3].parkedTrucks.filter((e)=>{e !=={}}).length === 0 && product[4].parkedTrucks.filter((e)=>{e !=={}}).length === 0){zoneArea = 'X'}
-  else if(driverInfo && driverInfo.truckCategory === "FLAT BED APMT" && product  && product[2].parkedTrucks.filter((e)=>{e !=={}}).length < 78 ){zoneArea = 'C'}
-  else if(driverInfo && driverInfo.truckCategory === "FLAT BED APMT" && product  && product[2].parkedTrucks.filter((e)=>{e !=={}}).length === 78 && product[3].parkedTrucks.filter((e)=>{e !=={}}).length < 30 ){zoneArea = 'D'}
-  else if(driverInfo && driverInfo.truckCategory === "FLAT BED APMT" && product  && product[3].parkedTrucks.filter((e)=>{e !=={}}).length === 30 && product[4].parkedTrucks.filter((e)=>{e !=={}}).length < 71 ){zoneArea = 'E' }
-  else{ zoneArea ='-'}
-
-  if(driverInfo && driverInfo.truckCategory === 'EXPORT' && product && product[5].parkedTrucks.filter((e)=>{e !=={}}).length === 0 && product[6].parkedTrucks.filter((e)=>{e !=={}}).length === 0 && product[7].parkedTrucks.filter((e)=>{e !=={}}).length === 0 && product[8].parkedTrucks.filter((e)=>{e !=={}}).length === 0 ){zoneCounter = occupiedSpace  = -1}
-  if(driverInfo && driverInfo.truckCategory === "EXPORT" && product  && product[5].parkedTrucks.filter((e)=>{e !=={}}).length < 52 ){  zoneCounter = product[5].parkedTrucks.filter((e)=>{e !=={}}).length}
-  else if(driverInfo && driverInfo.truckCategory === 'EXPORT' && product && product[5].parkedTrucks.filter((e)=>{e !=={}}).length === 52 && product[6].parkedTrucks.filter((e)=>{e !=={}}).length < 50 ){ zoneCounter =product[6].parkedTrucks.filter((e)=>{e !=={}}).length}
-  else if(driverInfo && driverInfo.truckCategory === 'EXPORT' && product && product[6].parkedTrucks.filter((e)=>{e !=={}}).length === 50 && product[7].parkedTrucks.filter((e)=>{e !=={}}).length < 51 ){ zoneCounter =product[7].parkedTrucks.filter((e)=>{e !=={}}).length}
-  else if(driverInfo && driverInfo.truckCategory === 'EXPORT' && product && product[7].parkedTrucks.filter((e)=>{e !=={}}).length === 51 && product[8].parkedTrucks.filter((e)=>{e !=={}}).length < 95 ){ zoneCounter =product[8].parkedTrucks.filter((e)=>{e !=={}}).length}
+    
   
-  else if(driverInfo && driverInfo.truckCategory === "FLAT BED ENL/EKO" && product && product[0].parkedTrucks.filter((e)=>{e !=={}}).length === 0 && product[1].parkedTrucks.filter((e)=>{e !=={}}).length === 0 ){zoneCounter= occupiedSpace = -1}
-  else if(driverInfo && driverInfo.truckCategory === "FLAT BED ENL/EKO" && product  && product[0].parkedTrucks.filter((e)=>{e !=={}}).length < 37 ){ zoneCounter =product[0].parkedTrucks.filter((e)=>{e !=={}}).length}
-  else if(driverInfo && driverInfo.truckCategory === "FLAT BED ENL/EKO" && product  && product[0].parkedTrucks.filter((e)=>{e !=={}}).length === 37 && product[1].parkedTrucks.filter((e)=>{e !=={}}).length < 46 ){ zoneCounter =product[1].parkedTrucks.filter((e)=>{e !=={}}).length}
-  
-  else if(driverInfo && driverInfo.truckCategory === "FLAT BED APMT" && product && product[2].parkedTrucks.filter((e)=>{e !=={}}).length === 0 && product[3].parkedTrucks.filter((e)=>{e !=={}}).length === 0 && product[4].parkedTrucks.filter((e)=>{e !=={}}).length === 0){zoneCounter= occupiedSpace = -1}
-  else if(driverInfo && driverInfo.truckCategory === "FLAT BED APMT" && product  && product[2].parkedTrucks.filter((e)=>{e !=={}}).length < 78 ){ zoneCounter =product[2].parkedTrucks.filter((e)=>{e !=={}}).length}
-  else if(driverInfo && driverInfo.truckCategory === "FLAT BED APMT" && product  && product[2].parkedTrucks.filter((e)=>{e !=={}}).length === 78 && product[3].parkedTrucks.filter((e)=>{e !=={}}).length < 30 ){ zoneCounter =product[3].parkedTrucks.filter((e)=>{e !=={}}).length}
-  else if(driverInfo && driverInfo.truckCategory === "FLAT BED APMT" && product  && product[3].parkedTrucks.filter((e)=>{e !=={}}).length === 30 && product[4].parkedTrucks.filter((e)=>{e !=={}}).length < 71 ){ zoneCounter =product[4].parkedTrucks.filter((e)=>{e !=={}}).length}
-  else{zoneCounter = 0 }*/
+    if(driverInfo && driverInfo.truckCategory === "EXPORT" && product  && product[5].occupiedSpaces < 52 ){  zoneCounter = product[5].currentFreeSpace}
+    else if(driverInfo && driverInfo.truckCategory === 'EXPORT' && product && product[5].occupiedSpaces === 52 && product[6].occupiedSpaces < 50 ){ zoneCounter =product[6].currentFreeSpace}
+    else if(driverInfo && driverInfo.truckCategory === 'EXPORT' && product && product[6].occupiedSpaces === 50 && product[8].occupiedSpaces < 95 ){ zoneCounter =product[8].currentFreeSpace}
+    else if(driverInfo && driverInfo.truckCategory === 'EXPORT' && product && product[5].occupiedSpaces === 52 && product[6].occupiedSpaces === 50 && product[7].occupiedSpaces === 51 && product[8].occupiedSpaces === 95 ){zoneCounter= freeSpace = 0}
+    else if(driverInfo && driverInfo.truckCategory === 'EXCEPTION' && product && product[7].occupiedSpaces < 51){ zoneCounter =product[7].currentFreeSpace}
+    else if(driverInfo && driverInfo.truckCategory === 'EXCEPTION' && product && product[7].occupiedSpaces === 51 ){zoneCounter= freeSpace = 0}
+    else if(driverInfo && driverInfo.truckCategory === "FLAT BED ENL/EKO" && product  && product[0].occupiedSpaces < 37 ){ zoneCounter =product[0].currentFreeSpace}
+    else if(driverInfo && driverInfo.truckCategory === "FLAT BED ENL/EKO" && product  && product[0].occupiedSpaces === 37 && product[1].occupiedSpaces < 46 ){ zoneCounter =product[1].currentFreeSpace}
+    else if(driverInfo && driverInfo.truckCategory === "FLAT BED ENL/EKO" && product && product[0].occupiedSpaces === 37 && product[1].occupiedSpaces === 46 ){zoneCounter= freeSpace = 0}
+    else if(driverInfo && driverInfo.truckCategory === "FLAT BED APMT" && product  && product[2].occupiedSpaces < 78 ){ zoneCounter =product[2].currentFreeSpace}
+    else if(driverInfo && driverInfo.truckCategory === "FLAT BED APMT" && product  && product[2].occupiedSpaces === 78 && product[3].occupiedSpaces < 30 ){ zoneCounter =product[3].currentFreeSpace}
+    else if(driverInfo && driverInfo.truckCategory === "FLAT BED APMT" && product  && product[3].occupiedSpaces === 30 && product[4].occupiedSpaces < 71 ){ zoneCounter =product[4].currentFreeSpace}
+    else if(driverInfo && driverInfo.truckCategory === "FLAT BED APMT" && product && product[2].occupiedSpaces === 78 && product[3].occupiedSpaces === 30 && product[4].occupiedSpaces === 71){zoneCounter= freeSpace = 0}
+    else{zoneCounter = 0 }
 
 
 
@@ -155,7 +142,7 @@ console.log(driverInfo)
           <>
           <Meta title={"FLACS PARKING SYSTEM"}/>
 
-          {occupiedSpace===-1 &&<center className='messageSpacing'> <p className='driversEntryPermit ' >ALL PARKING SLOTS FOR {driverInfo.truckCategory} ARE EMPTY, PLEASE WAIT UNTIL SOMEONE ENTERS AND IS READY TO LEAVE. </p></center>}
+          {freeSpace===0 &&<center className='messageSpacing'> <p className='driversEntryPermit ' >ALL PARKING SLOTS FOR {driverInfo.truckCategory} ARE EMPTY, PLEASE WAIT UNTIL SOMEONE ENTERS AND IS READY TO LEAVE. </p></center>}
           <Row className= "ticketBorder" >
             <Col>
           <Row><p className='apapa'>LILYPOND</p></Row> 
@@ -271,7 +258,7 @@ console.log(driverInfo)
                <ListGroup.Item className='borderless'>
                  <Row className="headerFont ">
                    <Col> TIME:</Col>
-                   <Col>
+                   <Col className="tightMargin ">
                     <strong className="headerFont ">{occupiedSpace=== -1 ?'--':showTime()}</strong>
                    </Col>
                  </Row>
@@ -280,7 +267,7 @@ console.log(driverInfo)
                <ListGroup.Item className='borderless'>
                  <Row className="headerFont ">
                    <Col> DATE:</Col>
-                   <Col>
+                   <Col >
                     {/*<strong>{product.countInStock > 4 ?'In Stock':product.countInStock <= 3 ?'Few Left !!':product.countInStock === 0 ? 'Out of Stock':'Currently being restocked' //this currenty being restocked is not the right thing, you just put it there as filler, till the need comes to fix it }</strong>*/}
                      <strong className="headerFont ">{occupiedSpace=== -1 ?'--':date.toLocaleDateString()}</strong>
                    </Col>
