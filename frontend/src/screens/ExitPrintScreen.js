@@ -228,14 +228,14 @@ console.log(driverInfo)
               
               
               
-              <ListGroup.Item className='borderless'>
+              {/*<ListGroup.Item className='borderless'>
                  <Row className="appFont">
                    <Col>PLATE NUMBER:</Col>
                    <Col>
                    <h2 className="appFont">{driverInfo?driverInfo.truckNumber:'N/A'}</h2>
                    </Col>
                  </Row>
-               </ListGroup.Item>
+               </ListGroup.Item>*/}
               
                <ListGroup.Item className='borderless'>
                  <Row className="appFont">
