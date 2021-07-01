@@ -208,7 +208,7 @@ const previousPageHandler = () => {
               <ListGroup variant='flush'  className='borderless'>
               <ListGroup.Item className='borderless'>
                  <Row className="appFont">
-                   <Col>BOOKING NUMBER:</Col>
+                   <Col>JOURNEY CODE:</Col>
                    <Col>
                    <h2 className="appFont">{order.bookingNumber}</h2>
                    </Col>

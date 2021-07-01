@@ -55,7 +55,7 @@ const OrderListScreen = ({history}) => { //he is taking location & history out o
         <Table striped border hover responsive className ='table-sm'>
          <thead>
           <tr>
-           <th>BOOKING NUMBER</th>
+           <th>JOURNEY CODE</th>
            <th>TRUCK NUMBER</th>
            <th>CONTAINER NUMBER</th>
            <th>TRUCK CATEGORY</th>
