@@ -76,7 +76,7 @@ let zoneCounter
 
 }
 
-const object = {bookingNumber:email.bookingNo,
+const object = {journeyCode:email.bookingNo,
 truckNumber:truckNumber,
 containerNumber:containerNumber,
  truckCategory:truckCategory}

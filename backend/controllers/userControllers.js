@@ -111,7 +111,7 @@ const entryTicketRequest = asyncHandler(async (req, res) => {
   let confirmUniqueBooking = []
   
   for(let i = 0 ; i < product.length; i++){
-      let isBookingNumberInParkingRegion = product[i].parkedTrucks.some(el => el.bookingNumber === req.body.bookingNumber)
+      let isBookingNumberInParkingRegion = product[i].parkedTrucks.some(el => el.bookingNumber === req.body.journeyCode)
 
       confirmUniqueBooking.push(isBookingNumberInParkingRegion)
   }
@@ -135,7 +135,7 @@ else{
     
     
   if( confirmUniqueBooking.includes(true) === false ){
-    await User.create({bookingNumber:req.body.bookingNumber,
+    await User.create({bookingNumber:req.body.journeyCode,
       truckNumber: req.body.truckNumber,
       containerNumber: req.body.containerNumber,
       truckCategory: req.body.truckCategory })
@@ -174,13 +174,13 @@ const exitTicketRequest = asyncHandler(async (req, res) => {
    
     
 
-    const product = await Product.find({/*'parkedTrucks.bookingNumber':req.body.bookingNumber*/},/*{parkedTrucks:{$elemMatch:{bookingNumber:req.body.bookingNumber}},createdAt:1,time:1}*/) 
+    const product = await Product.find({/*'parkedTrucks.bookingNumber':req.body.journeyCode*/},/*{parkedTrucks:{$elemMatch:{bookingNumber:req.body.journeyCode}},createdAt:1,time:1}*/) 
     
 
     let confirmUniqueBooking = []
   
     for(let i = 0 ; i < product.length; i++){
-        let isBookingNumberInParkingRegion = product[i].parkedTrucks.some(el => el.bookingNumber === req.body.bookingNumber)
+        let isBookingNumberInParkingRegion = product[i].parkedTrucks.some(el => el.bookingNumber === req.body.journeyCode)
   
         confirmUniqueBooking.push(isBookingNumberInParkingRegion)
     }
@@ -191,13 +191,13 @@ const exitTicketRequest = asyncHandler(async (req, res) => {
       let truckExists = [] 
       
       for(let i = 0 ; i < product.length; i++){
-        let searchArray = product[i].parkedTrucks.filter(el => el.bookingNumber === req.body.bookingNumber)
+        let searchArray = product[i].parkedTrucks.filter(el => el.bookingNumber === req.body.journeyCode)
   
        if(searchArray[0] !== undefined ){truckExists.push(searchArray[0])}      /*i can get away with putting zero here, cuz booking number is unique, so it will only return one item per array */
     }
     
 
-  /*const foundIndex = truckExists.findIndex(function(e){e.bookingNumber === req.body.bookingNumber}) */
+  /*const foundIndex = truckExists.findIndex(function(e){e.bookingNumber === req.body.journeyCode}) */
     /*const truckDetails = truckExists.filter(function(e){typeof(e) !== 'undefined'})*/ 
     
       

@@ -65,7 +65,7 @@ const ExitScreen = ({history,match}) => {
  const createExitTicketHandler = (e) => {
   
   /*dispatch(login(bookingNo))*/
-   dispatch(createExitTicket({bookingNumber:email.bookingNo}))
+   dispatch(createExitTicket({journeyCode:email.bookingNo}))
 
 }
 

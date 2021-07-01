@@ -15,14 +15,14 @@ import FreshExit from '../models/freshExitModel.js'
 
 const addOrderItems = asyncHandler(async (req,res)=>{
   res.header("Access-Control-Allow-Origin","*")
-  const {bookingNumber,truckCategory,truckNumber, containerNumber,entryTime, entryDate, parkZone, tagNumber} = req.body
+  const {journeyCode,truckCategory,truckNumber, containerNumber,entryTime, entryDate, parkZone, tagNumber} = req.body
 
-  const truckExists = await Product.findOne({tagCounter:parkZone},{parkedTrucks:{$elemMatch:{bookingNumber:bookingNumber}}/*,createdAt:1,time:1*/},{ useFindAndModify: false})
+  const truckExists = await Product.findOne({tagCounter:parkZone},{parkedTrucks:{$elemMatch:{bookingNumber:journeyCode}}/*,createdAt:1,time:1*/},{ useFindAndModify: false})
 
   if(truckExists.parkedTrucks.length === 0){
    const order = new Order({
      
-    bookingNumber,truckCategory,truckNumber, containerNumber,entryTime, entryDate, exitTime:'not exited', exitDate:'not exited', parkZone, tagNumber
+    bookingNumber:journeyCode,truckCategory,truckNumber, containerNumber,entryTime, entryDate, exitTime:'not exited', exitDate:'not exited', parkZone, tagNumber
    })
 
    
@@ -106,18 +106,18 @@ const addOrderItems = asyncHandler(async (req,res)=>{
 //@access Public
 const updateParkAndLog = asyncHandler(async (req,res)=>{
   res.header("Access-Control-Allow-Origin","*")
-  const {bookingNumber,truckCategory,truckNumber, containerNumber,entryTime, entryDate,exitTime, exitDate, parkZone, tagNumber} = req.body
+  const {journeyCode,truckCategory,truckNumber, containerNumber,entryTime, entryDate,exitTime, exitDate, parkZone, tagNumber} = req.body
 
-  await Order.findOneAndUpdate({bookingNumber:bookingNumber},{exitTime:exitTime, exitDate:exitDate},{ useFindAndModify: false })
+  await Order.findOneAndUpdate({bookingNumber:journeyCode},{exitTime:exitTime, exitDate:exitDate},{ useFindAndModify: false })
 
-  const truckExists = await Product.findOne({tagCounter:parkZone},{parkedTrucks:{$elemMatch:{bookingNumber:bookingNumber}}})
+  const truckExists = await Product.findOne({tagCounter:parkZone},{parkedTrucks:{$elemMatch:{bookingNumber:journeyCode}}})
   console.log(truckExists)
 
   if(truckExists.parkedTrucks.length === 1){
   
    const carParkSpaces = await Product.findOne({tagCounter:parkZone},{parkedTrucks:{_id:0}}) 
 
-   const truckPosition = carParkSpaces.parkedTrucks.findIndex(function(e){return e.bookingNumber === bookingNumber})
+   const truckPosition = carParkSpaces.parkedTrucks.findIndex(function(e){return e.bookingNumber === journeyCode})
     
   
    
