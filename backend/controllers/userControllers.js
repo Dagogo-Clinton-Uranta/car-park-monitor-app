@@ -124,12 +124,13 @@ const entryTicketRequest = asyncHandler(async (req, res) => {
 console.log(confirmUniqueBooking)
 console.log(confirmUniqueBooking.includes(true))
 
-
-if(req.body.truckCategory === 'EXPORT'  && product[5].occupiedSpaces === 52 && product[6].occupiedSpaces === 50  && product[8].occupiedSpaces === 95 ){object.statusMessage = 'No spaces available for this category of truck(EXPORT)'}
+if(!(req.body.truckCategory === "FLAT BED APMT" ||req.body.truckCategory === "EXPORT" ||req.body.truckCategory === "FLAT BED ENL/EKO" ||req.body.truckCategory === "EXCEPTION" )){object.statusMessage  ='Could not process the requested truck category, please ensure you entered the details correctly'}
+else{
+ if(req.body.truckCategory === 'EXPORT'  && product[5].occupiedSpaces === 52 && product[6].occupiedSpaces === 50  && product[8].occupiedSpaces === 95 ){object.statusMessage = 'No spaces available for this category of truck(EXPORT)'}
     else if(req.body.truckCategory === 'EXCEPTION'  && product[7].occupiedSpaces === 51){object.statusMessage = 'No spaces available for this category of truck(EXCEPTION)'}
    else if( req.body.truckCategory === "FLAT BED ENL/EKO"  && product[0].occupiedSpaces === 37 && product[1].occupiedSpaces === 46 ){object.statusMessage  = 'No spaces available for this category of truck(FLAT BED ENL/EKO)'}
    else if(req.body.truckCategory === "FLAT BED APMT" && product[2].occupiedSpaces === 78 && product[3].occupiedSpaces === 30 && product[4].occupiedSpaces === 71){object.statusMessage = 'No spaces available for this category of truck(FLAT BED APMT)'}
-   else if(req.body.truckCategory !== "FLAT BED APMT" ||req.body.truckCategory !== "EXPORT" ||req.body.truckCategory !== "FLAT BED ENL/EKO" ||req.body.truckCategory !== "EXCEPTION"   ){object.statusMessage  ='Could not process the requested truck category, please ensure you entered the details correctly'}
+   
   else{
     
     
@@ -151,7 +152,7 @@ if(req.body.truckCategory === 'EXPORT'  && product[5].occupiedSpaces === 52 && p
 
     }
 
-  
+}
     res.json(object)
 
   
