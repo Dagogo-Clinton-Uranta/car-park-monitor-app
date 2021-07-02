@@ -40,13 +40,13 @@ connectDB()
 const importData = async()=> {
 
   try{
-     await Order.deleteMany()
+    await Order.deleteMany()
       await Product.deleteMany()
-     // await User.deleteMany()
-      //await FreshExit.deleteMany()
+      await User.deleteMany()
+      await FreshExit.deleteMany()
 
     /*const createdUsers= */
-     /*await User.insertMany(users)*/
+     /*await User.insertMany(users) this is something else now,not relating to the current park system, dont be too quick to insert*/
     await Product.insertMany(products())
        await Order.insertMany(orders)
        /*await FreshExit.insertMany(freshExits)*/

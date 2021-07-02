@@ -41,6 +41,7 @@ const [truckCategory, setTruckCategory] = useState('')
 let zoneCounter
   let zoneArea
   let freeSpace
+  let date = new Date()
   
   console.log(email.bookingNo)
   console.log(userDirection)
@@ -79,7 +80,10 @@ let zoneCounter
 const object = {journeyCode:email.bookingNo,
 truckNumber:truckNumber,
 containerNumber:containerNumber,
- truckCategory:truckCategory}
+ truckCategory:truckCategory
+
+
+}
 
 const createTicketHandler= (e) => {
   dispatch(createTicket(object))
@@ -105,7 +109,7 @@ const previousPageHandler = () => {
 
  
  
-  let date = new Date()
+  
 
   function showTime(){
     let time = new Date()

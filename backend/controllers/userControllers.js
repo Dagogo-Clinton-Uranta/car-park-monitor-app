@@ -25,10 +25,37 @@ import mongoose from 'mongoose'
 
 dotenv.config()
 
+
+let date = new Date()
+
+  function showTime(){
+    let time = new Date()
+    let hour = time.getHours();
+    let min = time.getMinutes();
+    let sec = time.getSeconds();
+    let am_pm="AM"
+
+    if(hour>12){
+      hour -= 12;
+      am_pm="PM"
+    }
+
+    if(hour==0){
+      hour = 12;
+      am_pm="AM"
+    }
+     hour = hour < 10 ? "0" + hour :hour;
+     min = min < 10 ? "0" + min :min;
+     sec = sec < 10 ? "0" + sec :sec;
+
+     let currentTime = hour +":" + min + " " + am_pm
+     return currentTime
+  }
+
 //@desc  Populate the ticket when a user wants one
 //@route POST /api/users/login
 //@access Public
-const authUser = asyncHandler(async (req, res) => {
+const authUser = asyncHandler(async (req, res) => { /*OR ENTRY POPULATE TICKET, AS I WILL START CALLING IT SOON */
   res.header("Access-Control-Allow-Origin","*")
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   /*const { email } = req.body*/
@@ -43,6 +70,12 @@ const authUser = asyncHandler(async (req, res) => {
       truckNumber: user[0].truckNumber,
       containerNumber: user[0].containerNumber,
       truckCategory: user[0].truckCategory,
+      entryDate:user[0].entryDate,
+      entryTime:user[0].entryTime,
+      parkZone:user[0].parkZone,
+      tagNumber:user[0].tagNumber,
+
+      
       /*isAdmin: user.isAdmin,
       isMerchant: user.isMerchant,
       token: generateToken(user._id)*/
@@ -72,7 +105,9 @@ const exitPopulateTicket = asyncHandler(async (req, res) => {
       truckNumber: newExit[0].truckNumber,
       containerNumber: newExit[0].containerNumber,
       truckCategory: newExit[0].truckCategory,
-      parkZone: newExit[0].parkZone
+      parkZone: newExit[0].parkZone,
+      exitTime:newExit[0].exitTime,
+      exitDate:newExit[0].exitDate
       /*isAdmin: user.isAdmin,
       isMerchant: user.isMerchant,
       token: generateToken(user._id)*/
@@ -138,7 +173,12 @@ else{
     await User.create({bookingNumber:req.body.journeyCode,
       truckNumber: req.body.truckNumber,
       containerNumber: req.body.containerNumber,
-      truckCategory: req.body.truckCategory })
+      truckCategory: req.body.truckCategory,
+      tagNumber:0,
+      /*parkZone:req.body.parkZone,*/
+      entryDate:date.toLocaleDateString(),
+      entryTime:showTime()
+     })
   
       object.URL =`https://flacscarpark.herokuapp.com/printenter`
       object.statusMessage = 'Spaces are available to park this truck, please proceed to the printing screen via the URL'
@@ -172,22 +212,25 @@ const exitTicketRequest = asyncHandler(async (req, res) => {
   
     /*i believe that i need to find said user from the park arrays -- I HAVE DONE THAT*/
    
-    
+    let object = {
+      URL: `could not generate ticket`,
+      statusMessage: 'The truck you requested is currently not in Lilypond park, please cross-check the journey code'
+    }
 
     const product = await Product.find({/*'parkedTrucks.bookingNumber':req.body.journeyCode*/},/*{parkedTrucks:{$elemMatch:{bookingNumber:req.body.journeyCode}},createdAt:1,time:1}*/) 
     
 
-    let confirmUniqueBooking = []
+    let confirmTruckInPark = []
   
     for(let i = 0 ; i < product.length; i++){
         let isBookingNumberInParkingRegion = product[i].parkedTrucks.some(el => el.bookingNumber === req.body.journeyCode)
   
-        confirmUniqueBooking.push(isBookingNumberInParkingRegion)
+        confirmTruckInPark.push(isBookingNumberInParkingRegion)
     }
    
-    console.log(confirmUniqueBooking)
+    console.log(confirmTruckInPark)
      
-    if(confirmUniqueBooking.includes(true) === true ){
+    if(confirmTruckInPark.includes(true) === true ){
       let truckExists = [] 
       
       for(let i = 0 ; i < product.length; i++){
@@ -204,27 +247,30 @@ const exitTicketRequest = asyncHandler(async (req, res) => {
        await FreshExit.deleteMany()
       const newExit = await FreshExit.create({
         bookingNumber:truckExists[0].bookingNumber,
-        trucKNumber:truckExists[0].truckNumber,
+        truckNumber:truckExists[0].truckNumber,
         containerNumber:truckExists[0].containerNumber,
         truckCategory:truckExists[0].truckCategory,
-        parkZone:truckExists[0].parkZone
+        parkZone:truckExists[0].parkZone,
+        exitDate:date.toLocaleDateString(),
+        exitTime:showTime()
 
        })
         
           
           
            
-           res.json( {URL: `https://flacscarpark.herokuapp.com/printexit`,
-           statusMessage:'Your truck is ready to exit, please go to the URL to print out a ticket',
-          zone: truckExists[0].parkZone})  
+           object.URL = `https://flacscarpark.herokuapp.com/printexit`
+           object.statusMessage = 'Your truck is ready to exit, please go to the URL to print out a ticket'
+          /*object.zone = truckExists[0].parkZone */ /*in case you want to tell them where their zone is */
 
-     }else{
+     }
+     
+     /*else{
       res.status(404)
      throw new Error('The truck you requested is currently not in Lilypond park, please cross-check the journey code')
-
-}
+}*/
   
-
+   res.json(object)
 
 
 })

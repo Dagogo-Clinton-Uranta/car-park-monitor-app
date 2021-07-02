@@ -1,5 +1,6 @@
 import Order from '../models/orderModel.js'
 import Product from '../models/productModel.js'
+import User from '../models/userModel.js'
 
 //const Order = require('../models/orderModel.js')
 //const asyncHandler = require('express-async-handler')
@@ -37,11 +38,16 @@ const addOrderItems = asyncHandler(async (req,res)=>{
 
   const updatedFreeSpace = carParkSpaces.parkedTrucks.findIndex(function(e){return e.bookingNumber === "empty"})
 
-  const buggy = await Product.findOneAndUpdate({tagCounter:parkZone},{parkedTrucks:carParkSpaces.parkedTrucks,occupiedSpaces:occupada , currentFreeSpace:updatedFreeSpace +1},{ useFindAndModify: false })
+  await Product.findOneAndUpdate({tagCounter:parkZone},{parkedTrucks:carParkSpaces.parkedTrucks,occupiedSpaces:occupada , currentFreeSpace:updatedFreeSpace +1},{ useFindAndModify: false })
+   await User.findOneAndUpdate({bookingNumber:bookingNumber},{parkZone: parkZone,tagNumber:tagNumber},{ useFindAndModify: false })          
+   const viewUpdate = User.findOne({bookingNumber:bookingNumber})
+ console.log(viewUpdate)
+
   res.json({instruction:'Do not allow further printing'})
   
   /*await User.deleteMany()*/
   }else{
+   
    /*res.status(201).json(createdOrder)*/
     res.json({instruction:"A truck with this booking number is already in the park, ticket will not be valid"})
   }
@@ -83,7 +89,7 @@ const addOrderItems = asyncHandler(async (req,res)=>{
   await Product.findOneAndUpdate({tagCounter:parkZone},{parkedTrucks:carParkSpaces.parkedTrucks,occupiedSpaces:occupada,currentFreeSpace:updatedFreeSpace + 1},{ useFindAndModify: false })
   
   
-  await FreshExit.deleteMany()
+  
   }else{
   
     res.status(404)
@@ -133,7 +139,7 @@ const updateParkAndLog = asyncHandler(async (req,res)=>{
   await Product.findOneAndUpdate({tagCounter:parkZone},{parkedTrucks:carParkSpaces.parkedTrucks,occupiedSpaces:occupada,currentFreeSpace:updatedFreeSpace + 1},{ useFindAndModify: false })
   
   
-  await FreshExit.deleteMany()
+  
   }else{
   
     res.status(404)

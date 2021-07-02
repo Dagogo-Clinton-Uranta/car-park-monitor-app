@@ -10,7 +10,13 @@ const userSchema =  mongoose.Schema({
         truckNumber:{type: String ,required:true},
         bookingNumber:{type: String ,required:true},
         containerNumber:{type: String ,required:true},
-        truckCategory:{type: String ,required:true}
+        truckCategory:{type: String ,required:true},
+         entryTime:{type: String },
+        entryDate:{type: String},
+        exitDate:{type: String, default:'not exited'},
+        exitTime:{type: String,default:'not exited'},
+        parkZone:{type: String},
+        tagNumber:{type: Number}
         
 },{timestamps:true /*you want a createdAt? you add timestamps:true*/})
 
