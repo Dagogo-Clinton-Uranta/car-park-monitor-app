@@ -1,0 +1,100 @@
+
+   If  [Truck_Cat]= "EXPORT"  And [Zone Counter]= "F" And [TagcounterF]< 52 Then 
+    [TagcounterF]=[TagcounterF]+1
+[truckno]= ""
+[Truck_Cat]= ""
+[Booking No]= "000001"
+ [Tagcounter]=0
+ 
+  Else 
+    If [Truck_Cat]= "EXPORT"  And [Zone Counter]= "G" And [TagcounterG]< 50 Then 
+    [TagcounterG]=[TagcounterG]+1
+[truckno]= ""
+[Truck_Cat]= ""
+[Booking No]= "000001"
+ [Tagcounter]=0
+ 
+Else 
+    If [Truck_Cat]= "EXPORT"  And [Zone Counter]= "H" And [TagcounterH]< 51 Then 
+    [TagcounterH]=[TagcounterH]+1
+[truckno]= ""
+[Truck_Cat]= ""
+[Booking No]= "000001"
+[Tagcounter]=0
+
+Else 
+    If [Truck_Cat]= "EXPORT"  And [Zone Counter]= "R" And [TagcounterR]< 95 Then 
+    [TagcounterR]=[TagcounterR]+1
+[truckno]= ""
+[Truck_Cat]= ""
+[Booking No]= "000001"
+[Tagcounter]=0
+
+Else 
+    If [Truck_Cat]= "FLAT BED ENL"  And [Zone Counter]= "A" And [TagcounterA]< 37 Then 
+    [TagcounterA]=[TagcounterA]+1
+[truckno]= ""
+[Truck_Cat]= ""
+[Booking No]= "000001"
+[Tagcounter]=0
+
+
+Else 
+    If [Truck_Cat]= "FLAT BED ENL"  And [Zone Counter]= "B" And [TagcounterB]< 46 Then 
+    [TagcounterB]=[TagcounterB]+1
+[truckno]= ""
+[Truck_Cat]= ""
+[Booking No]= "000001"
+[Tagcounter]=0
+
+
+Else 
+    If [Truck_Cat]= "FLAT BED APMT"  And [Zone Counter]= "C" And [TagcounterC]< 78 Then 
+    [TagcounterC]=[TagcounterC]+1
+[truckno]= ""
+[Truck_Cat]= ""
+[Booking No]= "000001"
+[Tagcounter]=0
+
+
+Else 
+    If [Truck_Cat]= "FLAT BED APMT"  And [Zone Counter]= "D" And [TagcounterD]< 30 Then 
+    [TagcounterD]=[TagcounterD]+1
+[truckno]= ""
+[Truck_Cat]= ""
+[Booking No]= "000001"
+[Tagcounter]=0
+
+
+Else 
+    If [Truck_Cat]= "FLAT BED APMT"  And [Zone Counter]= "E" And [TagcounterE]< 71 Then 
+    [TagcounterE]=[TagcounterE]+1
+[truckno]= ""
+[Truck_Cat]= ""
+[Booking No]= "000001"
+[Tagcounter]=0
+
+
+     End if
+     End if
+     End if
+     End if
+     End if
+     End if
+     End if
+     End if
+     End if
+
+
+if(zoneArea='A'){await Product.findByIdAndUpdate({tagCounterA:zoneCounter}, {tagCounterA:zoneCounter + 1}, { useFindAndModify: false })}
+  else if(zoneArea='B'){await Product.findByIdAndUpdate({tagCounterB:zoneCounter}, {tagCounterB:zoneCounter + 1}, { useFindAndModify: false })}
+  else if(zoneArea='C'){await Product.findByIdAndUpdate({tagCounterC:zoneCounter}, {tagCounterC:zoneCounter + 1}, { useFindAndModify: false })}
+  else if(zoneArea='D'){await Product.findByIdAndUpdate({tagCounterD:zoneCounter}, {tagCounterD:zoneCounter + 1}, { useFindAndModify: false })}
+  else if(zoneArea='E'){await Product.findByIdAndUpdate({tagCounterE:zoneCounter}, {tagCounterE:zoneCounter + 1}, { useFindAndModify: false })}
+  else if(zoneArea='F'){await Product.findByIdAndUpdate({tagCounterF:zoneCounter}, {tagCounterF:zoneCounter + 1}, { useFindAndModify: false })}
+  else if(zoneArea='G'){await Product.findByIdAndUpdate({tagCounterG:zoneCounter}, {tagCounterG:zoneCounter + 1}, { useFindAndModify: false })}
+  else if(zoneArea='H'){await Product.findByIdAndUpdate({tagCounterH:zoneCounter}, {tagCounterH:zoneCounter + 1}, { useFindAndModify: false })}
+  else if(zoneArea='R'){await Product.findByIdAndUpdate({tagCounterR:zoneCounter}, {tagCounterR:zoneCounter + 1}, { useFindAndModify: false })}
+  else {console.log('There is no zoneArea coming from the front end')}
+
+

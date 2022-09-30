@@ -1,0 +1,56 @@
+        
+  If [Truck_Cat]= "EXPORT" And [TagcounterF] < 52  Then 
+     [Tagcounter] = [TagcounterF]
+     [Zone Counter] = "F"
+     
+   Else 
+   If  [Truck_Cat]= "EXPORT" And [TagcounterF] = 52 And [TagcounterG] < 50 Then 
+     [Tagcounter] = [TagcounterG]
+     [Zone Counter] = "G" 
+   Else  
+     If [Truck_Cat]= "EXPORT"  And  [TagcounterG] = 50 And [TagcounterH] < 51  Then 
+     [Tagcounter] = [TagcounterH]
+     [Zone Counter] = "H"
+    Else  
+     If [Truck_Cat]= "EXPORT"  And  [TagcounterH] = 51 And [TagcounterR] < 95  Then 
+    [Tagcounter] = [TagcounterR]
+    [Zone Counter] = "R"
+  
+  Else 
+   If  [Truck_Cat]= "FLAT BED ENL" And [TagcounterA] < 37 Then 
+     [Tagcounter] = [TagcounterA]
+     [Zone Counter] = "A"
+     
+     
+     Else 
+   If  [Truck_Cat]= "FLAT BED ENL" And [TagcounterA] = 37 And [TagcounterB] < 46 Then 
+     [Tagcounter] = [TagcounterB]
+     [Zone Counter] = "B" 
+     
+      Else 
+   If  [Truck_Cat]= "FLAT BED APMT" And [TagcounterC] < 78 Then 
+     [Tagcounter] = [TagcounterC]
+     [Zone Counter] = "C"
+     
+       Else 
+   If  [Truck_Cat]= "FLAT BED APMT" And [TagcounterC] = 78 And [TagcounterD] < 30 Then 
+     [Tagcounter] = [TagcounterD]
+     [Zone Counter] = "D" 
+     
+      Else 
+   If  [Truck_Cat]= "FLAT BED APMT" And [TagcounterD] = 30 And [TagcounterE] < 71 Then 
+     [Tagcounter] = [TagcounterE]
+     [Zone Counter] = "E" 
+     
+     End if
+     End If
+     End If
+     End If
+     End If
+     End If
+     End If
+     End If
+     End If
+   
+     
+     

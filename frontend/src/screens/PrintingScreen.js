@@ -116,6 +116,31 @@ window.location.reload()
  }
 
 
+ const updateHandler = () => {
+  /*consider updating user model in database with the parkzone entry date and entry time, so those will show, instead of a new assignment every time, and to allow for persistence in the case of printing - DONE THIS ALREADY */
+  
+   
+if(userInfo){
+  dispatch(createOrder({
+  bookingNumber:userInfo.bookingNumber,
+  truckCategory:userInfo.truckCategory,
+  containerNumber:userInfo.containerNumber,
+  truckNumber:userInfo.truckNumber,
+  entryTime:`${showTime()}`,
+  entryDate:`${date.toLocaleDateString()}`,
+  parkZone:zoneArea,
+  tagNumber:zoneCounter
+  
+}))
+
+/*window.print()*/
+
+/*indow.location.reload()*/
+
+  
+} 
+ }
+
 /*const previousPageHandler = () => {
   
   window.history.back()
@@ -220,7 +245,7 @@ else if(userInfo && userInfo.truckCategory === "FLAT BED ENL/EKO" && flatbedEnlF
           <Meta title={"FLACS PARKING SYSTEM"}/>
           {(!loading) && (exportFreeSpace===0 ||exceptionFreeSpace===0|| flatbedEnlFreeSpace===0||flatbedApmtFreeSpace===0) && <center className='messageSpacing'> <p className='driversEntryPermit ' >ALL PARKING SLOTS FOR {/*userInfo.truckCategory*/} ARE OCCUPIED, PLEASE WAIT UNTIL SOMEONE LEAVES. </p></center>}
           
-          <Row className= "ticketBorder" >
+          <Row className= "ticketBorder" onAfterPrint={updateHandler}>
             <Col>
           <Row><p className='apapa'>LILYPOND</p></Row> 
           
